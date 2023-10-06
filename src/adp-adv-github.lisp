@@ -1,14 +1,14 @@
 
-(in-package #:adp-gh)
+(in-package #:adpgh-core)
 
 
 ;; ------ advanced macro definitions ------
-(cl:defun make-unique-tag ()
+(defun make-unique-tag ()
   (prog1
       (intern (format nil "~a~a" "HEADERTAG" *header-tag-counter*) "ADP-GH")
     (incf *header-tag-counter*)))
 
-(cl:defmacro adv-header (str &optional tag)
+(defmacro adv-header (str &optional tag)
   (when *adp*
     (check-type str string)
     (check-type tag (or null symbol))
@@ -23,12 +23,12 @@
                                               :elements ,(list str)
 					      :user-tag-p ,user-tag-p
                                               :tag ,tag-obj
-                                              :target-location *current-target-pathname*)))
+                                              :target-location (file-target-relative-pathname adp:*load-file*))))
 	     (adp:add-element ,header-obj)
              (setf (get-tag-value ,tag-obj ,header-obj)))
 	   (values))))))
 
-(cl:defmacro adv-subheader (str &optional tag)
+(defmacro adv-subheader (str &optional tag)
   (when *adp*
     (check-type str string)
     (check-type tag (or null symbol))
@@ -43,29 +43,29 @@
                                              :elements ,(list str)
 					     :user-tag-p ,user-tag-p
                                              :tag ,tag-obj
-                                             :target-location *current-target-pathname*)))
+                                             :target-location (file-target-relative-pathname adp:*load-file*))))
 	     (adp:add-element ,header-obj)
              (setf (get-tag-value ,tag-obj ,header-obj)))
 	   (values))))))
 
-(cl:defmacro adv-defmacro (&body defmacro-body)
+(defmacro adv-defmacro (&body defmacro-body)
   `(progn
      ,@(when *adp*
 	 (let ((tag-obj (gensym "TAG-OBJ")))
            `((let ((,tag-obj (make-tag :symbol ,(car defmacro-body) :type :function)))
                (adp:add-element (make-instance 'defmacro-definition
-					       :expr '(cl:defmacro ,@defmacro-body)
+					       :expr '(defmacro ,@defmacro-body)
 					       :tag ,tag-body))
                (add-tag ,tag-obj)))))
-     (cl:defmacro ,@defmacro-body)))
+     (defmacro ,@defmacro-body)))
 
-(cl:defmacro adv-defun (&body defun-body)
+(defmacro adv-defun (&body defun-body)
   `(progn
      ,@(when *adp*
 	 (let ((tag-obj (gensym "TAG-OBJ")))
            `((let ((,tag-obj (make-tag :symbol ,(car defun-body) :type :function)))
                (adp:add-element (make-instance 'defun-definition
-					       :expr '(cl:defun ,@defun-body)
+					       :expr '(defun ,@defun-body)
 					       :tag ,tag-body))
                (add-tag ,tag-obj)))))
-     (cl:defun ,@defun-body)))
+     (defun ,@defun-body)))

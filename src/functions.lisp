@@ -34,7 +34,7 @@
                                          :elements (remove-keyword-parameters args)
                                          :user-tag-p (and tag t)
                                          :tag tag-obj
-                                         :target-location *current-target-pathname*)))
+                                         :target-location (file-target-relative-pathname adp:*load-file*))))
          (setf (get-tag-value tag-obj) header-obj)
          (values header-obj)))))
 
@@ -55,6 +55,18 @@ You can use the following macros to enrich your text: bold, italic, emphasis, in
            (loop for ,eval-object in ,eval-objects
                  do (adp:add-element ,eval-object)))
          (values)))))
+
+
+;; ------ references ------
+(defmacro define-reference-function (name type tag-type)
+  (with-gensyms (symbol)
+    `(define-adp-function ,name (,symbol)
+       (make-instance ',type :tag (make-tag :symbol ,symbol :type ,tag-type)))))
+
+(define-reference-function href header-reference :header)
+(define-reference-function fref function-reference :function)
+(define-reference-function vref variable-reference :variable)
+(define-reference-function tref type-reference :type)
 
 
 ;; ------ table ------
@@ -138,18 +150,6 @@ You can use the following macros to enrich your text: bold, italic, emphasis, in
   (make-instance 'link :name name :address address))
 
 
-;; ------ references ------
-(defmacro define-reference-function (name type tag-type)
-  (with-gensyms (symbol)
-    `(define-adp-function ,name (,symbol)
-       (make-instance ',type :tag (make-tag :symbol ,symbol :type ,tag-type)))))
-
-(define-reference-function href header-reference :header)
-(define-reference-function fref function-reference :function)
-(define-reference-function vref variable-reference :variable)
-(define-reference-function tref type-reference :type)
-
-
 ;; ------ quote ------
 (define-adp-function quote (&rest elements)
   (make-instance 'quote :elements elements))
@@ -168,3 +168,64 @@ You can use the following macros to enrich your text: bold, italic, emphasis, in
 ;; ------ example ------
 (define-adp-function example (&rest expressions)
   (make-instance 'example :expressions expressions))
+
+
+;; ------ definitions ------
+(cl:defmacro define-definition-macro (name type tag-extraction-expr tag-type docstring)
+  (let ((body (if tag-extraction-expr
+		  (car tag-extraction-expr)
+		  (make-symbol "BODY")))
+	(tag-extraction (if tag-extraction-expr
+			    (cadr tag-extraction-expr)
+			    nil))
+        (cl-name (find-symbol (symbol-name name) "CL")))
+    `(adv-defmacro ,name (&body ,body)
+                   ,docstring
+                   `(progn
+	              ,@(when *adp*
+	                  `((adp:add-element (make-instance ',',type
+							    :expression '(,',cl-name ,@,body)
+							    ,@,(when tag-extraction-expr
+								 ``(:tag (make-tag :symbol ',,tag-extraction :type ,',type)
+                                                                    :target-location *current-target-pathname*))))))
+	              (,cl-name ,@,body)))))
+
+(define-definition-macro defclass defclass-definition (body (car body)) :type
+  "Add a defclass declaration. The macro expands to cl:defclass. Also, the class name is used to create a type-tag.")
+(define-definition-macro defconstant defconstant-definition (body (car body)) :variable
+  "Add a defconstant declaration. The macro expands to cl:defconstant. Also, the constant name is used to create a symbol-tag.")
+(define-definition-macro defgeneric defgeneric-definition (body (car body)) :function
+  "Add a defgeneric declaration. The macro expands to cl:defgeneric. Also, the generic function name is used to create a function-tag.")
+(define-definition-macro define-compiler-macro define-compiler-macro-definition nil nil
+  "Add a define-compiler-macro declaration. The macro expands to cl:define-compiler-macro.")
+(define-definition-macro define-condition define-condition-definition (body (car body)) :type
+  "Add a define-condition declaration. The macro expands to cl:define-condition. Also, the condition name is used to create a type-tag.")
+(define-definition-macro define-method-combination define-method-combination-definition nil nil
+  "Add a define-method-combination declaration. The macro expands to cl:define-method-combination.")
+(define-definition-macro define-modify-macro define-modify-macro-definition (body (car body)) :function
+  "Add a define-modify-macro declaration. The macro expands to cl:define-modify-macro. Also, the macro name is used to create a function-tag.")
+(define-definition-macro define-setf-expander define-setf-expander-definition nil nil
+  "Add a define-setf-expander declaration. The macro expands to cl:define-setf-expander.")
+(define-definition-macro define-symbol-macro define-symbol-macro-definition (body (car body)) :variable
+  "Add a define-symbol-macro declaration. The macro expands to cl:define-symbol-macro. Also, the symbol name is used to create a symbol-tag.")
+(define-definition-macro defmacro defmacro-definition (body (car body)) :function
+  "Add a defmacro declaration. The macro expands to cl:defmacro. Also, the macro name is used to create a function-tag.")
+(define-definition-macro defmethod defmethod-definition nil nil
+  "Add a defmethod declaration. The macro expands to cl:defmethod.")
+(define-definition-macro defpackage defpackage-definition nil nil
+  "Add a defpackage declaration. The macro expands to cl:defpackage.")
+(define-definition-macro defparameter defparameter-definition (body (car body)) :variable
+  "Add a defparameter declaration. The macro expands to cl:defparameter. Also, the parameter name is used to create a symbol-tag.")
+(define-definition-macro defsetf defsetf-definition nil nil
+  "Add a defsetf declaration. The macro expands to cl:defsetf.")
+(define-definition-macro defstruct defstruct-definition (body (car body)) :type
+  "Add a defstruct declaration. The macro expands to cl:defstruct. Also, the struct name is used to create a type-tag.")
+(define-definition-macro deftype deftype-definition (body (car body)) :type
+  "Add a deftype declaration. The macro expands to cl:deftype. Also, the type name is used to create a type-tag.")
+(define-definition-macro defun defun-definition (body (if (symbolp (car body))
+								 (car body)
+								 nil))
+  :function
+  "Add a defun declaration. The macro expands to cl:defun. Also, the function name is used to create a function-tag.")
+(define-definition-macro defvar defvar-definition (body (car body)) :variable
+  "Add a defvar declaration. The macro expands to cl:defvar. Also, the variable name is used to create a symbol-tag.")

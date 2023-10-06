@@ -6,5 +6,15 @@
   :defsystem-depends-on ("adp")
   :depends-on ("alexandria")
   :components ((:file "package")
-               (:module "src")
+               (:module "src"
+                :components ((:file "adp-adv-github")
+                             (:file "tags")
+                             (:file "adp-github" :depends-on ("tags"))
+                             (:file "elements")
+                             (:file "pprint-dispatch")
+                             (:file "definition-components")
+                             (:file "printer" :depends-on ("pprint-dispatch" "definition-components"
+                                                                             "adp-github" "elements"))
+                             (:file "functions" :depends-on ("adp-github" "elements"))
+                             (:file "scribble-functions" :depends-on ("adp-github" "elements"))))
                (:module "scribble")))

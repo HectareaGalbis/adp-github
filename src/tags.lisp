@@ -1,5 +1,5 @@
 
-(in-package #:adp-gh)
+(in-package #:adpgh-core)
 
 
 (defun make-tags-container ()
