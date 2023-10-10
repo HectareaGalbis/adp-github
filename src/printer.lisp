@@ -68,7 +68,7 @@
 
 ;; ------ string ------
 (defmethod export-element ((element string) stream)
-  (princ (escape-characters element) stream))
+  (princ element stream))
 
 
 ;; ------ header ------
@@ -76,7 +76,7 @@
   `(defmethod export-element ((element ,type) stream)
      (let* ((tag (header-tag element))
             (text (content-to-string (header-elements element))))
-       (format stream "<~a id=~s>~a</~a>~%~%"
+       (format stream "<~a id=~s>~a</~a>"
                ,html-token (tag-to-string tag) (escape-html-characters text) ,html-token))))
 
 (define-header-process-method header "h1")
