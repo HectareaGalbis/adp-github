@@ -7,13 +7,12 @@
   (let ((down-str (string-downcase str))
 	(simple-str (make-array 100 :adjustable t :fill-pointer 0 :element-type 'character)))
     (loop for down-char across down-str
-	  do (when (or (alphanumericp down-char)
-		       (char= down-char #\space)
-		       (char= down-char #\-))
-	       (vector-push-extend down-char simple-str)))
-    (loop for i from 0 below (fill-pointer simple-str)
-	  do (when (char= (aref simple-str i) #\space)
-	       (setf (aref simple-str i) #\-)))
+	  do (cond
+               ((or (alphanumericp down-char)
+                    (char= down-char #\-))
+                (vector-push-extend down-char simple-str))
+               ((char= down-char #\space)
+                (vector-push-extend #\- simple-str))))
     (values simple-str)))
 
 (defun symbol-github-name (sym)
@@ -68,22 +67,23 @@
 
 ;; ------ string ------
 (defmethod export-element ((element string) stream)
-  (princ element stream))
+  (princ (escape-characters element) stream))
 
 
 ;; ------ header ------
-(defmacro define-header-process-method (type html-token)
+(defmacro define-header-process-method (type level)
   `(defmethod export-element ((element ,type) stream)
      (let* ((tag (header-tag element))
             (text (content-to-string (header-elements element))))
-       (format stream "<~a id=~s></~a>"
-               ,html-token (tag-to-string tag) ,html-token)
-       (format stream "<~a id=~s>~a</~a>"
-               ,html-token (tag-to-string tag) (escape-html-characters text) ,html-token))))
+       (format stream "~v@{#~} ~a"
+               ,level (convert-to-github-header-anchor text))
+       ;; (format stream "<~a id=~s>~a</~a>"
+       ;;         ,html-token (tag-to-string tag) (escape-html-characters text) ,html-token)
+       )))
 
-(define-header-process-method header "h1")
-(define-header-process-method subheader "h2")
-(define-header-process-method subheader "h3")
+(define-header-process-method header 1)
+(define-header-process-method subheader 2)
+(define-header-process-method subheader 3)
 
 
 ;; ------ text ------
@@ -101,7 +101,11 @@
          (header-text (or (header-ref-text-elements element)
                           (content-to-string (header-elements header-obj)))))
     (format stream "<a href=\"/~a#~a\">~a</a>"
-            target-location (tag-to-string tag) (escape-html-characters header-text))))
+            target-location (convert-to-github-header-anchor header-text) (escape-html-characters header-text))
+    
+    ;; (format stream "<a href=\"/~a#~a\">~a</a>"
+    ;;         target-location (tag-to-string tag) (escape-html-characters header-text))
+    ))
 
 (defmethod export-element ((element symbol-reference) stream)
   (let* ((tag (text-reference-tag element))

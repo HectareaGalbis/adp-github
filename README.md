@@ -1,13 +1,13 @@
-<h1 id="header-adp-github-headertag917"></h1><h1 id="header-adp-github-headertag917">Add Documentation, Please... with Github Flavoured Markdown</h1>
+# add-documentation-please-with-github-flavoured-markdown
 
-Welcome to ADP-GITHUB!
+Welcome to ADP\-GITHUB\!
 
-``` ADP-GITHUB ``` is an extension for ``` ADP ```. It exports some functions and macros to print markdown-styled objects like headers, lists, code blocks and more. It also supports cross references and table of contents. Every symbol is exported from the ``` adp-github ``` package, although you can use the nickname ``` adpgh ```.
+``` ADP\-GITHUB ``` is an extension for ``` ADP ```\. It exports some functions and macros to print markdown\-styled objects like headers\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ``` adp\-github ``` package\, although you can use the nickname ``` adpgh ```\.
 
-* <a href="/docs/src/functions.md#header-adp-github-headertag772">Reference</a>
-  * <a href="/docs/src/functions.md#header-adp-github-headertag773">Lisp and text mode functions</a>
-  * <a href="/docs/src/functions.md#header-adp-github-headertag844">Only lisp mode functions</a>
-* <a href="/README.md#header-adp-github-headertag917">Add Documentation, Please... with Github Flavoured Markdown</a>
+* <a href="/docs/src/functions.md#reference">Reference</a>
+  * <a href="/docs/src/functions.md#lisp-and-text-mode-functions">Lisp and text mode functions</a>
+  * <a href="/docs/src/functions.md#only-lisp-mode-functions">Only lisp mode functions</a>
+* <a href="/README.md#add-documentation-please-with-github-flavoured-markdown">Add Documentation\, Please\.\.\. with Github Flavoured Markdown</a>
 
 
 * V
