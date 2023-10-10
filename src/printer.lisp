@@ -55,9 +55,9 @@
   (let ((tagsym (tag-symbol tag))
         (tagtype (tag-type tag)))
     (format nil "~a:~a:~a"
-            (symbol-name tagtype)
-            (package-name (symbol-package tagsym))
-            (symbol-name tagsym))))
+            (string-downcase (symbol-name tagtype))
+            (string-downcase (package-name (symbol-package tagsym)))
+            (string-downcase (symbol-name tagsym)))))
 
 
 (defun content-to-string (elements)
