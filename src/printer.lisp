@@ -76,6 +76,8 @@
   `(defmethod export-element ((element ,type) stream)
      (let* ((tag (header-tag element))
             (text (content-to-string (header-elements element))))
+       (format stream "<~a id=~s></~a>"
+               ,html-token (tag-to-string tag) ,html-token)
        (format stream "<~a id=~s>~a</~a>"
                ,html-token (tag-to-string tag) (escape-html-characters text) ,html-token))))
 

@@ -1,4 +1,4 @@
-<h1 id="HEADER:ADP-GITHUB:HEADERTAG917">Add Documentation, Please... with Github Flavoured Markdown</h1>
+<h1 id="HEADER:ADP-GITHUB:HEADERTAG917"></h1><h1 id="HEADER:ADP-GITHUB:HEADERTAG917">Add Documentation, Please... with Github Flavoured Markdown</h1>
 
 Welcome to ADP-GITHUB!
 
