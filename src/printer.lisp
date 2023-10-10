@@ -54,7 +54,7 @@
 (defun tag-to-string (tag)
   (let ((tagsym (tag-symbol tag))
         (tagtype (tag-type tag)))
-    (format nil "~a:~a:~a"
+    (format nil "~a-~a-~a"
             (string-downcase (symbol-name tagtype))
             (string-downcase (package-name (symbol-package tagsym)))
             (string-downcase (symbol-name tagsym)))))
