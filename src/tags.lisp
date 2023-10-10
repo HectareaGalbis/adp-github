@@ -18,6 +18,9 @@
   (let ((tag-table (ensure-tag-table tags type)))
     (setf (gethash symbol tag-table) value)))
 
+(defun get-tag-symbols-impl (tags type)
+  (let ((tag-table (ensure-tag-table tags type)))
+    (hash-table-keys tag-table)))
 
 (defclass tag ()
   ((symbol :initarg :symbol
@@ -35,12 +38,16 @@
 
 (defun tags-tag-value (tags tag)
   "Retreives the value of a tag or nil if tag does not exist."
+  (check-type tags hash-table)
+  (check-type tag tag)
   (let ((symbol (tag-symbol tag))
         (type (tag-type tag)))
     (get-tag-value-impl tags symbol type)))
 
 (defun (setf tags-tag-value) (value tags tag)
   "Adds or updates a tag."
+  (check-type tags hash-table)
+  (check-type tag tag)
   (let ((symbol (tag-symbol tag))
         (type (tag-type tag)))
     (setf (get-tag-value-impl tags symbol type) value)))

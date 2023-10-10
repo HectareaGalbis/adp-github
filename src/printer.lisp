@@ -1,5 +1,5 @@
 
-(in-package #:adp-gh)
+(in-package #:adpgh-core)
 
 
 ;; ----- Aux functions -----
@@ -51,95 +51,89 @@
     (nth-value 1 (macroexpand-1 sym env))))
 
 
-(defun get-symbol-id (sym type)
-  (let ((type-str (ecase type
-		    (:header "header")
-		    (:symbol "symbol")
-		    (:function "function")
-		    (:type "type"))))
-    (format nil "~a:~a:~a" type-str (package-name (symbol-package sym)) (symbol-name sym))))
+(defun tag-to-string (tag)
+  (let ((tagsym (tag-symbol tag))
+        (tagtype (tag-type tag)))
+    (format nil "~a:~a:~a"
+            (symbol-name tagtype)
+            (package-name (symbol-package tagsym))
+            (symbol-name tagsym))))
 
 
 (defun content-to-string (elements)
   (with-output-to-string (str)
     (loop for element in elements
-          do (process-element element str))))
+          do (export-element element str))))
 
 
-;; ------ text ------
-(defmethod process-element ((element string) stream)
-  (princ (escape-characters element)))
+;; ------ string ------
+(defmethod export-element ((element string) stream)
+  (princ (escape-characters element) stream))
 
 
 ;; ------ header ------
-(defmethod process-element ((element header) stream)
-  (let* ((tag (header-tag element))
-         (tagsym (tag-symbol tag))
-         (tagtype (tag-type tag))
-         (text (content-to-string (header-elements element))))
-    (format stream "<h1 id=~s>~a</h1>~%~%" (get-symbol-id tagsym tagtype) (escape-html-characters text))))
+(defmacro define-header-process-method (type html-token)
+  `(defmethod export-element ((element ,type) stream)
+     (let* ((tag (header-tag element))
+            (text (content-to-string (header-elements element))))
+       (format stream "<~a id=~s>~a</~a>~%~%"
+               ,html-token (tag-to-string tag) (escape-html-characters text) ,html-token))))
 
-(defmethod process-element ((element subheader) stream)
-  (let* ((tag (header-tag element))
-         (tagsym (tag-symbol tag))
-         (tagtype (tag-type tag))
-         (text (content-to-string (header-elements element))))
-    (format stream "<h2 id=~s>~a</h2>~%~%" (get-symbol-id tagsym tagtype) (escape-html-characters text))))
+(define-header-process-method header "h1")
+(define-header-process-method subheader "h2")
+(define-header-process-method subheader "h3")
 
-(defmethod process-element ((element subsubheader) stream)
-  (let* ((tag (header-tag element))
-         (tagsym (tag-symbol tag))
-         (tagtype (tag-type tag))
-         (text (content-to-string (header-elements element))))
-    (format stream "<h3 id=~s>~a</h3>~%~%" (get-symbol-id tagsym tagtype) (escape-html-characters text))))
+
+;; ------ text ------
+(defmethod export-element ((element text) stream)
+  (let ((text-elements (text-elements element)))
+    (loop for text-element in text-elements
+          do (export-element text-element stream))))
 
 
 ;; ------ text references ------
-(defmethod process-element ((element header-ref) stream)
+(defmethod export-element ((element header-reference) stream)
   (let* ((tag (text-reference-tag element))
-         (tagsym (tag-symbol tag))
-         (tagtype (tag-type tag))
          (header-obj (get-tag-value tag))
          (target-location (header-target-location header-obj))
          (header-text (or (header-ref-text-elements element)
                           (content-to-string (header-elements header-obj)))))
-    (format stream "<a href=\"/~a.md#~a\">~a</a>"
-            target-location (get-symbol-id tagsym tagtype) (escape-html-characters header-text))))
+    (format stream "<a href=\"/~a#~a\">~a</a>"
+            target-location (tag-to-string tag) (escape-html-characters header-text))))
 
-(defmethod process-element ((element symbol-reference) stream)
+(defmethod export-element ((element symbol-reference) stream)
   (let* ((tag (text-reference-tag element))
-         (tagsym (tag-symbol tag))
-         (tagtype (tag-type tag))
-         (definition (get-tag-value tag))
-         (target-location (definition-target-location definition)))
-    (format stream "<a href=\"/~a.md#~a\">~a</a>"
-            target-location (get-symbol-id tagsym tagtype) (escape-html-characters (prin1-to-string tagsym)))))
-
-;; Comprobar si var-ref, fun-ref y type-ref hacen falta o se pueden borrar.
+         (ref-obj (get-tag-value tag)))
+    (when (not ref-obj)
+      (error "Error: The tag ~s of type ~s does not exist."
+             (tag-symbol tag) (tag-type tag)))
+    (let ((target-location (definition-target-location ref-obj)))
+      (format stream "<a href=\"/~a#~a\">~a</a>"
+              target-location (tag-to-string tag) (escape-html-characters (prin1-to-string (tag-symbol tag)))))))
 
 
 ;; ------ table ------
-(defmethod process-element ((element cell) stream)
+(defmethod export-element ((element cell) stream)
   (let ((content (with-output-to-string (str)
-                   (loop for element in (cell-element element)
+                   (loop for element in (cell-elements element)
                          if (and (stringp element)
                                  (string= element "\n"))
                            do (princ "<br>" str)
                          else
-                           do (process-element element str)))))
+                           do (export-element element str)))))
     (format stream "<td>~a</td>" content)))
 
-(defmethod process-element ((element row) stream)
+(defmethod export-element ((element row) stream)
   (let ((content (with-output-to-string (str)
                    (loop for cell in (row-cells element)
-                         do (process-element cell str)
+                         do (export-element cell str)
                             (terpri str)))))
     (format stream "<tr>~%~a</tr>" content)))
 
-(defmethod process-element ((element table) stream)
+(defmethod export-element ((element table) stream)
   (let ((content (with-output-to-string (str)
                    (loop for row in (table-rows element)
-                         do (process-element str)
+                         do (export-element row str)
                             (terpri str)))))
     (format stream "<table>~%~a</table>" content)))
 
@@ -156,8 +150,8 @@
                                  index)
           do (typecase item
                (item (if numbersp
-                         (format stream "~v@{ ~}~s. ~a~%" indent-space (1+ index) (item-elements item))
-                         (format stream "~v@{ ~}* ~a~%" indent-space (item-elements item))))
+                         (format stream "~v@{ ~}~s. ~a~%" indent-space (1+ index) (content-to-string (item-elements item)))
+                         (format stream "~v@{ ~}* ~a~%" indent-space (content-to-string (item-elements item)))))
                (itemize (process-itemize (itemize-items item) nil (if numbersp
                                                                       (+ indent-space (digits index) 2)
                                                                       (+ indent-space 2))
@@ -167,50 +161,18 @@
                                                                         (+ indent-space 2))
                                            stream))))))
 
-(defmethod process-element ((element itemize) stream)
+(defmethod export-element ((element itemize) stream)
   (process-itemize (itemize-items element) nil 0 stream))
 
-(defmethod process-element ((element enumerate) stream)
+(defmethod export-element ((element enumerate) stream)
   (process-itemize (enumerate-items element) t 0 stream))
-
-
-;; ------ text decorators ------
-(defmethod process-element ((element bold) stream)
-  (let* ((elements (text-decorator-elements element))
-         (content (with-output-to-string (str)
-                    (loop for element across elements
-                          do (process-element element str)))))
-    (format stream "<strong>~a</strong>" (escape-characters content))))
-
-(defmethod process-element ((element italic) stream)
-  (let* ((elements (text-decorator-elements element))
-         (content (with-output-to-string (str)
-                    (loop for element across elements
-                          do (process-element element str)))))
-    (format stream "<em>~a</em>" (escape-characters content))))
-
-(defmethod process-element ((element emphasis) stream)
-  (let* ((elements (text-decorator-elements element))
-         (content (with-output-to-string (str)
-                    (loop for element across elements
-                          do (process-element element str)))))
-    (format stream "<strong><em>~a</em></strong>" (escape-characters content))))
-
-(defmethod process-element ((element inline) stream)
-  (let* ((elements (text-decorator-elements element))
-         (content (with-output-to-string (str)
-                    (loop for element across elements
-                          do (process-element element str))))
-         (*print-pretty* nil))
-    (format stream "``` ~a ```" content)))
 
 
 ;; ------ table of contents ------
 (defun file-headers (file)
   "Return the header-type elements of a file."
-  (declare (type file file))
   (let ((headers (make-array 10 :adjustable t :fill-pointer 0)))
-    (loop for element across (file-elements file)
+    (loop for element across (adp:file-elements file)
 	  when (typep element 'header-type)
 	    do (vector-push-extend element headers))
     (values headers)))
@@ -236,7 +198,6 @@
 
 (defun make-toc-deep-levels (headers)
   "Return a vector of deepness levels the headers must have in a table of contents."
-  (declare (type (vector element) headers))
   (let ((deep-levels (make-array 100 :adjustable t :fill-pointer 0 :element-type 'unsigned-byte)))
     (loop for header across headers
 	  for prev-min-deep-level = 2 then next-min-deep-level
@@ -270,23 +231,23 @@
 			 into toc-list
 		     else
 		       collect (make-instance 'item
-					      :text-elements (list (make-instance 'header-reference
-									     :tag (text-reference-tag header))))
+					      :elements (list (make-instance 'header-reference
+									          :tag (header-tag header))))
 			 into toc-list
 			 and do (incf index)
 		     finally (return toc-list))))
       (make-instance 'itemize
 		     :items (make-itemize-toc-aux 0)))))
 
-(defmethod element-print ((element table-of-contents) stream)
+(defmethod export-element ((element table-of-contents) stream)
   (with-slots (project) element
-    (let ((headers (project-headers *process-files*)))
-      (process-element (make-itemize-toc headers) stream))))
+    (let ((headers (project-headers *files*)))
+      (export-element (print (make-itemize-toc headers)) stream))))
 
-(defmethod element-print ((element mini-table-of-contents) stream)
+(defmethod export-element ((element mini-table-of-contents) stream)
   (with-slots (file) element
-    (let ((headers (file-headers *process-content-file*)))
-      (process-element (make-itemize-toc headers) stream))))
+    (let ((headers (file-headers *export-file*)))
+      (export-element (make-itemize-toc headers) stream))))
 
 ;; ------ table of functions/types/variables ------
 (defun split-symbols (symbols)
@@ -309,15 +270,15 @@
 			 (cons first-symbols (split-ordered-symbols-aux rest-symbols)))))))
 	(split-ordered-symbols-aux symbols))))
 
-(defun make-itemize-table (tag-table reftype)
-  (let* ((syms-list (sort (tag-table-tags tag-table) #'string>=))
+(defun make-itemize-table (tagsyms reftype)
+  (let* ((syms-list (sort tagsyms #'string>=))
 	 (split-syms (split-symbols syms-list)))
     (loop for syms-group in split-syms
 	  collect (let ((char (aref (symbol-name (car syms-group)) 0)))
 		    (make-instance 'item :elements (list char)))
 	    into items-list
-	  collect (flet ((make-ref (tag)
-			   (make-instance reftype :tag tag)))
+	  collect (flet ((make-ref (tagsym)
+			   (make-instance reftype :tag (make-tag tagsym reftype))))
 		    (make-instance 'itemize
 				   :items (loop for sym in syms-group
 						collect (make-instance 'item
@@ -325,40 +286,119 @@
 	    into items-list
 	  finally (return (make-instance 'itemize :items items-list)))))
 
-(defun make-itemize-tof (source-element)
-  (make-itemize-table (get-tag-table :function) 'function-reference))
+(defun make-itemize-tof ()
+  (make-itemize-table (get-tag-symbols :function) 'function-reference))
 
-(defmethod process-element ((element table-of-functions) stream)
-  (process-element (make-itemize-tof element) stream))
+(defmethod export-element ((element table-of-functions) stream)
+  (export-element (make-itemize-tof) stream))
 
-(defun make-itemize-tos (source-element)
-  (make-itemize-table (get-tag-table :variable) 'variable-reference))
+(defun make-itemize-tos ()
+  (make-itemize-table (get-tag-symbols :variable) 'variable-reference))
 
-(defmethod process-element ((element table-of-symbols) stream)
-  (process-element (make-itemize-tos element) stream))
+(defmethod export-element ((element table-of-symbols) stream)
+  (export-element (make-itemize-tos) stream))
 
-(defun make-itemize-tot (source-element)
-  (make-itemize-table (get-tag-table :type) 'type-ref))
+(defun make-itemize-tot ()
+  (make-itemize-table (get-tag-symbols :type) 'type-ref))
 
-(defmethod process-element ((element table-of-types) stream)
-  (process-element (make-itemize-tot element) stream))
+(defmethod export-element ((element table-of-types) stream)
+  (export-element (make-itemize-tot) stream))
+
+
+;; ------ image ------
+(defmethod export-element ((element image) stream)
+  (let ((path (image-path element))
+        (alt-text (image-alt-text element))
+        (scale (image-scale element)))
+    (format stream "<img src=\"/~a\" alt=~s width=\"~a%\">"
+            path (escape-html-characters alt-text) (floor scale))))
+
+;; ------ text decorators ------
+(defmethod export-element ((element bold) stream)
+  (let* ((elements (text-decorator-elements element))
+         (content (with-output-to-string (str)
+                    (loop for element across elements
+                          do (export-element element str)))))
+    (format stream "<strong>~a</strong>" (escape-characters content))))
+
+(defmethod export-element ((element italic) stream)
+  (let* ((elements (text-decorator-elements element))
+         (content (with-output-to-string (str)
+                    (loop for element across elements
+                          do (export-element element str)))))
+    (format stream "<em>~a</em>" (escape-characters content))))
+
+(defmethod export-element ((element emphasis) stream)
+  (let* ((elements (text-decorator-elements element))
+         (content (with-output-to-string (str)
+                    (loop for element across elements
+                          do (export-element element str)))))
+    (format stream "<strong><em>~a</em></strong>" (escape-characters content))))
+
+(defmethod export-element ((element inline-code) stream)
+  (let* ((elements (text-decorator-elements element))
+         (content (with-output-to-string (str)
+                    (loop for element in elements
+                          do (export-element element str))))
+         (*print-pretty* nil))
+    (format stream "``` ~a ```" content)))
+
+
+;; ------ link ------
+(defmethod export-element ((element link) stream)
+  (let ((name (link-name element))
+        (address (link-address element)))
+    (format stream "[~a](~a)" (escape-characters name) address)))
+
+
+;; ------ quote ------
+(defmethod export-element ((element quoted) stream)
+  (let ((elements (quote-elements element))
+        (quote-sym t))
+    (loop for elem in elements
+          if quote-sym
+            do (princ "> " stream)
+               (setf quote-sym nil)
+          if (and (stringp elem)
+                  (char= #\linefeed (aref elem 0)))
+            do (setf quote-sym t)
+          do (export-element elem stream))))
+
+
+;; ------ code-block ------
+(defun code-to-string (expr)
+  "Turn a code element into a string."
+  (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
+    (prin1-to-string expr)))
+
+(defmethod export-element ((element code-block) stream)
+  (let ((expressions (code-block-expressions element)))
+    (format stream "`````common-lisp~%~{~a~^~%~%~}~%`````" (mapcar #'code-to-string expressions))))
+
+
+;; ------ verbatim-code-block ------
+(defmethod export-element ((element verbatim-code-block) stream)
+  (let ((lang (verbatim-code-block-lang element))
+        (elements (verbatim-code-block-elements element)))
+    (format stream "`````~a~%~{~a~}~%`````" lang elements)))
 
 
 ;; ------ definitions ------
 (defmacro define-definition-process (type header-name)
-  (with-gensyms (element stream expression tag target-location tagsym tagtype)
-    `(defmethod process-element ((,element ,type) ,stream)
+  (with-gensyms (element stream expression tag)
+    `(defmethod export-element ((,element ,type) ,stream)
        (let ((,expression (definition-expression ,element))
-             (,tag (definition-tag ,element))
-             (,target-location (definition-target-location ,element))
-             (,tagsym (tag-symbol ,tag))
-             (,tagtype (tag-type ,tag)))
-         (format ,stream "<h4 id=~s>~a: ~a</h4>~%~%"
-	         (get-symbol-id ,tagsym ,tagtype) ,header-name (escape-html-characters (princ-to-string (cadr ,expression))))
+             (,tag (and (typep ,element 'tagged-definition)
+                        (definition-tag ,element))))
+         (format ,stream "<h4~a>~a: ~a</h4>~%~%"
+	         (if ,tag
+                     (format nil " id=~s" (tag-to-string ,tag))
+                     "")
+                 ,header-name (escape-html-characters (princ-to-string (cadr ,expression))))
          (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
-           (format stream "```common-lisp~%")
-           (pprint ,expression ,stream)
-           (format stream "```"))))))
+           (format ,stream "```common-lisp~%")
+           (prin1 ,expression ,stream)
+           (format ,stream "~%```"))))))
 
 (define-definition-process defclass-definition "Class")
 (define-definition-process defconstant-definition "Constant")

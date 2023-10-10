@@ -1,71 +1,67 @@
 
 (in-package #:adpgh-core)
 
-
 ;; ------ advanced macro definitions ------
 (defun make-unique-tag ()
-  (prog1
-      (intern (format nil "~a~a" "HEADERTAG" *header-tag-counter*) "ADP-GH")
-    (incf *header-tag-counter*)))
+  (let ((new-tag (gensym "HEADERTAG")))
+    (import new-tag "ADP-GITHUB")
+    (values new-tag)))
 
-(defmacro adv-header (str &optional tag)
-  (when *adp*
-    (check-type str string)
-    (check-type tag (or null symbol))
-    (let ((user-tag-p (and tag t)))
-      (let ((fixed-tag-sym (gensym "FIXED-TAG-SYM"))
-            (tag-obj (gensym "TAG-OBJ"))
-            (header-obj (gensym "HEADER-OBJ")))
-        `(progn
-	   (let* ((,fixed-tag-sym (or ',tag (make-unique-tag)))
-                  (,tag-obj (make-tag :symbol ,fixed-tag-sym :type :header))
-                  (,header-obj (make-instance 'header
-                                              :elements ,(list str)
-					      :user-tag-p ,user-tag-p
-                                              :tag ,tag-obj
-                                              :target-location (file-target-relative-pathname adp:*load-file*))))
-	     (adp:add-element ,header-obj)
-             (setf (get-tag-value ,tag-obj ,header-obj)))
-	   (values))))))
+(defun get-keyword-parameter (key params)
+  (cond
+    ((null params) nil)
+    ((eq key (car params)) (cadr params))
+    (t (get-keyword-parameter key (cdr params)))))
 
-(defmacro adv-subheader (str &optional tag)
-  (when *adp*
-    (check-type str string)
-    (check-type tag (or null symbol))
-    (let ((user-tag-p (and tag t)))
-      (let ((fixed-tag-sym (gensym "FIXED-TAG-SYM"))
-            (tag-obj (gensym "TAG-OBJ"))
-            (header-obj (gensym "HEADER-OBJ")))
-        `(progn
-	   (let ((,fixed-tag-sym (or ',tag (make-unique-tag)))
-                 (,tag-obj (make-tag :symbol ,fixed-tag-sym :type :header))
-                 (,header-obj (make-instance 'subheader
-                                             :elements ,(list str)
-					     :user-tag-p ,user-tag-p
-                                             :tag ,tag-obj
-                                             :target-location (file-target-relative-pathname adp:*load-file*))))
-	     (adp:add-element ,header-obj)
-             (setf (get-tag-value ,tag-obj ,header-obj)))
-	   (values))))))
+(defun remove-keyword-parameters (params)
+  (and params
+       (let ((key (car params)))
+         (if (keywordp key)
+             (remove-keyword-parameters (cddr params))
+             (cons (car params) (remove-keyword-parameters (cdr params)))))))
 
-(defmacro adv-defmacro (&body defmacro-body)
-  `(progn
-     ,@(when *adp*
-	 (let ((tag-obj (gensym "TAG-OBJ")))
-           `((let ((,tag-obj (make-tag :symbol ,(car defmacro-body) :type :function)))
-               (adp:add-element (make-instance 'defmacro-definition
-					       :expr '(defmacro ,@defmacro-body)
-					       :tag ,tag-body))
-               (add-tag ,tag-obj)))))
-     (defmacro ,@defmacro-body)))
 
-(defmacro adv-defun (&body defun-body)
-  `(progn
-     ,@(when *adp*
-	 (let ((tag-obj (gensym "TAG-OBJ")))
-           `((let ((,tag-obj (make-tag :symbol ,(car defun-body) :type :function)))
-               (adp:add-element (make-instance 'defun-definition
-					       :expr '(defun ,@defun-body)
-					       :tag ,tag-body))
-               (add-tag ,tag-obj)))))
-     (defun ,@defun-body)))
+;; ------ header ------
+(defmacro define-adv-header-function (name type)
+  (with-gensyms (tag fixed-tag-sym tag-obj header-obj)
+    `(cl:defmacro ,name (&rest args)
+       `(let* ((,',tag (get-keyword-parameter :tag ',args))
+               (,',fixed-tag-sym (or ,',tag (make-unique-tag)))
+               (,',tag-obj (make-tag ,',fixed-tag-sym :header))
+               (,',header-obj (make-instance ',',type
+                                           :elements (remove-keyword-parameters ',args)
+                                           :user-tag-p (and ,',tag t)
+                                           :tag ,',tag-obj
+                                           :target-location (file-target-relative-pathname *process-file*))))
+          (setf (get-tag-value ,',tag-obj) ,',header-obj)
+          (values ,',header-obj)))))
+
+(define-adv-header-function adv-header header)
+(define-adv-header-function adv-subheader subheader)
+
+
+(defmacro adv-defmacro (&body body)
+  (with-gensyms (tag obj)
+    `(progn
+       ,@(when adp:*adp*
+	   `((let* ((,tag (make-tag ',(car body) :function))
+                    (,obj (make-instance 'defmacro-definition
+					 :expression '(defmacro ,@body)
+					 :tag ,tag
+                                         :target-location (file-target-relative-pathname *process-file*))))
+               (adp:add-element ,obj)
+               (setf (get-tag-value ,tag) ,obj))))
+       (defmacro ,@body))))
+
+(defmacro adv-defun (&body body)
+  (with-gensyms (tag obj)
+    `(progn
+       ,@(when adp:*adp*
+	   `((let* ((,tag (make-tag ',(car body) :function))
+                    (,obj (make-instance 'defun-definition
+					 :expression '(defun ,@body)
+					 :tag ,tag
+                                         :target-location (file-target-relative-pathname *process-file*))))
+               (adp:add-element ,obj)
+               (setf (get-tag-value ,tag) ,obj))))
+       (defun ,@body))))

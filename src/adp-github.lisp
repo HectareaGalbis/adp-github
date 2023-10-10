@@ -5,10 +5,21 @@
 
 
 (defvar *tags* nil)
-(defvar *process-system* nil)
 (defvar *process-file* nil)
-(defvar *process-files* nil)
-(defvar *process-content-file* nil)
+(defvar *files* nil)
+(defvar *export-file* nil)
+
+(defmethod adp:pre-process-system ((o adp-github-op) s)
+  (setf *tags* (make-tags-container)))
+
+(defmethod adp:pre-process-file ((o adp-github-op) f)
+  (setf *process-file* f))
+
+(defmethod adp:post-process-file ((o adp-github-op) f)
+  (setf *process-file* nil))
+
+;; (defmethod adp:scribble-package ((o adp-github-op) f)
+;;   (find-package "ADPGH"))
 
 (defun get-tag-value (tag)
   (tags-tag-value *tags* tag))
@@ -16,45 +27,56 @@
 (defun (setf get-tag-value) (value tag)
   (setf (tags-tag-value *tags* tag) value))
 
-(defun get-tag-table (type)
-  (ensure-tag-table *tags* type))
+(defun get-tag-symbols (type)
+  (get-tag-symbols-impl *tags* type))
 
 
 (defun src-to-target-pathname (path)
   (if (and (string= (pathname-name path) "README")
-           (string= (pathname-type path) "sbcrl"))
+           (string= (pathname-type path) "scrbl"))
       (merge-pathnames (make-pathname :type "md") path)
-      (merge-pathnames (make-pathname :directory '(:relative "docs") :type "md") path)))
+      (merge-pathnames (make-pathname :directory (pathname-directory path) :name (pathname-name path) :type "md")
+                       (make-pathname :directory '(:relative "docs")))))
+
+
+(defun component-relative-pathname (file-component)
+  (labels ((faux (fcomp-dir system-dir)
+             (if (or (null system-dir)
+                     (null (cdr system-dir)))
+                 fcomp-dir
+                 (faux (cons :relative (cddr fcomp-dir)) (cons :relative (cddr system-dir))))))
+    (let ((file-path (asdf:component-pathname file-component))
+          (system-path (asdf:component-pathname (asdf:component-system file-component))))
+      (make-pathname :directory (faux (pathname-directory file-path) (pathname-directory system-path))
+                     :name (pathname-name file-path)
+                     :type (pathname-type file-path)))))
 
 (defun file-target-relative-pathname (file-component)
-  (src-to-target-pathname (asdf:component-relative-pathname file-component)))
+  (src-to-target-pathname (component-relative-pathname file-component)))
 
 (defun file-target-absolute-pathname (file-component)
-  (src-to-target-pathname (asdf:component-pathname file-component)))
+  (let ((system (asdf:component-system file-component)))
+    (asdf:system-relative-pathname system (src-to-target-pathname (component-relative-pathname file-component)))))
 
-
-(defgeneric process-element (element stream)
+(defgeneric export-element (element stream)
   (:method ((element t) stream)
     (princ element stream)))
 
 
 (defmethod adp:export-content ((op adp-github-op) files system)
-  (let ((*process-system* system)
-        (*process-files* files))
+  (let ((*files* files))
     (maphash (lambda (file-path file)
                (declare (ignore file-path))
-               (let* ((*tags* (create-tags-container))
-                      (*process-file* file)
+               (let* ((*export-file* file)
                       (content (with-output-to-string (stream)
                                  (loop for element across (adp:file-elements file)
-                                       do (process-element element stream))))
-                      (target-path (file-target-absolute-pathname file)))
-                 (warn "Exporting ~a" (asdf:system-relative-pathname target-path))
+                                       do (export-element element stream))))
+                      (target-path (file-target-absolute-pathname (adp:file-component file))))
+                 (warn "Exporting ~a" (asdf:system-relative-pathname system target-path))
+                 (ensure-directories-exist target-path)
                  (with-open-file (file-str target-path :direction :output :if-exists :supersede
                                                        :if-does-not-exist :create)
                    (princ content file-str))
                  (warn "Completed")))
-             files)))
-
-(defmethod adp:scribble-package ((op adp-github-op))
-  (find-package "ADP-GITHUB-SCRIBBLE"))
+             files)
+    (setf *tags* nil)))

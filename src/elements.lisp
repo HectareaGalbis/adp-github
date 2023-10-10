@@ -1,5 +1,5 @@
 
-(in-package #:adp-gh)
+(in-package #:adpgh-core)
 
 
 ;; ----- header -----
@@ -32,8 +32,16 @@
    "Represent a subsubheader element."))
 
 
-;; ----- text reference -----
-(defclass text-reference (tagged-element text-subelement-type)
+;; ------ text ------
+(defclass text ()
+  ((elements :initarg :elements
+             :reader text-elements
+             :type list))
+  (:documentation
+   "Represents a text element."))
+
+;; ------ text reference ------
+(defclass text-reference ()
   ((tag :initarg :tag
         :reader text-reference-tag
         :type tag))
@@ -52,15 +60,17 @@
   (:documentation
    "Represents a symbol reference."))
 
-(defclass variable-ref (symbol-reference) ()
+;; Quizas no hagan falta estas clases
+
+(defclass variable-reference (symbol-reference) ()
   (:documentation
    "Represent a variable reference element."))
 
-(defclass function-ref (symbol-reference) ()
+(defclass function-reference (symbol-reference) ()
   (:documentation
    "Represent a function reference element."))
 
-(defclass type-ref (symbol-reference) ()
+(defclass type-reference (symbol-reference) ()
   (:documentation
    "Represent a type reference element."))
 
@@ -148,7 +158,7 @@
 (defclass text-decorator ()
   ((elements :initarg :elements
              :reader text-decorator-elements
-             :type vector)))
+             :type list)))
 
 (defclass bold (text-decorator) ()
   (:documentation
@@ -162,7 +172,7 @@
   (:documentation
    "Represent a emphasis element."))
 
-(defclass inline (text-decorator) ()
+(defclass inline-code (text-decorator) ()
   (:documentation
    "Represents an inline element."))
 
@@ -179,38 +189,8 @@
    "Represents a web link."))
 
 
-;; ------ references ------
-(defclass header-reference ()
-  ((tag :initarg tag
-        :reader header-reference-tag
-        :type symbol))
-  (:documentation
-   "Represents a header reference."))
-
-(defclass function-reference ()
-  ((tag :initarg tag
-        :reader function-reference-tag
-        :type symbol))
-  (:documentation
-   "Represents a function reference."))
-
-(defclass variable-reference ()
-  ((tag :initarg tag
-        :reader variable-reference-tag
-        :type symbol))
-  (:documentation
-   "Represents a variable reference."))
-
-(defclass type-reference ()
-  ((tag :initarg tag
-        :reader type-reference-tag
-        :type symbol))
-  (:documentation
-   "Represents a type reference."))
-
-
 ;; ------ quote ------
-(defclass quote ()
+(defclass quoted ()
   ((elements :initarg :elements
              :reader quote-elements
              :type list))
@@ -229,7 +209,10 @@
 
 ;; ------ verbatim code block ------
 (defclass verbatim-code-block ()
-  ((elements :initarg :elements
+  ((lang :initarg :lang
+         :reader verbatim-code-block-lang
+         :type string)
+   (elements :initarg :elements
              :reader verbatim-code-block-elements
              :type list))
   (:documentation
@@ -240,7 +223,13 @@
 (defclass example ()
   ((expressions :initarg :expressions
                 :reader example-expressions
-                :type list))
+                :type list)
+   (output :initarg :output
+           :reader example-output
+           :type string)
+   (results :initarg :results
+            :reader example-results
+            :type list))
   (:documentation
    "Represents an example."))
 

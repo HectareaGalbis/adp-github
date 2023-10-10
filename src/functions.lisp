@@ -1,22 +1,27 @@
 
-(in-package #:adp-gh)
+(in-package #:adpgh)
 
+#@header{Reference}
 
+#@text{
+This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost all these functions can be used in both lisp and text mode. However, the last macros that define things, must only be used in lisp mode.
+}
 
-(defmacro define-adp-function (name args &body body)
-  (check-type name symbol)
-  (check-type args list)
-  (let ((adp-name (intern (symbol-name name) "ADP-USER"))
-        (args-sym (gensym "ARGS")))
-    `(progn
-       (defun ,adp-name ,args
-         ,@body)
-       (defmacro ,name (&rest ,args-sym)
-         (when adp:*adp*
-           `(adp:add-element (,',adp-name ,@,args-sym)))))))
+#@subheader{Lisp and text mode functions}
 
+;; ------ aux functions ------
+(cl:defun make-unique-tag ()
+  (let ((new-tag (gensym "HEADERTAG")))
+    (import new-tag "ADP-GITHUB")
+    (values new-tag)))
 
-(defun remove-keyword-parameters (params)
+(cl:defun get-keyword-parameter (key params)
+  (cond
+    ((null params) nil)
+    ((eq key (car params)) (cadr params))
+    (t (get-keyword-parameter key (cdr params)))))
+
+(cl:defun remove-keyword-parameters (params)
   (and params
        (let ((key (car params)))
          (if (keywordp key)
@@ -25,18 +30,19 @@
 
 
 ;; ------ header ------
-(defmacro define-header-function (name type)
-  (with-gensyms (args tag fixed-tag-sym tag-obj header-obj)
-    `(define-adp-function ,name (&rest args &key tag)
-       (let* ((fixed-tag-sym (or tag (make-unique-tag)))
-              (tag-obj (make-tag :symbol fixed-tag-sym :type :header))
-              (header-obj (make-instance ',type
-                                         :elements (remove-keyword-parameters args)
-                                         :user-tag-p (and tag t)
-                                         :tag tag-obj
-                                         :target-location (file-target-relative-pathname adp:*load-file*))))
-         (setf (get-tag-value tag-obj) header-obj)
-         (values header-obj)))))
+(cl:defmacro define-header-function (name type)
+  (with-gensyms (tag fixed-tag-sym tag-obj header-obj)
+    `(adv-defmacro ,name (&rest args)
+       `(let* ((,',tag (get-keyword-parameter :tag ',args))
+               (,',fixed-tag-sym (or ,',tag (make-unique-tag)))
+               (,',tag-obj (make-tag ,',fixed-tag-sym :header))
+               (,',header-obj (make-instance ',',type
+                                           :elements (remove-keyword-parameters ',args)
+                                           :user-tag-p (and ,',tag t)
+                                           :tag ,',tag-obj
+                                           :target-location (file-target-relative-pathname *process-file*))))
+          (setf (get-tag-value ,',tag-obj) ,',header-obj)
+          (values ,',header-obj)))))
 
 (define-header-function header header)
 (define-header-function subheader subheader)
@@ -44,24 +50,14 @@
 
 
 ;; ------ text ------
-(adv-defmacro text (&rest objects)
-  "Add plain text. The arguments in objects can be any lisp object. They will be princ-ed and concatenated into a single string.
-You can use the following macros to enrich your text: bold, italic, emphasis, inline-code, web-link, header-ref, symbol-ref, function-ref and type-ref."
-  (when *adp*
-    (let ((eval-objects (gensym "OBJECTS"))
-          (eval-object (gensym "OBJECT")))
-      `(progn
-         (destructuring-bind (&rest ,eval-objects) `(list ,@objects)
-           (loop for ,eval-object in ,eval-objects
-                 do (adp:add-element ,eval-object)))
-         (values)))))
+(adv-defun text (&rest elements)
+  (make-instance 'text :elements elements))
 
 
 ;; ------ references ------
-(defmacro define-reference-function (name type tag-type)
-  (with-gensyms (symbol)
-    `(define-adp-function ,name (,symbol)
-       (make-instance ',type :tag (make-tag :symbol ,symbol :type ,tag-type)))))
+(cl:defmacro define-reference-function (name type tag-type)
+  `(adv-defmacro ,name (sym)
+     `(make-instance ',',type :tag (make-tag ',sym ,',tag-type))))
 
 (define-reference-function href header-reference :header)
 (define-reference-function fref function-reference :function)
@@ -70,16 +66,16 @@ You can use the following macros to enrich your text: bold, italic, emphasis, in
 
 
 ;; ------ table ------
-(define-adp-function cell (&rest elements)
+(adv-defun cell (&rest elements)
   (make-instance 'cell :elements elements))
 
-(define-adp-function row (&rest elements)
+(adv-defun row (&rest elements)
   (loop for element in elements
         when (not (typep element 'cell))
           do (error "Each element of a row must be a cell."))
   (make-instance 'row :cells elements))
 
-(define-adp-function table (&rest elements)
+(adv-defun table (&rest elements)
   (assert (> (length elements) 0))
   (let ((num-cells (length (row-cells (car elements)))))
     (loop for element in elements
@@ -92,41 +88,41 @@ You can use the following macros to enrich your text: bold, italic, emphasis, in
 
 
 ;; ------ itemize ------
-(define-adp-function item (&rest elements)
+(adv-defun item (&rest elements)
   (make-instance 'item :elements elements))
 
-(define-adp-function itemize (&rest elements)
+(adv-defun itemize (&rest elements)
   (loop for element in elements
         when (not (typep element '(or item itemize enumerate)))
           do (error "Each element of a list must be an item."))
-  (make-instance 'itemize :elements elements))
+  (make-instance 'itemize :items elements))
 
-(define-adp-function enumerate (&rest elements)
+(adv-defun enumerate (&rest elements)
   (loop for element in elements
         when (not (typep element '(or item itemize enumerate)))
           do (error "Each element of a list must be an item."))
-  (make-instance 'enumerate :elements elements))
+  (make-instance 'enumerate :items elements))
 
 
 ;; ------ table of contents ------
-(define-adp-function table-of-contents ()
+(adv-defun table-of-contents ()
   (make-instance 'table-of-contents))
 
-(define-adp-function mini-table-of-contents ()
+(adv-defun mini-table-of-contents ()
   (make-instance 'mini-table-of-contents))
 
-(define-adp-function table-of-functions ()
+(adv-defun table-of-functions ()
   (make-instance 'table-of-functions))
 
-(define-adp-function table-of-symbols ()
+(adv-defun table-of-symbols ()
   (make-instance 'table-of-symbols))
 
-(define-adp-function table-of-types ()
+(adv-defun table-of-types ()
   (make-instance 'table-of-types))
 
 
 ;; ------ image ------
-(define-adp-function image (path &key (alt-text "Image") (scale 1.0))
+(adv-defun image (path &key (alt-text "Image") (scale 1.0))
   (make-instance 'image
                  :path path
                  :alt-text alt-text
@@ -134,41 +130,46 @@ You can use the following macros to enrich your text: bold, italic, emphasis, in
 
 
 ;; ------ text decorators ------
-(defmacro define-text-decorator (name type)
-  (with-gensyms (elements)
-    `(define-adp-function ,name (&rest ,elements)
-       (make-instance ',type :elements ,elements))))
+(cl:defmacro define-text-decorator (name type)
+  `(adv-defun ,name (&rest elements)
+     (make-instance ',type :elements elements)))
 
 (define-text-decorator bold bold)
 (define-text-decorator italic italic)
 (define-text-decorator emphasis emphasis)
-(define-text-decorator inline inline)
+(define-text-decorator inline inline-code)
 
 
 ;; ------ web link ------
-(define-adp-function link (name address)
+(adv-defun link (name address)
   (make-instance 'link :name name :address address))
 
 
 ;; ------ quote ------
-(define-adp-function quote (&rest elements)
-  (make-instance 'quote :elements elements))
+(adv-defun quote (&rest elements)
+  (make-instance 'quoted :elements elements))
 
 
 ;; ------ code block ------
-(define-adp-function code-block (&rest expressions)
-  (make-instance 'code-block :expressions expressions))
+(adv-defmacro code-block (&rest expressions)
+  `(make-instance 'code-block :expressions ',expressions))
 
 
 ;; ------ verbatim code block ------
-(define-adp-function verbatim-code-block (&rest elements)
-  (make-instance 'verbatim-code-block :elements elements))
+(adv-defun verbatim-code-block (lang &rest elements)
+  (make-instance 'verbatim-code-block :lang lang :elements elements))
 
 
 ;; ------ example ------
-(define-adp-function example (&rest expressions)
-  (make-instance 'example :expressions expressions))
+(adv-defmacro example (&rest expressions)
+  (with-gensyms (output result)
+    `(let* ((,output (make-array 10 :adjustable t :fill-pointer 0 :element-type 'character))
+	    (,result (multiple-value-list (with-output-to-string (*standard-output* ,output)
+					    ,@expressions))))
 
+       (make-instance 'example :expressions ',expressions :output ,output :result ,result))))
+
+#@subheader{Only lisp mode functions}
 
 ;; ------ definitions ------
 (cl:defmacro define-definition-macro (name type tag-extraction-expr tag-type docstring)
@@ -179,16 +180,22 @@ You can use the following macros to enrich your text: bold, italic, emphasis, in
 			    (cadr tag-extraction-expr)
 			    nil))
         (cl-name (find-symbol (symbol-name name) "CL")))
-    `(adv-defmacro ,name (&body ,body)
-                   ,docstring
-                   `(progn
-	              ,@(when *adp*
-	                  `((adp:add-element (make-instance ',',type
-							    :expression '(,',cl-name ,@,body)
-							    ,@,(when tag-extraction-expr
-								 ``(:tag (make-tag :symbol ',,tag-extraction :type ,',type)
-                                                                    :target-location *current-target-pathname*))))))
-	              (,cl-name ,@,body)))))
+    (with-gensyms (tag obj)
+      `(adv-defmacro ,name (&body ,body)
+         ,docstring
+         `(progn
+	    ,@(when adp:*adp*
+	        `((let* (,@,(when tag-extraction-expr
+                              ``((,',tag (make-tag ',,tag-extraction ,',tag-type))))
+                         (,',obj (make-instance ',',type
+					        :expression '(,',cl-name ,@,body)
+					        ,@,(when tag-extraction-expr
+						     ``(:tag ,',tag
+                                                        :target-location (file-target-relative-pathname *process-file*))))))
+                    (adp:add-element ,',obj)
+                    ,@,(when tag-extraction-expr
+                         ``((setf (get-tag-value ,',tag) ,',obj))))))
+	    (,',cl-name ,@,body))))))
 
 (define-definition-macro defclass defclass-definition (body (car body)) :type
   "Add a defclass declaration. The macro expands to cl:defclass. Also, the class name is used to create a type-tag.")
