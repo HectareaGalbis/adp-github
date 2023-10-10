@@ -76,7 +76,7 @@
      (let* ((tag (header-tag element))
             (text (content-to-string (header-elements element))))
        (format stream "~v@{#~} ~a"
-               ,level (convert-to-github-header-anchor text))
+               ,level text)
        ;; (format stream "<~a id=~s>~a</~a>"
        ;;         ,html-token (tag-to-string tag) (escape-html-characters text) ,html-token)
        )))

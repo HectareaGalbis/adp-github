@@ -1,8 +1,8 @@
-# reference
+# Reference
 
 This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost all these functions can be used in both lisp and text mode\. However\, the last macros that define things\, must only be used in lisp mode\.
 
-### lisp-and-text-mode-functions
+### Lisp and text mode functions
 
 <h4 id="function-adp-github-core-header">Macro: HEADER</h4>
 
@@ -320,7 +320,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                 (QUOTE :OUTPUT) OUTPUT (QUOTE :RESULT) RESULT))))
 ```
 
-### only-lisp-mode-functions
+### Only lisp mode functions
 
 <h4 id="function-adp-github-defclass">Macro: DEFCLASS</h4>
 
