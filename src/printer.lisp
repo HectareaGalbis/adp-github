@@ -270,7 +270,7 @@
 			 (cons first-symbols (split-ordered-symbols-aux rest-symbols)))))))
 	(split-ordered-symbols-aux symbols))))
 
-(defun make-itemize-table (tagsyms reftype)
+(defun make-itemize-table (tagsyms reftype tagtype)
   (let* ((syms-list (sort tagsyms #'string>=))
 	 (split-syms (split-symbols syms-list)))
     (loop for syms-group in split-syms
@@ -278,7 +278,7 @@
 		    (make-instance 'item :elements (list char)))
 	    into items-list
 	  collect (flet ((make-ref (tagsym)
-			   (make-instance reftype :tag (make-tag tagsym reftype))))
+			   (make-instance reftype :tag (make-tag tagsym tagtype))))
 		    (make-instance 'itemize
 				   :items (loop for sym in syms-group
 						collect (make-instance 'item
@@ -287,19 +287,19 @@
 	  finally (return (make-instance 'itemize :items items-list)))))
 
 (defun make-itemize-tof ()
-  (make-itemize-table (get-tag-symbols :function) 'function-reference))
+  (make-itemize-table (get-tag-symbols :function) 'function-reference :function))
 
 (defmethod export-element ((element table-of-functions) stream)
   (export-element (make-itemize-tof) stream))
 
 (defun make-itemize-tos ()
-  (make-itemize-table (get-tag-symbols :variable) 'variable-reference))
+  (make-itemize-table (get-tag-symbols :variable) 'variable-reference :variable))
 
 (defmethod export-element ((element table-of-symbols) stream)
   (export-element (make-itemize-tos) stream))
 
 (defun make-itemize-tot ()
-  (make-itemize-table (get-tag-symbols :type) 'type-ref))
+  (make-itemize-table (get-tag-symbols :type) 'type-ref :type))
 
 (defmethod export-element ((element table-of-types) stream)
   (export-element (make-itemize-tot) stream))
