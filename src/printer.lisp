@@ -327,17 +327,17 @@
 (defmethod export-element ((element bold) stream)
   (let* ((elements (text-decorator-elements element))
          (content (content-to-string elements)))
-    (format stream "**~a**" (escape-characters content))))
+    (format stream "**~a**" content)))
 
 (defmethod export-element ((element italic) stream)
   (let* ((elements (text-decorator-elements element))
          (content (content-to-string elements)))
-    (format stream "_~a_" (escape-characters content))))
+    (format stream "_~a_" content)))
 
 (defmethod export-element ((element emphasis) stream)
   (let* ((elements (text-decorator-elements element))
          (content (content-to-string elements)))
-    (format stream "***~a***" (escape-characters content))))
+    (format stream "***~a***" content)))
 
 (defmethod export-element ((element inline-code) stream)
   (let* ((elements (text-decorator-elements element))

@@ -154,7 +154,7 @@ You can nest [adp\-github\-core\:bold](/docs/src/functions.md#function-adp-githu
 The large @bold{house with @italic{the old woman}}.
 `````
 
-The large **house with \_the old woman\_**\.
+The large **house with _the old woman_**\.
 
 Lastly\, you can quote text\:
 
