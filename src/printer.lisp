@@ -97,10 +97,10 @@
   (let* ((tag (text-reference-tag element))
          (header-obj (get-tag-value tag))
          (target-location (header-target-location header-obj))
-         (header-text (or (header-ref-text-elements element)
+         (header-text (or (content-to-string (header-ref-text-elements element))
                           (content-to-string (header-elements header-obj)))))
     (format stream "[~a](/~a#~a)"
-            (escape-characters header-text) target-location (tag-to-string tag))))
+            header-text target-location (tag-to-string tag))))
 
 (defmethod export-element ((element symbol-reference) stream)
   (let* ((tag (text-reference-tag element))

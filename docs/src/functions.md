@@ -7,943 +7,943 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
 ## Lisp and text mode functions
 
 <a id="function-adp-github-core-header"></a>
-#### Macro: HEADER
+#### Macro: header
 
 ```common-lisp
-(DEFMACRO ADPGH-CORE:HEADER (&REST ARGS)
-  (LIST (QUOTE LET*)
-        (LIST
-         (LIST 'TAG777
-               (LIST (QUOTE GET-KEYWORD-PARAMETER) (QUOTE :TAG)
-                     (LIST (QUOTE QUOTE) ARGS)))
-         (LIST 'FIXED-TAG-SYM778
-               (LIST (QUOTE OR) 'TAG777 (QUOTE (MAKE-UNIQUE-TAG))))
-         (LIST 'TAG-OBJ779
-               (LIST (QUOTE ADPGH-CORE:MAKE-TAG) 'FIXED-TAG-SYM778
-                     (QUOTE :HEADER)))
-         (LIST 'HEADER-OBJ780
-               (LIST (QUOTE MAKE-INSTANCE)
-                     (LIST (QUOTE QUOTE) 'ADPGH-CORE:HEADER) (QUOTE :ELEMENTS)
-                     (LIST (QUOTE REMOVE-KEYWORD-PARAMETERS)
-                           (LIST (QUOTE QUOTE) ARGS))
-                     (QUOTE :USER-TAG-P) (LIST (QUOTE AND) 'TAG777 (QUOTE T))
-                     (QUOTE :TAG) 'TAG-OBJ779 (QUOTE :TARGET-LOCATION)
-                     (QUOTE
-                      (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                       ADPGH-CORE:*PROCESS-FILE*)))))
-        (LIST (QUOTE SETF) (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG-OBJ779)
-              'HEADER-OBJ780)
-        (LIST (QUOTE VALUES) 'HEADER-OBJ780)))
+(defmacro adpgh-core:header (&rest args)
+  (list (quote let*)
+        (list
+         (list 'tag777
+               (list (quote get-keyword-parameter) (quote :tag)
+                     (list (quote quote) args)))
+         (list 'fixed-tag-sym778
+               (list (quote or) 'tag777 (quote (make-unique-tag))))
+         (list 'tag-obj779
+               (list (quote adpgh-core:make-tag) 'fixed-tag-sym778
+                     (quote :header)))
+         (list 'header-obj780
+               (list (quote make-instance)
+                     (list (quote quote) 'adpgh-core:header) (quote :elements)
+                     (list (quote remove-keyword-parameters)
+                           (list (quote quote) args))
+                     (quote :user-tag-p) (list (quote and) 'tag777 (quote t))
+                     (quote :tag) 'tag-obj779 (quote :target-location)
+                     (quote
+                      (adpgh-core:file-target-relative-pathname
+                       adpgh-core:*process-file*)))))
+        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj779)
+              'header-obj780)
+        (list (quote values) 'header-obj780)))
 ```
 
 <a id="function-adp-github-core-subheader"></a>
-#### Macro: SUBHEADER
+#### Macro: subheader
 
 ```common-lisp
-(DEFMACRO ADPGH-CORE:SUBHEADER (&REST ARGS)
-  (LIST (QUOTE LET*)
-        (LIST
-         (LIST 'TAG783
-               (LIST (QUOTE GET-KEYWORD-PARAMETER) (QUOTE :TAG)
-                     (LIST (QUOTE QUOTE) ARGS)))
-         (LIST 'FIXED-TAG-SYM784
-               (LIST (QUOTE OR) 'TAG783 (QUOTE (MAKE-UNIQUE-TAG))))
-         (LIST 'TAG-OBJ785
-               (LIST (QUOTE ADPGH-CORE:MAKE-TAG) 'FIXED-TAG-SYM784
-                     (QUOTE :HEADER)))
-         (LIST 'HEADER-OBJ786
-               (LIST (QUOTE MAKE-INSTANCE)
-                     (LIST (QUOTE QUOTE) 'ADPGH-CORE:SUBHEADER)
-                     (QUOTE :ELEMENTS)
-                     (LIST (QUOTE REMOVE-KEYWORD-PARAMETERS)
-                           (LIST (QUOTE QUOTE) ARGS))
-                     (QUOTE :USER-TAG-P) (LIST (QUOTE AND) 'TAG783 (QUOTE T))
-                     (QUOTE :TAG) 'TAG-OBJ785 (QUOTE :TARGET-LOCATION)
-                     (QUOTE
-                      (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                       ADPGH-CORE:*PROCESS-FILE*)))))
-        (LIST (QUOTE SETF) (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG-OBJ785)
-              'HEADER-OBJ786)
-        (LIST (QUOTE VALUES) 'HEADER-OBJ786)))
+(defmacro adpgh-core:subheader (&rest args)
+  (list (quote let*)
+        (list
+         (list 'tag783
+               (list (quote get-keyword-parameter) (quote :tag)
+                     (list (quote quote) args)))
+         (list 'fixed-tag-sym784
+               (list (quote or) 'tag783 (quote (make-unique-tag))))
+         (list 'tag-obj785
+               (list (quote adpgh-core:make-tag) 'fixed-tag-sym784
+                     (quote :header)))
+         (list 'header-obj786
+               (list (quote make-instance)
+                     (list (quote quote) 'adpgh-core:subheader)
+                     (quote :elements)
+                     (list (quote remove-keyword-parameters)
+                           (list (quote quote) args))
+                     (quote :user-tag-p) (list (quote and) 'tag783 (quote t))
+                     (quote :tag) 'tag-obj785 (quote :target-location)
+                     (quote
+                      (adpgh-core:file-target-relative-pathname
+                       adpgh-core:*process-file*)))))
+        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj785)
+              'header-obj786)
+        (list (quote values) 'header-obj786)))
 ```
 
 <a id="function-adp-github-core-subsubheader"></a>
-#### Macro: SUBSUBHEADER
+#### Macro: subsubheader
 
 ```common-lisp
-(DEFMACRO ADPGH-CORE:SUBSUBHEADER (&REST ARGS)
-  (LIST (QUOTE LET*)
-        (LIST
-         (LIST 'TAG789
-               (LIST (QUOTE GET-KEYWORD-PARAMETER) (QUOTE :TAG)
-                     (LIST (QUOTE QUOTE) ARGS)))
-         (LIST 'FIXED-TAG-SYM790
-               (LIST (QUOTE OR) 'TAG789 (QUOTE (MAKE-UNIQUE-TAG))))
-         (LIST 'TAG-OBJ791
-               (LIST (QUOTE ADPGH-CORE:MAKE-TAG) 'FIXED-TAG-SYM790
-                     (QUOTE :HEADER)))
-         (LIST 'HEADER-OBJ792
-               (LIST (QUOTE MAKE-INSTANCE)
-                     (LIST (QUOTE QUOTE) 'ADPGH-CORE:SUBSUBHEADER)
-                     (QUOTE :ELEMENTS)
-                     (LIST (QUOTE REMOVE-KEYWORD-PARAMETERS)
-                           (LIST (QUOTE QUOTE) ARGS))
-                     (QUOTE :USER-TAG-P) (LIST (QUOTE AND) 'TAG789 (QUOTE T))
-                     (QUOTE :TAG) 'TAG-OBJ791 (QUOTE :TARGET-LOCATION)
-                     (QUOTE
-                      (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                       ADPGH-CORE:*PROCESS-FILE*)))))
-        (LIST (QUOTE SETF) (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG-OBJ791)
-              'HEADER-OBJ792)
-        (LIST (QUOTE VALUES) 'HEADER-OBJ792)))
+(defmacro adpgh-core:subsubheader (&rest args)
+  (list (quote let*)
+        (list
+         (list 'tag789
+               (list (quote get-keyword-parameter) (quote :tag)
+                     (list (quote quote) args)))
+         (list 'fixed-tag-sym790
+               (list (quote or) 'tag789 (quote (make-unique-tag))))
+         (list 'tag-obj791
+               (list (quote adpgh-core:make-tag) 'fixed-tag-sym790
+                     (quote :header)))
+         (list 'header-obj792
+               (list (quote make-instance)
+                     (list (quote quote) 'adpgh-core:subsubheader)
+                     (quote :elements)
+                     (list (quote remove-keyword-parameters)
+                           (list (quote quote) args))
+                     (quote :user-tag-p) (list (quote and) 'tag789 (quote t))
+                     (quote :tag) 'tag-obj791 (quote :target-location)
+                     (quote
+                      (adpgh-core:file-target-relative-pathname
+                       adpgh-core:*process-file*)))))
+        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj791)
+              'header-obj792)
+        (list (quote values) 'header-obj792)))
 ```
 
 <a id="function-adp-github-core-text"></a>
-#### Function: TEXT
+#### Function: text
 
 ```common-lisp
-(DEFUN ADPGH-CORE:TEXT (&REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:TEXT :ELEMENTS ELEMENTS))
+(defun adpgh-core:text (&rest elements)
+  (make-instance 'adpgh-core:text :elements elements))
 ```
 
 <a id="function-adp-github-href"></a>
-#### Macro: HREF
+#### Macro: href
 
 ```common-lisp
-(DEFMACRO ADPGH:HREF (SYM)
-  (LIST (QUOTE MAKE-INSTANCE) (LIST (QUOTE QUOTE) 'ADPGH-CORE:HEADER-REFERENCE)
-        (QUOTE :TAG)
-        (LIST (QUOTE ADPGH-CORE:MAKE-TAG) (LIST (QUOTE QUOTE) SYM) ':HEADER)))
+(defmacro adpgh:href (sym)
+  (list (quote make-instance) (list (quote quote) 'adpgh-core:header-reference)
+        (quote :tag)
+        (list (quote adpgh-core:make-tag) (list (quote quote) sym) ':header)))
 ```
 
 <a id="function-adp-github-fref"></a>
-#### Macro: FREF
+#### Macro: fref
 
 ```common-lisp
-(DEFMACRO ADPGH:FREF (SYM)
-  (LIST (QUOTE MAKE-INSTANCE)
-        (LIST (QUOTE QUOTE) 'ADPGH-CORE:FUNCTION-REFERENCE) (QUOTE :TAG)
-        (LIST (QUOTE ADPGH-CORE:MAKE-TAG) (LIST (QUOTE QUOTE) SYM) ':FUNCTION)))
+(defmacro adpgh:fref (sym)
+  (list (quote make-instance)
+        (list (quote quote) 'adpgh-core:function-reference) (quote :tag)
+        (list (quote adpgh-core:make-tag) (list (quote quote) sym) ':function)))
 ```
 
 <a id="function-adp-github-vref"></a>
-#### Macro: VREF
+#### Macro: vref
 
 ```common-lisp
-(DEFMACRO ADPGH:VREF (SYM)
-  (LIST (QUOTE MAKE-INSTANCE)
-        (LIST (QUOTE QUOTE) 'ADPGH-CORE:VARIABLE-REFERENCE) (QUOTE :TAG)
-        (LIST (QUOTE ADPGH-CORE:MAKE-TAG) (LIST (QUOTE QUOTE) SYM) ':VARIABLE)))
+(defmacro adpgh:vref (sym)
+  (list (quote make-instance)
+        (list (quote quote) 'adpgh-core:variable-reference) (quote :tag)
+        (list (quote adpgh-core:make-tag) (list (quote quote) sym) ':variable)))
 ```
 
 <a id="function-adp-github-tref"></a>
-#### Macro: TREF
+#### Macro: tref
 
 ```common-lisp
-(DEFMACRO ADPGH:TREF (SYM)
-  (LIST (QUOTE MAKE-INSTANCE) (LIST (QUOTE QUOTE) 'ADPGH-CORE:TYPE-REFERENCE)
-        (QUOTE :TAG)
-        (LIST (QUOTE ADPGH-CORE:MAKE-TAG) (LIST (QUOTE QUOTE) SYM) ':TYPE)))
+(defmacro adpgh:tref (sym)
+  (list (quote make-instance) (list (quote quote) 'adpgh-core:type-reference)
+        (quote :tag)
+        (list (quote adpgh-core:make-tag) (list (quote quote) sym) ':type)))
 ```
 
 <a id="function-adp-github-core-cell"></a>
-#### Function: CELL
+#### Function: cell
 
 ```common-lisp
-(DEFUN ADPGH-CORE:CELL (&REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:CELL :ELEMENTS ELEMENTS))
+(defun adpgh-core:cell (&rest elements)
+  (make-instance 'adpgh-core:cell :elements elements))
 ```
 
 <a id="function-adp-github-core-row"></a>
-#### Function: ROW
+#### Function: row
 
 ```common-lisp
-(DEFUN ADPGH-CORE:ROW (&REST ELEMENTS)
-  (LOOP FOR ELEMENT IN ELEMENTS
-        WHEN (NOT (TYPEP ELEMENT 'ADPGH-CORE:CELL))
-        DO (ERROR "Each element of a row must be a cell."))
-  (MAKE-INSTANCE 'ADPGH-CORE:ROW :CELLS ELEMENTS))
+(defun adpgh-core:row (&rest elements)
+  (loop for element in elements
+        when (not (typep element 'adpgh-core:cell))
+        do (error "Each element of a row must be a cell."))
+  (make-instance 'adpgh-core:row :cells elements))
 ```
 
 <a id="function-adp-github-core-table"></a>
-#### Function: TABLE
+#### Function: table
 
 ```common-lisp
-(DEFUN ADPGH-CORE:TABLE (&REST ELEMENTS)
-  (ASSERT (> (LENGTH ELEMENTS) 0))
-  (LET ((NUM-CELLS (LENGTH (ADPGH-CORE:ROW-CELLS (CAR ELEMENTS)))))
-    (LOOP FOR ELEMENT IN ELEMENTS
-          FOR ROW-NUM-CELLS = (LENGTH (ADPGH-CORE:ROW-CELLS ELEMENT))
-          WHEN (NOT (EQL NUM-CELLS ROW-NUM-CELLS))
-          DO (ERROR "Every row must have the same number of elements.")
-          WHEN (NOT (TYPEP ELEMENT 'ADPGH-CORE:ROW))
-          DO (ERROR "Each element of a table must be a row.")))
-  (MAKE-INSTANCE 'ADPGH-CORE:TABLE :ROWS ELEMENTS))
+(defun adpgh-core:table (&rest elements)
+  (assert (> (length elements) 0))
+  (let ((num-cells (length (adpgh-core:row-cells (car elements)))))
+    (loop for element in elements
+          for row-num-cells = (length (adpgh-core:row-cells element))
+          when (not (eql num-cells row-num-cells))
+          do (error "Every row must have the same number of elements.")
+          when (not (typep element 'adpgh-core:row))
+          do (error "Each element of a table must be a row.")))
+  (make-instance 'adpgh-core:table :rows elements))
 ```
 
 <a id="function-adp-github-core-item"></a>
-#### Function: ITEM
+#### Function: item
 
 ```common-lisp
-(DEFUN ADPGH-CORE:ITEM (&REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:ITEM :ELEMENTS ELEMENTS))
+(defun adpgh-core:item (&rest elements)
+  (make-instance 'adpgh-core:item :elements elements))
 ```
 
 <a id="function-adp-github-core-itemize"></a>
-#### Function: ITEMIZE
+#### Function: itemize
 
 ```common-lisp
-(DEFUN ADPGH-CORE:ITEMIZE (&REST ELEMENTS)
-  (LOOP FOR ELEMENT IN ELEMENTS
-        WHEN (NOT
-              (TYPEP ELEMENT
-                     '(OR ADPGH-CORE:ITEM ADPGH-CORE:ITEMIZE
-                          ADPGH-CORE:ENUMERATE)))
-        DO (ERROR "Each element of a list must be an item."))
-  (MAKE-INSTANCE 'ADPGH-CORE:ITEMIZE :ITEMS ELEMENTS))
+(defun adpgh-core:itemize (&rest elements)
+  (loop for element in elements
+        when (not
+              (typep element
+                     '(or adpgh-core:item adpgh-core:itemize
+                          adpgh-core:enumerate)))
+        do (error "Each element of a list must be an item."))
+  (make-instance 'adpgh-core:itemize :items elements))
 ```
 
 <a id="function-adp-github-core-enumerate"></a>
-#### Function: ENUMERATE
+#### Function: enumerate
 
 ```common-lisp
-(DEFUN ADPGH-CORE:ENUMERATE (&REST ELEMENTS)
-  (LOOP FOR ELEMENT IN ELEMENTS
-        WHEN (NOT
-              (TYPEP ELEMENT
-                     '(OR ADPGH-CORE:ITEM ADPGH-CORE:ITEMIZE
-                          ADPGH-CORE:ENUMERATE)))
-        DO (ERROR "Each element of a list must be an item."))
-  (MAKE-INSTANCE 'ADPGH-CORE:ENUMERATE :ITEMS ELEMENTS))
+(defun adpgh-core:enumerate (&rest elements)
+  (loop for element in elements
+        when (not
+              (typep element
+                     '(or adpgh-core:item adpgh-core:itemize
+                          adpgh-core:enumerate)))
+        do (error "Each element of a list must be an item."))
+  (make-instance 'adpgh-core:enumerate :items elements))
 ```
 
 <a id="function-adp-github-core-table-of-contents"></a>
-#### Function: TABLE\-OF\-CONTENTS
+#### Function: table\-of\-contents
 
 ```common-lisp
-(DEFUN ADPGH-CORE:TABLE-OF-CONTENTS ()
-  (MAKE-INSTANCE 'ADPGH-CORE:TABLE-OF-CONTENTS))
+(defun adpgh-core:table-of-contents ()
+  (make-instance 'adpgh-core:table-of-contents))
 ```
 
 <a id="function-adp-github-core-mini-table-of-contents"></a>
-#### Function: MINI\-TABLE\-OF\-CONTENTS
+#### Function: mini\-table\-of\-contents
 
 ```common-lisp
-(DEFUN ADPGH-CORE:MINI-TABLE-OF-CONTENTS ()
-  (MAKE-INSTANCE 'ADPGH-CORE:MINI-TABLE-OF-CONTENTS))
+(defun adpgh-core:mini-table-of-contents ()
+  (make-instance 'adpgh-core:mini-table-of-contents))
 ```
 
 <a id="function-adp-github-core-table-of-functions"></a>
-#### Function: TABLE\-OF\-FUNCTIONS
+#### Function: table\-of\-functions
 
 ```common-lisp
-(DEFUN ADPGH-CORE:TABLE-OF-FUNCTIONS ()
-  (MAKE-INSTANCE 'ADPGH-CORE:TABLE-OF-FUNCTIONS))
+(defun adpgh-core:table-of-functions ()
+  (make-instance 'adpgh-core:table-of-functions))
 ```
 
 <a id="function-adp-github-core-table-of-symbols"></a>
-#### Function: TABLE\-OF\-SYMBOLS
+#### Function: table\-of\-symbols
 
 ```common-lisp
-(DEFUN ADPGH-CORE:TABLE-OF-SYMBOLS ()
-  (MAKE-INSTANCE 'ADPGH-CORE:TABLE-OF-SYMBOLS))
+(defun adpgh-core:table-of-symbols ()
+  (make-instance 'adpgh-core:table-of-symbols))
 ```
 
 <a id="function-adp-github-core-table-of-types"></a>
-#### Function: TABLE\-OF\-TYPES
+#### Function: table\-of\-types
 
 ```common-lisp
-(DEFUN ADPGH-CORE:TABLE-OF-TYPES () (MAKE-INSTANCE 'ADPGH-CORE:TABLE-OF-TYPES))
+(defun adpgh-core:table-of-types () (make-instance 'adpgh-core:table-of-types))
 ```
 
 <a id="function-adp-github-core-image"></a>
-#### Function: IMAGE
+#### Function: image
 
 ```common-lisp
-(DEFUN ADPGH-CORE:IMAGE (PATH &KEY (ALT-TEXT "Image") (SCALE 1.0))
-  (MAKE-INSTANCE 'ADPGH-CORE:IMAGE :PATH PATH :ALT-TEXT ALT-TEXT :SCALE SCALE))
+(defun adpgh-core:image (path &key (alt-text "Image") (scale 1.0))
+  (make-instance 'adpgh-core:image :path path :alt-text alt-text :scale scale))
 ```
 
 <a id="function-adp-github-core-bold"></a>
-#### Function: BOLD
+#### Function: bold
 
 ```common-lisp
-(DEFUN ADPGH-CORE:BOLD (&REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:BOLD :ELEMENTS ELEMENTS))
+(defun adpgh-core:bold (&rest elements)
+  (make-instance 'adpgh-core:bold :elements elements))
 ```
 
 <a id="function-adp-github-core-italic"></a>
-#### Function: ITALIC
+#### Function: italic
 
 ```common-lisp
-(DEFUN ADPGH-CORE:ITALIC (&REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:ITALIC :ELEMENTS ELEMENTS))
+(defun adpgh-core:italic (&rest elements)
+  (make-instance 'adpgh-core:italic :elements elements))
 ```
 
 <a id="function-adp-github-core-emphasis"></a>
-#### Function: EMPHASIS
+#### Function: emphasis
 
 ```common-lisp
-(DEFUN ADPGH-CORE:EMPHASIS (&REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:EMPHASIS :ELEMENTS ELEMENTS))
+(defun adpgh-core:emphasis (&rest elements)
+  (make-instance 'adpgh-core:emphasis :elements elements))
 ```
 
 <a id="function-adp-github-inline"></a>
-#### Function: INLINE
+#### Function: inline
 
 ```common-lisp
-(DEFUN ADPGH:INLINE (&REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:INLINE-CODE :ELEMENTS ELEMENTS))
+(defun adpgh:inline (&rest elements)
+  (make-instance 'adpgh-core:inline-code :elements elements))
 ```
 
 <a id="function-adp-github-core-link"></a>
-#### Function: LINK
+#### Function: link
 
 ```common-lisp
-(DEFUN ADPGH-CORE:LINK (NAME ADDRESS)
-  (MAKE-INSTANCE 'ADPGH-CORE:LINK :NAME NAME :ADDRESS ADDRESS))
+(defun adpgh-core:link (name address)
+  (make-instance 'adpgh-core:link :name name :address address))
 ```
 
 <a id="function-adp-github-quote"></a>
-#### Function: QUOTE
+#### Function: quote
 
 ```common-lisp
-(DEFUN ADPGH:QUOTE (&REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:QUOTED :ELEMENTS ELEMENTS))
+(defun adpgh:quote (&rest elements)
+  (make-instance 'adpgh-core:quoted :elements elements))
 ```
 
 <a id="function-adp-github-core-code-block"></a>
-#### Macro: CODE\-BLOCK
+#### Macro: code\-block
 
 ```common-lisp
-(DEFMACRO ADPGH-CORE:CODE-BLOCK (&REST EXPRESSIONS)
-  (LIST (QUOTE MAKE-INSTANCE) (QUOTE 'ADPGH-CORE:CODE-BLOCK)
-        (QUOTE :EXPRESSIONS) (LIST (QUOTE QUOTE) EXPRESSIONS)))
+(defmacro adpgh-core:code-block (&rest expressions)
+  (list (quote make-instance) (quote 'adpgh-core:code-block)
+        (quote :expressions) (list (quote quote) expressions)))
 ```
 
 <a id="function-adp-github-core-verbatim-code-block"></a>
-#### Function: VERBATIM\-CODE\-BLOCK
+#### Function: verbatim\-code\-block
 
 ```common-lisp
-(DEFUN ADPGH-CORE:VERBATIM-CODE-BLOCK (LANG &REST ELEMENTS)
-  (MAKE-INSTANCE 'ADPGH-CORE:VERBATIM-CODE-BLOCK :LANG LANG :ELEMENTS ELEMENTS))
+(defun adpgh-core:verbatim-code-block (lang &rest elements)
+  (make-instance 'adpgh-core:verbatim-code-block :lang lang :elements elements))
 ```
 
 <a id="function-adp-github-core-example"></a>
-#### Macro: EXAMPLE
+#### Macro: example
 
 ```common-lisp
-(DEFMACRO ADPGH-CORE:EXAMPLE (&REST EXPRESSIONS)
-  (ALEXANDRIA-1:WITH-GENSYMS (OUTPUT RESULT)
-    (LIST (QUOTE LET*)
-          (LIST
-           (LIST OUTPUT
-                 (QUOTE
-                  (MAKE-ARRAY 10 :ADJUSTABLE T :FILL-POINTER 0 :ELEMENT-TYPE
-                              'CHARACTER)))
-           (LIST RESULT
-                 (LIST (QUOTE MULTIPLE-VALUE-LIST)
-                       (LIST* (QUOTE WITH-OUTPUT-TO-STRING)
-                              (LIST (QUOTE *STANDARD-OUTPUT*) OUTPUT)
-                              EXPRESSIONS))))
-          (LIST (QUOTE MAKE-INSTANCE) (QUOTE 'ADPGH-CORE:EXAMPLE)
-                (QUOTE :EXPRESSIONS) (LIST (QUOTE QUOTE) EXPRESSIONS)
-                (QUOTE :OUTPUT) OUTPUT (QUOTE :RESULT) RESULT))))
+(defmacro adpgh-core:example (&rest expressions)
+  (alexandria-1:with-gensyms (output result)
+    (list (quote let*)
+          (list
+           (list output
+                 (quote
+                  (make-array 10 :adjustable t :fill-pointer 0 :element-type
+                              'character)))
+           (list result
+                 (list (quote multiple-value-list)
+                       (list* (quote with-output-to-string)
+                              (list (quote *standard-output*) output)
+                              expressions))))
+          (list (quote make-instance) (quote 'adpgh-core:example)
+                (quote :expressions) (list (quote quote) expressions)
+                (quote :output) output (quote :result) result))))
 ```
 
 <a id="header-adp-github-headertag847"></a>
 ## Only lisp mode functions
 
 <a id="function-adp-github-defclass"></a>
-#### Macro: DEFCLASS
+#### Macro: defclass
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFCLASS (&BODY BODY)
+(defmacro adpgh:defclass (&body body)
   "Add a defclass declaration. The macro expands to cl:defclass. Also, the class name is used to create a type-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG848
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':TYPE)))
-                    (LIST
-                     (LIST 'OBJ849
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFCLASS-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE) (CONS 'DEFCLASS BODY))
-                                  (LIST (QUOTE :TAG) 'TAG848
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ849)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG848)
-                          'OBJ849)))))
-         (LIST (CONS 'DEFCLASS BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag848
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':type)))
+                    (list
+                     (list 'obj849
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:defclass-definition)
+                                  (quote :expression)
+                                  (list (quote quote) (cons 'defclass body))
+                                  (list (quote :tag) 'tag848
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj849)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag848)
+                          'obj849)))))
+         (list (cons 'defclass body)))))
 ```
 
 <a id="function-adp-github-defconstant"></a>
-#### Macro: DEFCONSTANT
+#### Macro: defconstant
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFCONSTANT (&BODY BODY)
+(defmacro adpgh:defconstant (&body body)
   "Add a defconstant declaration. The macro expands to cl:defconstant. Also, the constant name is used to create a symbol-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG852
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':VARIABLE)))
-                    (LIST
-                     (LIST 'OBJ853
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFCONSTANT-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE) (CONS 'DEFCONSTANT BODY))
-                                  (LIST (QUOTE :TAG) 'TAG852
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ853)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG852)
-                          'OBJ853)))))
-         (LIST (CONS 'DEFCONSTANT BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag852
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':variable)))
+                    (list
+                     (list 'obj853
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:defconstant-definition)
+                                  (quote :expression)
+                                  (list (quote quote) (cons 'defconstant body))
+                                  (list (quote :tag) 'tag852
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj853)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag852)
+                          'obj853)))))
+         (list (cons 'defconstant body)))))
 ```
 
 <a id="function-adp-github-defgeneric"></a>
-#### Macro: DEFGENERIC
+#### Macro: defgeneric
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFGENERIC (&BODY BODY)
+(defmacro adpgh:defgeneric (&body body)
   "Add a defgeneric declaration. The macro expands to cl:defgeneric. Also, the generic function name is used to create a function-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG856
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':FUNCTION)))
-                    (LIST
-                     (LIST 'OBJ857
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFGENERIC-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE) (CONS 'DEFGENERIC BODY))
-                                  (LIST (QUOTE :TAG) 'TAG856
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ857)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG856)
-                          'OBJ857)))))
-         (LIST (CONS 'DEFGENERIC BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag856
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':function)))
+                    (list
+                     (list 'obj857
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:defgeneric-definition)
+                                  (quote :expression)
+                                  (list (quote quote) (cons 'defgeneric body))
+                                  (list (quote :tag) 'tag856
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj857)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag856)
+                          'obj857)))))
+         (list (cons 'defgeneric body)))))
 ```
 
 <a id="function-adp-github-define-compiler-macro"></a>
-#### Macro: DEFINE\-COMPILER\-MACRO
+#### Macro: define\-compiler\-macro
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFINE-COMPILER-MACRO (&BODY BODY)
+(defmacro adpgh:define-compiler-macro (&body body)
   "Add a define-compiler-macro declaration. The macro expands to cl:define-compiler-macro."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND NIL
-                           (LIST
-                            (LIST 'OBJ861
-                                  (LIST* (QUOTE MAKE-INSTANCE)
-                                         (LIST (QUOTE QUOTE)
-                                               'ADPGH-CORE:DEFINE-COMPILER-MACRO-DEFINITION)
-                                         (QUOTE :EXPRESSION)
-                                         (LIST (QUOTE QUOTE)
-                                               (CONS 'DEFINE-COMPILER-MACRO
-                                                     BODY))
-                                         NIL))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ861) NIL)))
-         (LIST (CONS 'DEFINE-COMPILER-MACRO BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append nil
+                           (list
+                            (list 'obj861
+                                  (list* (quote make-instance)
+                                         (list (quote quote)
+                                               'adpgh-core:define-compiler-macro-definition)
+                                         (quote :expression)
+                                         (list (quote quote)
+                                               (cons 'define-compiler-macro
+                                                     body))
+                                         nil))))
+                   (list (quote adp:add-element) 'obj861) nil)))
+         (list (cons 'define-compiler-macro body)))))
 ```
 
 <a id="function-adp-github-define-condition"></a>
-#### Macro: DEFINE\-CONDITION
+#### Macro: define\-condition
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFINE-CONDITION (&BODY BODY)
+(defmacro adpgh:define-condition (&body body)
   "Add a define-condition declaration. The macro expands to cl:define-condition. Also, the condition name is used to create a type-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG864
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':TYPE)))
-                    (LIST
-                     (LIST 'OBJ865
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFINE-CONDITION-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE)
-                                        (CONS 'DEFINE-CONDITION BODY))
-                                  (LIST (QUOTE :TAG) 'TAG864
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ865)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG864)
-                          'OBJ865)))))
-         (LIST (CONS 'DEFINE-CONDITION BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag864
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':type)))
+                    (list
+                     (list 'obj865
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:define-condition-definition)
+                                  (quote :expression)
+                                  (list (quote quote)
+                                        (cons 'define-condition body))
+                                  (list (quote :tag) 'tag864
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj865)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag864)
+                          'obj865)))))
+         (list (cons 'define-condition body)))))
 ```
 
 <a id="function-adp-github-define-method-combination"></a>
-#### Macro: DEFINE\-METHOD\-COMBINATION
+#### Macro: define\-method\-combination
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFINE-METHOD-COMBINATION (&BODY BODY)
+(defmacro adpgh:define-method-combination (&body body)
   "Add a define-method-combination declaration. The macro expands to cl:define-method-combination."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND NIL
-                           (LIST
-                            (LIST 'OBJ869
-                                  (LIST* (QUOTE MAKE-INSTANCE)
-                                         (LIST (QUOTE QUOTE)
-                                               'ADPGH-CORE:DEFINE-METHOD-COMBINATION-DEFINITION)
-                                         (QUOTE :EXPRESSION)
-                                         (LIST (QUOTE QUOTE)
-                                               (CONS 'DEFINE-METHOD-COMBINATION
-                                                     BODY))
-                                         NIL))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ869) NIL)))
-         (LIST (CONS 'DEFINE-METHOD-COMBINATION BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append nil
+                           (list
+                            (list 'obj869
+                                  (list* (quote make-instance)
+                                         (list (quote quote)
+                                               'adpgh-core:define-method-combination-definition)
+                                         (quote :expression)
+                                         (list (quote quote)
+                                               (cons 'define-method-combination
+                                                     body))
+                                         nil))))
+                   (list (quote adp:add-element) 'obj869) nil)))
+         (list (cons 'define-method-combination body)))))
 ```
 
 <a id="function-adp-github-define-modify-macro"></a>
-#### Macro: DEFINE\-MODIFY\-MACRO
+#### Macro: define\-modify\-macro
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFINE-MODIFY-MACRO (&BODY BODY)
+(defmacro adpgh:define-modify-macro (&body body)
   "Add a define-modify-macro declaration. The macro expands to cl:define-modify-macro. Also, the macro name is used to create a function-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG872
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':FUNCTION)))
-                    (LIST
-                     (LIST 'OBJ873
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFINE-MODIFY-MACRO-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE)
-                                        (CONS 'DEFINE-MODIFY-MACRO BODY))
-                                  (LIST (QUOTE :TAG) 'TAG872
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ873)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG872)
-                          'OBJ873)))))
-         (LIST (CONS 'DEFINE-MODIFY-MACRO BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag872
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':function)))
+                    (list
+                     (list 'obj873
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:define-modify-macro-definition)
+                                  (quote :expression)
+                                  (list (quote quote)
+                                        (cons 'define-modify-macro body))
+                                  (list (quote :tag) 'tag872
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj873)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag872)
+                          'obj873)))))
+         (list (cons 'define-modify-macro body)))))
 ```
 
 <a id="function-adp-github-define-setf-expander"></a>
-#### Macro: DEFINE\-SETF\-EXPANDER
+#### Macro: define\-setf\-expander
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFINE-SETF-EXPANDER (&BODY BODY)
+(defmacro adpgh:define-setf-expander (&body body)
   "Add a define-setf-expander declaration. The macro expands to cl:define-setf-expander."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND NIL
-                           (LIST
-                            (LIST 'OBJ877
-                                  (LIST* (QUOTE MAKE-INSTANCE)
-                                         (LIST (QUOTE QUOTE)
-                                               'ADPGH-CORE:DEFINE-SETF-EXPANDER-DEFINITION)
-                                         (QUOTE :EXPRESSION)
-                                         (LIST (QUOTE QUOTE)
-                                               (CONS 'DEFINE-SETF-EXPANDER
-                                                     BODY))
-                                         NIL))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ877) NIL)))
-         (LIST (CONS 'DEFINE-SETF-EXPANDER BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append nil
+                           (list
+                            (list 'obj877
+                                  (list* (quote make-instance)
+                                         (list (quote quote)
+                                               'adpgh-core:define-setf-expander-definition)
+                                         (quote :expression)
+                                         (list (quote quote)
+                                               (cons 'define-setf-expander
+                                                     body))
+                                         nil))))
+                   (list (quote adp:add-element) 'obj877) nil)))
+         (list (cons 'define-setf-expander body)))))
 ```
 
 <a id="function-adp-github-define-symbol-macro"></a>
-#### Macro: DEFINE\-SYMBOL\-MACRO
+#### Macro: define\-symbol\-macro
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFINE-SYMBOL-MACRO (&BODY BODY)
+(defmacro adpgh:define-symbol-macro (&body body)
   "Add a define-symbol-macro declaration. The macro expands to cl:define-symbol-macro. Also, the symbol name is used to create a symbol-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG880
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':VARIABLE)))
-                    (LIST
-                     (LIST 'OBJ881
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFINE-SYMBOL-MACRO-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE)
-                                        (CONS 'DEFINE-SYMBOL-MACRO BODY))
-                                  (LIST (QUOTE :TAG) 'TAG880
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ881)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG880)
-                          'OBJ881)))))
-         (LIST (CONS 'DEFINE-SYMBOL-MACRO BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag880
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':variable)))
+                    (list
+                     (list 'obj881
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:define-symbol-macro-definition)
+                                  (quote :expression)
+                                  (list (quote quote)
+                                        (cons 'define-symbol-macro body))
+                                  (list (quote :tag) 'tag880
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj881)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag880)
+                          'obj881)))))
+         (list (cons 'define-symbol-macro body)))))
 ```
 
 <a id="function-adp-github-defmacro"></a>
-#### Macro: DEFMACRO
+#### Macro: defmacro
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFMACRO (&BODY BODY)
+(defmacro adpgh:defmacro (&body body)
   "Add a defmacro declaration. The macro expands to cl:defmacro. Also, the macro name is used to create a function-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG884
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':FUNCTION)))
-                    (LIST
-                     (LIST 'OBJ885
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFMACRO-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE) (CONS 'DEFMACRO BODY))
-                                  (LIST (QUOTE :TAG) 'TAG884
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ885)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG884)
-                          'OBJ885)))))
-         (LIST (CONS 'DEFMACRO BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag884
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':function)))
+                    (list
+                     (list 'obj885
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:defmacro-definition)
+                                  (quote :expression)
+                                  (list (quote quote) (cons 'defmacro body))
+                                  (list (quote :tag) 'tag884
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj885)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag884)
+                          'obj885)))))
+         (list (cons 'defmacro body)))))
 ```
 
 <a id="function-adp-github-defmethod"></a>
-#### Macro: DEFMETHOD
+#### Macro: defmethod
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFMETHOD (&BODY BODY)
+(defmacro adpgh:defmethod (&body body)
   "Add a defmethod declaration. The macro expands to cl:defmethod."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND NIL
-                           (LIST
-                            (LIST 'OBJ889
-                                  (LIST* (QUOTE MAKE-INSTANCE)
-                                         (LIST (QUOTE QUOTE)
-                                               'ADPGH-CORE:DEFMETHOD-DEFINITION)
-                                         (QUOTE :EXPRESSION)
-                                         (LIST (QUOTE QUOTE)
-                                               (CONS 'DEFMETHOD BODY))
-                                         NIL))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ889) NIL)))
-         (LIST (CONS 'DEFMETHOD BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append nil
+                           (list
+                            (list 'obj889
+                                  (list* (quote make-instance)
+                                         (list (quote quote)
+                                               'adpgh-core:defmethod-definition)
+                                         (quote :expression)
+                                         (list (quote quote)
+                                               (cons 'defmethod body))
+                                         nil))))
+                   (list (quote adp:add-element) 'obj889) nil)))
+         (list (cons 'defmethod body)))))
 ```
 
 <a id="function-adp-github-defpackage"></a>
-#### Macro: DEFPACKAGE
+#### Macro: defpackage
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFPACKAGE (&BODY BODY)
+(defmacro adpgh:defpackage (&body body)
   "Add a defpackage declaration. The macro expands to cl:defpackage."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND NIL
-                           (LIST
-                            (LIST 'OBJ893
-                                  (LIST* (QUOTE MAKE-INSTANCE)
-                                         (LIST (QUOTE QUOTE)
-                                               'ADPGH-CORE:DEFPACKAGE-DEFINITION)
-                                         (QUOTE :EXPRESSION)
-                                         (LIST (QUOTE QUOTE)
-                                               (CONS 'DEFPACKAGE BODY))
-                                         NIL))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ893) NIL)))
-         (LIST (CONS 'DEFPACKAGE BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append nil
+                           (list
+                            (list 'obj893
+                                  (list* (quote make-instance)
+                                         (list (quote quote)
+                                               'adpgh-core:defpackage-definition)
+                                         (quote :expression)
+                                         (list (quote quote)
+                                               (cons 'defpackage body))
+                                         nil))))
+                   (list (quote adp:add-element) 'obj893) nil)))
+         (list (cons 'defpackage body)))))
 ```
 
 <a id="function-adp-github-defparameter"></a>
-#### Macro: DEFPARAMETER
+#### Macro: defparameter
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFPARAMETER (&BODY BODY)
+(defmacro adpgh:defparameter (&body body)
   "Add a defparameter declaration. The macro expands to cl:defparameter. Also, the parameter name is used to create a symbol-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG896
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':VARIABLE)))
-                    (LIST
-                     (LIST 'OBJ897
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFPARAMETER-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE)
-                                        (CONS 'DEFPARAMETER BODY))
-                                  (LIST (QUOTE :TAG) 'TAG896
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ897)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG896)
-                          'OBJ897)))))
-         (LIST (CONS 'DEFPARAMETER BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag896
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':variable)))
+                    (list
+                     (list 'obj897
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:defparameter-definition)
+                                  (quote :expression)
+                                  (list (quote quote)
+                                        (cons 'defparameter body))
+                                  (list (quote :tag) 'tag896
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj897)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag896)
+                          'obj897)))))
+         (list (cons 'defparameter body)))))
 ```
 
 <a id="function-adp-github-defsetf"></a>
-#### Macro: DEFSETF
+#### Macro: defsetf
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFSETF (&BODY BODY)
+(defmacro adpgh:defsetf (&body body)
   "Add a defsetf declaration. The macro expands to cl:defsetf."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND NIL
-                           (LIST
-                            (LIST 'OBJ901
-                                  (LIST* (QUOTE MAKE-INSTANCE)
-                                         (LIST (QUOTE QUOTE)
-                                               'ADPGH-CORE:DEFSETF-DEFINITION)
-                                         (QUOTE :EXPRESSION)
-                                         (LIST (QUOTE QUOTE)
-                                               (CONS 'DEFSETF BODY))
-                                         NIL))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ901) NIL)))
-         (LIST (CONS 'DEFSETF BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append nil
+                           (list
+                            (list 'obj901
+                                  (list* (quote make-instance)
+                                         (list (quote quote)
+                                               'adpgh-core:defsetf-definition)
+                                         (quote :expression)
+                                         (list (quote quote)
+                                               (cons 'defsetf body))
+                                         nil))))
+                   (list (quote adp:add-element) 'obj901) nil)))
+         (list (cons 'defsetf body)))))
 ```
 
 <a id="function-adp-github-defstruct"></a>
-#### Macro: DEFSTRUCT
+#### Macro: defstruct
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFSTRUCT (&BODY BODY)
+(defmacro adpgh:defstruct (&body body)
   "Add a defstruct declaration. The macro expands to cl:defstruct. Also, the struct name is used to create a type-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG904
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':TYPE)))
-                    (LIST
-                     (LIST 'OBJ905
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFSTRUCT-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE) (CONS 'DEFSTRUCT BODY))
-                                  (LIST (QUOTE :TAG) 'TAG904
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ905)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG904)
-                          'OBJ905)))))
-         (LIST (CONS 'DEFSTRUCT BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag904
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':type)))
+                    (list
+                     (list 'obj905
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:defstruct-definition)
+                                  (quote :expression)
+                                  (list (quote quote) (cons 'defstruct body))
+                                  (list (quote :tag) 'tag904
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj905)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag904)
+                          'obj905)))))
+         (list (cons 'defstruct body)))))
 ```
 
 <a id="function-adp-github-deftype"></a>
-#### Macro: DEFTYPE
+#### Macro: deftype
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFTYPE (&BODY BODY)
+(defmacro adpgh:deftype (&body body)
   "Add a deftype declaration. The macro expands to cl:deftype. Also, the type name is used to create a type-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG908
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':TYPE)))
-                    (LIST
-                     (LIST 'OBJ909
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFTYPE-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE) (CONS 'DEFTYPE BODY))
-                                  (LIST (QUOTE :TAG) 'TAG908
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ909)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG908)
-                          'OBJ909)))))
-         (LIST (CONS 'DEFTYPE BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag908
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':type)))
+                    (list
+                     (list 'obj909
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:deftype-definition)
+                                  (quote :expression)
+                                  (list (quote quote) (cons 'deftype body))
+                                  (list (quote :tag) 'tag908
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj909)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag908)
+                          'obj909)))))
+         (list (cons 'deftype body)))))
 ```
 
 <a id="function-adp-github-defun"></a>
-#### Macro: DEFUN
+#### Macro: defun
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFUN (&BODY BODY)
+(defmacro adpgh:defun (&body body)
   "Add a defun declaration. The macro expands to cl:defun. Also, the function name is used to create a function-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG912
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE)
-                                       (IF (SYMBOLP (CAR BODY))
-                                           (CAR BODY)
-                                           NIL))
-                                 ':FUNCTION)))
-                    (LIST
-                     (LIST 'OBJ913
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFUN-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE) (CONS 'DEFUN BODY))
-                                  (LIST (QUOTE :TAG) 'TAG912
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ913)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG912)
-                          'OBJ913)))))
-         (LIST (CONS 'DEFUN BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag912
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote)
+                                       (if (symbolp (car body))
+                                           (car body)
+                                           nil))
+                                 ':function)))
+                    (list
+                     (list 'obj913
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:defun-definition)
+                                  (quote :expression)
+                                  (list (quote quote) (cons 'defun body))
+                                  (list (quote :tag) 'tag912
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj913)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag912)
+                          'obj913)))))
+         (list (cons 'defun body)))))
 ```
 
 <a id="function-adp-github-defvar"></a>
-#### Macro: DEFVAR
+#### Macro: defvar
 
 ```common-lisp
-(DEFMACRO ADPGH:DEFVAR (&BODY BODY)
+(defmacro adpgh:defvar (&body body)
   "Add a defvar declaration. The macro expands to cl:defvar. Also, the variable name is used to create a symbol-tag."
-  (CONS (QUOTE PROGN)
-        (APPEND
-         (WHEN ADP:*ADP*
-           (LIST
-            (LIST* (QUOTE LET*)
-                   (APPEND
-                    (LIST
-                     (LIST 'TAG916
-                           (LIST (QUOTE ADPGH-CORE:MAKE-TAG)
-                                 (LIST (QUOTE QUOTE) (CAR BODY)) ':VARIABLE)))
-                    (LIST
-                     (LIST 'OBJ917
-                           (LIST* (QUOTE MAKE-INSTANCE)
-                                  (LIST (QUOTE QUOTE)
-                                        'ADPGH-CORE:DEFVAR-DEFINITION)
-                                  (QUOTE :EXPRESSION)
-                                  (LIST (QUOTE QUOTE) (CONS 'DEFVAR BODY))
-                                  (LIST (QUOTE :TAG) 'TAG916
-                                        (QUOTE :TARGET-LOCATION)
-                                        (QUOTE
-                                         (ADPGH-CORE:FILE-TARGET-RELATIVE-PATHNAME
-                                          ADPGH-CORE:*PROCESS-FILE*)))))))
-                   (LIST (QUOTE ADP:ADD-ELEMENT) 'OBJ917)
-                   (LIST
-                    (LIST (QUOTE SETF)
-                          (LIST (QUOTE ADPGH-CORE:GET-TAG-VALUE) 'TAG916)
-                          'OBJ917)))))
-         (LIST (CONS 'DEFVAR BODY)))))
+  (cons (quote progn)
+        (append
+         (when adp:*adp*
+           (list
+            (list* (quote let*)
+                   (append
+                    (list
+                     (list 'tag916
+                           (list (quote adpgh-core:make-tag)
+                                 (list (quote quote) (car body)) ':variable)))
+                    (list
+                     (list 'obj917
+                           (list* (quote make-instance)
+                                  (list (quote quote)
+                                        'adpgh-core:defvar-definition)
+                                  (quote :expression)
+                                  (list (quote quote) (cons 'defvar body))
+                                  (list (quote :tag) 'tag916
+                                        (quote :target-location)
+                                        (quote
+                                         (adpgh-core:file-target-relative-pathname
+                                          adpgh-core:*process-file*)))))))
+                   (list (quote adp:add-element) 'obj917)
+                   (list
+                    (list (quote setf)
+                          (list (quote adpgh-core:get-tag-value) 'tag916)
+                          'obj917)))))
+         (list (cons 'defvar body)))))
 ```
 

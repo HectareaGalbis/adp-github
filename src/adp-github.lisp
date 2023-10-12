@@ -66,7 +66,8 @@
 
 
 (defmethod adp:export-content ((op adp-github-op) files system)
-  (let ((*files* files))
+  (let ((*files* files)
+        (*print-case* :downcase))
     (loop for file across files
           do (let* ((*export-file* file)
                     (content (with-output-to-string (stream)
@@ -80,18 +81,3 @@
                  (princ content file-str))
                (warn "Completed"))))
   (setf *tags* nil))
-
-;; (maphash (lambda (file-path file)
-;;                (declare (ignore file-path))
-;;                (let* ((*export-file* file)
-;;                       (content (with-output-to-string (stream)
-;;                                  (loop for element across (adp:file-elements file)
-;;                                        do (export-element element stream))))
-;;                       (target-path (file-target-absolute-pathname (adp:file-component file))))
-;;                  (warn "Exporting ~a" (asdf:system-relative-pathname system target-path))
-;;                  (ensure-directories-exist target-path)
-;;                  (with-open-file (file-str target-path :direction :output :if-exists :supersede
-;;                                                        :if-does-not-exist :create)
-;;                    (princ content file-str))
-;;                  (warn "Completed")))
-;;              files)
