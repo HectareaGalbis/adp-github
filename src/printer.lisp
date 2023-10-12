@@ -75,7 +75,7 @@
   `(defmethod export-element ((element ,type) stream)
      (let* ((tag (header-tag element))
             (text (content-to-string (header-elements element))))
-       (format stream "<a id=~s></a>"
+       (format stream "<a id=~s></a>~%"
                (tag-to-string tag))
        (format stream "~v@{#~} ~a"
                ,level text))))
