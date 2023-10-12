@@ -5,10 +5,10 @@ Welcome to ADP\-GITHUB\!
 
 ``` ADP\-GITHUB ``` is an extension for ``` ADP ```\. It exports some functions and macros to print markdown\-styled objects like headers\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ``` adp\-github ``` package\, although you can use the nickname ``` adpgh ```\.
 
-* [](/docs/src/functions.md#header-adp-github-headertag775)
-  * [](/docs/src/functions.md#header-adp-github-headertag776)
-  * [](/docs/src/functions.md#header-adp-github-headertag847)
-* [](/README.md#header-adp-github-headertag920)
+* [Reference](/docs/src/functions.md#header-adp-github-headertag775)
+  * [Lisp and text mode functions](/docs/src/functions.md#header-adp-github-headertag776)
+  * [Only lisp mode functions](/docs/src/functions.md#header-adp-github-headertag847)
+* [Add Documentation\, Please\.\.\. with Github Flavoured Markdown](/README.md#header-adp-github-headertag920)
 
 
 * V
