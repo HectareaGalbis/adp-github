@@ -64,6 +64,13 @@
     (loop for element in elements
           do (export-element element str))))
 
+(defun verbatim-content-to-string (elements)
+  (with-output-to-string (str)
+    (loop for element in elements
+          do (if (stringp element)
+                 (princ element str)
+                 (export-element element str)))))
+
 
 ;; ------ string ------
 (defmethod export-element ((element string) stream)
@@ -340,9 +347,7 @@
 
 (defmethod export-element ((element inline-code) stream)
   (let* ((elements (text-decorator-elements element))
-         (content (with-output-to-string (str)
-                    (loop for element in elements
-                          do (export-element element str))))
+         (content (verbatim-content-to-string elements))
          (*print-pretty* nil))
     (format stream "``` ~a ```" content)))
 
