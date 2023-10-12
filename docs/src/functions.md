@@ -6,7 +6,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
 <a id="header-adp-github-headertag776"></a>
 ## Lisp and text mode functions
 
-<h4 id="function-adp-github-core-header">Macro: HEADER</h4>
+<a id="function-adp-github-core-header"></a>
+#### Macro: HEADER
 
 ```common-lisp
 (DEFMACRO ADPGH-CORE:HEADER (&REST ARGS)
@@ -35,7 +36,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
         (LIST (QUOTE VALUES) 'HEADER-OBJ780)))
 ```
 
-<h4 id="function-adp-github-core-subheader">Macro: SUBHEADER</h4>
+<a id="function-adp-github-core-subheader"></a>
+#### Macro: SUBHEADER
 
 ```common-lisp
 (DEFMACRO ADPGH-CORE:SUBHEADER (&REST ARGS)
@@ -65,7 +67,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
         (LIST (QUOTE VALUES) 'HEADER-OBJ786)))
 ```
 
-<h4 id="function-adp-github-core-subsubheader">Macro: SUBSUBHEADER</h4>
+<a id="function-adp-github-core-subsubheader"></a>
+#### Macro: SUBSUBHEADER
 
 ```common-lisp
 (DEFMACRO ADPGH-CORE:SUBSUBHEADER (&REST ARGS)
@@ -95,14 +98,16 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
         (LIST (QUOTE VALUES) 'HEADER-OBJ792)))
 ```
 
-<h4 id="function-adp-github-core-text">Function: TEXT</h4>
+<a id="function-adp-github-core-text"></a>
+#### Function: TEXT
 
 ```common-lisp
 (DEFUN ADPGH-CORE:TEXT (&REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:TEXT :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-href">Macro: HREF</h4>
+<a id="function-adp-github-href"></a>
+#### Macro: HREF
 
 ```common-lisp
 (DEFMACRO ADPGH:HREF (SYM)
@@ -111,7 +116,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
         (LIST (QUOTE ADPGH-CORE:MAKE-TAG) (LIST (QUOTE QUOTE) SYM) ':HEADER)))
 ```
 
-<h4 id="function-adp-github-fref">Macro: FREF</h4>
+<a id="function-adp-github-fref"></a>
+#### Macro: FREF
 
 ```common-lisp
 (DEFMACRO ADPGH:FREF (SYM)
@@ -120,7 +126,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
         (LIST (QUOTE ADPGH-CORE:MAKE-TAG) (LIST (QUOTE QUOTE) SYM) ':FUNCTION)))
 ```
 
-<h4 id="function-adp-github-vref">Macro: VREF</h4>
+<a id="function-adp-github-vref"></a>
+#### Macro: VREF
 
 ```common-lisp
 (DEFMACRO ADPGH:VREF (SYM)
@@ -129,7 +136,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
         (LIST (QUOTE ADPGH-CORE:MAKE-TAG) (LIST (QUOTE QUOTE) SYM) ':VARIABLE)))
 ```
 
-<h4 id="function-adp-github-tref">Macro: TREF</h4>
+<a id="function-adp-github-tref"></a>
+#### Macro: TREF
 
 ```common-lisp
 (DEFMACRO ADPGH:TREF (SYM)
@@ -138,14 +146,16 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
         (LIST (QUOTE ADPGH-CORE:MAKE-TAG) (LIST (QUOTE QUOTE) SYM) ':TYPE)))
 ```
 
-<h4 id="function-adp-github-core-cell">Function: CELL</h4>
+<a id="function-adp-github-core-cell"></a>
+#### Function: CELL
 
 ```common-lisp
 (DEFUN ADPGH-CORE:CELL (&REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:CELL :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-row">Function: ROW</h4>
+<a id="function-adp-github-core-row"></a>
+#### Function: ROW
 
 ```common-lisp
 (DEFUN ADPGH-CORE:ROW (&REST ELEMENTS)
@@ -155,7 +165,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
   (MAKE-INSTANCE 'ADPGH-CORE:ROW :CELLS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-table">Function: TABLE</h4>
+<a id="function-adp-github-core-table"></a>
+#### Function: TABLE
 
 ```common-lisp
 (DEFUN ADPGH-CORE:TABLE (&REST ELEMENTS)
@@ -170,14 +181,16 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
   (MAKE-INSTANCE 'ADPGH-CORE:TABLE :ROWS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-item">Function: ITEM</h4>
+<a id="function-adp-github-core-item"></a>
+#### Function: ITEM
 
 ```common-lisp
 (DEFUN ADPGH-CORE:ITEM (&REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:ITEM :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-itemize">Function: ITEMIZE</h4>
+<a id="function-adp-github-core-itemize"></a>
+#### Function: ITEMIZE
 
 ```common-lisp
 (DEFUN ADPGH-CORE:ITEMIZE (&REST ELEMENTS)
@@ -190,7 +203,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
   (MAKE-INSTANCE 'ADPGH-CORE:ITEMIZE :ITEMS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-enumerate">Function: ENUMERATE</h4>
+<a id="function-adp-github-core-enumerate"></a>
+#### Function: ENUMERATE
 
 ```common-lisp
 (DEFUN ADPGH-CORE:ENUMERATE (&REST ELEMENTS)
@@ -203,90 +217,103 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
   (MAKE-INSTANCE 'ADPGH-CORE:ENUMERATE :ITEMS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-table-of-contents">Function: TABLE-OF-CONTENTS</h4>
+<a id="function-adp-github-core-table-of-contents"></a>
+#### Function: TABLE\-OF\-CONTENTS
 
 ```common-lisp
 (DEFUN ADPGH-CORE:TABLE-OF-CONTENTS ()
   (MAKE-INSTANCE 'ADPGH-CORE:TABLE-OF-CONTENTS))
 ```
 
-<h4 id="function-adp-github-core-mini-table-of-contents">Function: MINI-TABLE-OF-CONTENTS</h4>
+<a id="function-adp-github-core-mini-table-of-contents"></a>
+#### Function: MINI\-TABLE\-OF\-CONTENTS
 
 ```common-lisp
 (DEFUN ADPGH-CORE:MINI-TABLE-OF-CONTENTS ()
   (MAKE-INSTANCE 'ADPGH-CORE:MINI-TABLE-OF-CONTENTS))
 ```
 
-<h4 id="function-adp-github-core-table-of-functions">Function: TABLE-OF-FUNCTIONS</h4>
+<a id="function-adp-github-core-table-of-functions"></a>
+#### Function: TABLE\-OF\-FUNCTIONS
 
 ```common-lisp
 (DEFUN ADPGH-CORE:TABLE-OF-FUNCTIONS ()
   (MAKE-INSTANCE 'ADPGH-CORE:TABLE-OF-FUNCTIONS))
 ```
 
-<h4 id="function-adp-github-core-table-of-symbols">Function: TABLE-OF-SYMBOLS</h4>
+<a id="function-adp-github-core-table-of-symbols"></a>
+#### Function: TABLE\-OF\-SYMBOLS
 
 ```common-lisp
 (DEFUN ADPGH-CORE:TABLE-OF-SYMBOLS ()
   (MAKE-INSTANCE 'ADPGH-CORE:TABLE-OF-SYMBOLS))
 ```
 
-<h4 id="function-adp-github-core-table-of-types">Function: TABLE-OF-TYPES</h4>
+<a id="function-adp-github-core-table-of-types"></a>
+#### Function: TABLE\-OF\-TYPES
 
 ```common-lisp
 (DEFUN ADPGH-CORE:TABLE-OF-TYPES () (MAKE-INSTANCE 'ADPGH-CORE:TABLE-OF-TYPES))
 ```
 
-<h4 id="function-adp-github-core-image">Function: IMAGE</h4>
+<a id="function-adp-github-core-image"></a>
+#### Function: IMAGE
 
 ```common-lisp
 (DEFUN ADPGH-CORE:IMAGE (PATH &KEY (ALT-TEXT "Image") (SCALE 1.0))
   (MAKE-INSTANCE 'ADPGH-CORE:IMAGE :PATH PATH :ALT-TEXT ALT-TEXT :SCALE SCALE))
 ```
 
-<h4 id="function-adp-github-core-bold">Function: BOLD</h4>
+<a id="function-adp-github-core-bold"></a>
+#### Function: BOLD
 
 ```common-lisp
 (DEFUN ADPGH-CORE:BOLD (&REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:BOLD :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-italic">Function: ITALIC</h4>
+<a id="function-adp-github-core-italic"></a>
+#### Function: ITALIC
 
 ```common-lisp
 (DEFUN ADPGH-CORE:ITALIC (&REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:ITALIC :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-emphasis">Function: EMPHASIS</h4>
+<a id="function-adp-github-core-emphasis"></a>
+#### Function: EMPHASIS
 
 ```common-lisp
 (DEFUN ADPGH-CORE:EMPHASIS (&REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:EMPHASIS :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-inline">Function: INLINE</h4>
+<a id="function-adp-github-inline"></a>
+#### Function: INLINE
 
 ```common-lisp
 (DEFUN ADPGH:INLINE (&REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:INLINE-CODE :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-link">Function: LINK</h4>
+<a id="function-adp-github-core-link"></a>
+#### Function: LINK
 
 ```common-lisp
 (DEFUN ADPGH-CORE:LINK (NAME ADDRESS)
   (MAKE-INSTANCE 'ADPGH-CORE:LINK :NAME NAME :ADDRESS ADDRESS))
 ```
 
-<h4 id="function-adp-github-quote">Function: QUOTE</h4>
+<a id="function-adp-github-quote"></a>
+#### Function: QUOTE
 
 ```common-lisp
 (DEFUN ADPGH:QUOTE (&REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:QUOTED :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-code-block">Macro: CODE-BLOCK</h4>
+<a id="function-adp-github-core-code-block"></a>
+#### Macro: CODE\-BLOCK
 
 ```common-lisp
 (DEFMACRO ADPGH-CORE:CODE-BLOCK (&REST EXPRESSIONS)
@@ -294,14 +321,16 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
         (QUOTE :EXPRESSIONS) (LIST (QUOTE QUOTE) EXPRESSIONS)))
 ```
 
-<h4 id="function-adp-github-core-verbatim-code-block">Function: VERBATIM-CODE-BLOCK</h4>
+<a id="function-adp-github-core-verbatim-code-block"></a>
+#### Function: VERBATIM\-CODE\-BLOCK
 
 ```common-lisp
 (DEFUN ADPGH-CORE:VERBATIM-CODE-BLOCK (LANG &REST ELEMENTS)
   (MAKE-INSTANCE 'ADPGH-CORE:VERBATIM-CODE-BLOCK :LANG LANG :ELEMENTS ELEMENTS))
 ```
 
-<h4 id="function-adp-github-core-example">Macro: EXAMPLE</h4>
+<a id="function-adp-github-core-example"></a>
+#### Macro: EXAMPLE
 
 ```common-lisp
 (DEFMACRO ADPGH-CORE:EXAMPLE (&REST EXPRESSIONS)
@@ -325,7 +354,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
 <a id="header-adp-github-headertag847"></a>
 ## Only lisp mode functions
 
-<h4 id="function-adp-github-defclass">Macro: DEFCLASS</h4>
+<a id="function-adp-github-defclass"></a>
+#### Macro: DEFCLASS
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFCLASS (&BODY BODY)
@@ -360,7 +390,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFCLASS BODY)))))
 ```
 
-<h4 id="function-adp-github-defconstant">Macro: DEFCONSTANT</h4>
+<a id="function-adp-github-defconstant"></a>
+#### Macro: DEFCONSTANT
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFCONSTANT (&BODY BODY)
@@ -395,7 +426,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFCONSTANT BODY)))))
 ```
 
-<h4 id="function-adp-github-defgeneric">Macro: DEFGENERIC</h4>
+<a id="function-adp-github-defgeneric"></a>
+#### Macro: DEFGENERIC
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFGENERIC (&BODY BODY)
@@ -430,7 +462,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFGENERIC BODY)))))
 ```
 
-<h4 id="function-adp-github-define-compiler-macro">Macro: DEFINE-COMPILER-MACRO</h4>
+<a id="function-adp-github-define-compiler-macro"></a>
+#### Macro: DEFINE\-COMPILER\-MACRO
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFINE-COMPILER-MACRO (&BODY BODY)
@@ -455,7 +488,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFINE-COMPILER-MACRO BODY)))))
 ```
 
-<h4 id="function-adp-github-define-condition">Macro: DEFINE-CONDITION</h4>
+<a id="function-adp-github-define-condition"></a>
+#### Macro: DEFINE\-CONDITION
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFINE-CONDITION (&BODY BODY)
@@ -491,7 +525,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFINE-CONDITION BODY)))))
 ```
 
-<h4 id="function-adp-github-define-method-combination">Macro: DEFINE-METHOD-COMBINATION</h4>
+<a id="function-adp-github-define-method-combination"></a>
+#### Macro: DEFINE\-METHOD\-COMBINATION
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFINE-METHOD-COMBINATION (&BODY BODY)
@@ -516,7 +551,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFINE-METHOD-COMBINATION BODY)))))
 ```
 
-<h4 id="function-adp-github-define-modify-macro">Macro: DEFINE-MODIFY-MACRO</h4>
+<a id="function-adp-github-define-modify-macro"></a>
+#### Macro: DEFINE\-MODIFY\-MACRO
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFINE-MODIFY-MACRO (&BODY BODY)
@@ -552,7 +588,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFINE-MODIFY-MACRO BODY)))))
 ```
 
-<h4 id="function-adp-github-define-setf-expander">Macro: DEFINE-SETF-EXPANDER</h4>
+<a id="function-adp-github-define-setf-expander"></a>
+#### Macro: DEFINE\-SETF\-EXPANDER
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFINE-SETF-EXPANDER (&BODY BODY)
@@ -577,7 +614,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFINE-SETF-EXPANDER BODY)))))
 ```
 
-<h4 id="function-adp-github-define-symbol-macro">Macro: DEFINE-SYMBOL-MACRO</h4>
+<a id="function-adp-github-define-symbol-macro"></a>
+#### Macro: DEFINE\-SYMBOL\-MACRO
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFINE-SYMBOL-MACRO (&BODY BODY)
@@ -613,7 +651,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFINE-SYMBOL-MACRO BODY)))))
 ```
 
-<h4 id="function-adp-github-defmacro">Macro: DEFMACRO</h4>
+<a id="function-adp-github-defmacro"></a>
+#### Macro: DEFMACRO
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFMACRO (&BODY BODY)
@@ -648,7 +687,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFMACRO BODY)))))
 ```
 
-<h4 id="function-adp-github-defmethod">Macro: DEFMETHOD</h4>
+<a id="function-adp-github-defmethod"></a>
+#### Macro: DEFMETHOD
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFMETHOD (&BODY BODY)
@@ -672,7 +712,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFMETHOD BODY)))))
 ```
 
-<h4 id="function-adp-github-defpackage">Macro: DEFPACKAGE</h4>
+<a id="function-adp-github-defpackage"></a>
+#### Macro: DEFPACKAGE
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFPACKAGE (&BODY BODY)
@@ -696,7 +737,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFPACKAGE BODY)))))
 ```
 
-<h4 id="function-adp-github-defparameter">Macro: DEFPARAMETER</h4>
+<a id="function-adp-github-defparameter"></a>
+#### Macro: DEFPARAMETER
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFPARAMETER (&BODY BODY)
@@ -732,7 +774,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFPARAMETER BODY)))))
 ```
 
-<h4 id="function-adp-github-defsetf">Macro: DEFSETF</h4>
+<a id="function-adp-github-defsetf"></a>
+#### Macro: DEFSETF
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFSETF (&BODY BODY)
@@ -756,7 +799,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFSETF BODY)))))
 ```
 
-<h4 id="function-adp-github-defstruct">Macro: DEFSTRUCT</h4>
+<a id="function-adp-github-defstruct"></a>
+#### Macro: DEFSTRUCT
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFSTRUCT (&BODY BODY)
@@ -791,7 +835,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFSTRUCT BODY)))))
 ```
 
-<h4 id="function-adp-github-deftype">Macro: DEFTYPE</h4>
+<a id="function-adp-github-deftype"></a>
+#### Macro: DEFTYPE
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFTYPE (&BODY BODY)
@@ -826,7 +871,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFTYPE BODY)))))
 ```
 
-<h4 id="function-adp-github-defun">Macro: DEFUN</h4>
+<a id="function-adp-github-defun"></a>
+#### Macro: DEFUN
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFUN (&BODY BODY)
@@ -865,7 +911,8 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
          (LIST (CONS 'DEFUN BODY)))))
 ```
 
-<h4 id="function-adp-github-defvar">Macro: DEFVAR</h4>
+<a id="function-adp-github-defvar"></a>
+#### Macro: DEFVAR
 
 ```common-lisp
 (DEFMACRO ADPGH:DEFVAR (&BODY BODY)

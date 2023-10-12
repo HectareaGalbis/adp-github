@@ -391,11 +391,10 @@
        (let ((,expression (definition-expression ,element))
              (,tag (and (typep ,element 'tagged-definition)
                         (definition-tag ,element))))
-         (format ,stream "<h4~a>~a: ~a</h4>~%~%"
-	         (if ,tag
-                     (format nil " id=~s" (tag-to-string ,tag))
-                     "")
-                 ,header-name (escape-html-characters (princ-to-string (cadr ,expression))))
+         (format ,stream "<a id=~s></a>~%"
+                 (tag-to-string ,tag))
+         (format ,stream "#### ~a: ~a~%~%"
+                 ,header-name (escape-characters (princ-to-string (cadr ,expression))))
          (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
            (format ,stream "```common-lisp~%")
            (prin1 ,expression ,stream)
