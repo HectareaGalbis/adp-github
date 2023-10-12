@@ -28,6 +28,18 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
              (remove-keyword-parameters (cddr params))
              (cons (car params) (remove-keyword-parameters (cdr params)))))))
 
+;; (cl:defmacro with-key-params ((key-params rest-args args) &body body)
+;;   (once-only (args)
+;;     (let* ((keyword-args (mapcar (lambda (key-arg)
+;;                                    (intern (symbol-name key-arg) "KEYWORD"))
+;;                                  key-args))
+;;            (let-args (mapcar (lambda (key-arg keyword-arg)
+;;                                `(,key-arg (get-keyword-parameter ,keyword-arg ,args)))
+;;                              key-args keyword-args)))
+;;       `(let (,@let-args
+;;              (,rest-args (remove-keyword-parameters ,args)))
+;;          ,@body))))
+
 
 ;; ------ header ------
 (cl:defmacro define-header-function (name type)
@@ -37,10 +49,10 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
                (,',fixed-tag-sym (or ,',tag (make-unique-tag)))
                (,',tag-obj (make-tag ,',fixed-tag-sym :header))
                (,',header-obj (make-instance ',',type
-                                           :elements (remove-keyword-parameters ',args)
-                                           :user-tag-p (and ,',tag t)
-                                           :tag ,',tag-obj
-                                           :target-location (file-target-relative-pathname *process-file*))))
+                                             :elements (remove-keyword-parameters ',args)
+                                             :user-tag-p (and ,',tag t)
+                                             :tag ,',tag-obj
+                                             :target-location (file-target-relative-pathname *process-file*))))
           (setf (get-tag-value ,',tag-obj) ,',header-obj)
           (values ,',header-obj)))))
 

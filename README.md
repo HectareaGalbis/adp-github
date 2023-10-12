@@ -1,73 +1,73 @@
-# Add Documentation\, Please\.\.\. with Github Flavoured Markdown
+<a id="header-adp-github-headertag920"></a># Add Documentation\, Please\.\.\. with Github Flavoured Markdown
 
 Welcome to ADP\-GITHUB\!
 
 ``` ADP\-GITHUB ``` is an extension for ``` ADP ```\. It exports some functions and macros to print markdown\-styled objects like headers\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ``` adp\-github ``` package\, although you can use the nickname ``` adpgh ```\.
 
-* <a href="/docs/src/functions.md#reference">Reference</a>
-  * <a href="/docs/src/functions.md#lisp-and-text-mode-functions">Lisp and text mode functions</a>
-  * <a href="/docs/src/functions.md#only-lisp-mode-functions">Only lisp mode functions</a>
-* <a href="/README.md#add-documentation-please-with-github-flavoured-markdown">Add Documentation\, Please\.\.\. with Github Flavoured Markdown</a>
+* [Reference](/docs/src/functions.md#header-adp-github-headertag775)
+  * [Lisp and text mode functions](/docs/src/functions.md#header-adp-github-headertag776)
+  * [Only lisp mode functions](/docs/src/functions.md#header-adp-github-headertag847)
+* [Add Documentation\\\, Please\\\.\\\.\\\. with Github Flavoured Markdown](/README.md#header-adp-github-headertag920)
 
 
 * V
-  * <a href="/docs/src/functions.md#function-adp-github-vref">ADP-GITHUB:VREF</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-verbatim-code-block">ADP-GITHUB-CORE:VERBATIM-CODE-BLOCK</a>
+  * [ADP\-GITHUB\:VREF](/docs/src/functions.md#function-adp-github-vref)
+  * [ADP\-GITHUB\-CORE\:VERBATIM\-CODE\-BLOCK](/docs/src/functions.md#function-adp-github-core-verbatim-code-block)
 * T
-  * <a href="/docs/src/functions.md#function-adp-github-tref">ADP-GITHUB:TREF</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-text">ADP-GITHUB-CORE:TEXT</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-table-of-types">ADP-GITHUB-CORE:TABLE-OF-TYPES</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-table-of-symbols">ADP-GITHUB-CORE:TABLE-OF-SYMBOLS</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-table-of-functions">ADP-GITHUB-CORE:TABLE-OF-FUNCTIONS</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-table-of-contents">ADP-GITHUB-CORE:TABLE-OF-CONTENTS</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-table">ADP-GITHUB-CORE:TABLE</a>
+  * [ADP\-GITHUB\:TREF](/docs/src/functions.md#function-adp-github-tref)
+  * [ADP\-GITHUB\-CORE\:TEXT](/docs/src/functions.md#function-adp-github-core-text)
+  * [ADP\-GITHUB\-CORE\:TABLE\-OF\-TYPES](/docs/src/functions.md#function-adp-github-core-table-of-types)
+  * [ADP\-GITHUB\-CORE\:TABLE\-OF\-SYMBOLS](/docs/src/functions.md#function-adp-github-core-table-of-symbols)
+  * [ADP\-GITHUB\-CORE\:TABLE\-OF\-FUNCTIONS](/docs/src/functions.md#function-adp-github-core-table-of-functions)
+  * [ADP\-GITHUB\-CORE\:TABLE\-OF\-CONTENTS](/docs/src/functions.md#function-adp-github-core-table-of-contents)
+  * [ADP\-GITHUB\-CORE\:TABLE](/docs/src/functions.md#function-adp-github-core-table)
 * S
-  * <a href="/docs/src/functions.md#function-adp-github-core-subsubheader">ADP-GITHUB-CORE:SUBSUBHEADER</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-subheader">ADP-GITHUB-CORE:SUBHEADER</a>
+  * [ADP\-GITHUB\-CORE\:SUBSUBHEADER](/docs/src/functions.md#function-adp-github-core-subsubheader)
+  * [ADP\-GITHUB\-CORE\:SUBHEADER](/docs/src/functions.md#function-adp-github-core-subheader)
 * R
-  * <a href="/docs/src/functions.md#function-adp-github-core-row">ADP-GITHUB-CORE:ROW</a>
+  * [ADP\-GITHUB\-CORE\:ROW](/docs/src/functions.md#function-adp-github-core-row)
 * Q
-  * <a href="/docs/src/functions.md#function-adp-github-quote">ADP-GITHUB:QUOTE</a>
+  * [ADP\-GITHUB\:QUOTE](/docs/src/functions.md#function-adp-github-quote)
 * M
-  * <a href="/docs/src/functions.md#function-adp-github-core-mini-table-of-contents">ADP-GITHUB-CORE:MINI-TABLE-OF-CONTENTS</a>
+  * [ADP\-GITHUB\-CORE\:MINI\-TABLE\-OF\-CONTENTS](/docs/src/functions.md#function-adp-github-core-mini-table-of-contents)
 * L
-  * <a href="/docs/src/functions.md#function-adp-github-core-link">ADP-GITHUB-CORE:LINK</a>
+  * [ADP\-GITHUB\-CORE\:LINK](/docs/src/functions.md#function-adp-github-core-link)
 * I
-  * <a href="/docs/src/functions.md#function-adp-github-core-itemize">ADP-GITHUB-CORE:ITEMIZE</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-item">ADP-GITHUB-CORE:ITEM</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-italic">ADP-GITHUB-CORE:ITALIC</a>
-  * <a href="/docs/src/functions.md#function-adp-github-inline">ADP-GITHUB:INLINE</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-image">ADP-GITHUB-CORE:IMAGE</a>
+  * [ADP\-GITHUB\-CORE\:ITEMIZE](/docs/src/functions.md#function-adp-github-core-itemize)
+  * [ADP\-GITHUB\-CORE\:ITEM](/docs/src/functions.md#function-adp-github-core-item)
+  * [ADP\-GITHUB\-CORE\:ITALIC](/docs/src/functions.md#function-adp-github-core-italic)
+  * [ADP\-GITHUB\:INLINE](/docs/src/functions.md#function-adp-github-inline)
+  * [ADP\-GITHUB\-CORE\:IMAGE](/docs/src/functions.md#function-adp-github-core-image)
 * H
-  * <a href="/docs/src/functions.md#function-adp-github-href">ADP-GITHUB:HREF</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-header">ADP-GITHUB-CORE:HEADER</a>
+  * [ADP\-GITHUB\:HREF](/docs/src/functions.md#function-adp-github-href)
+  * [ADP\-GITHUB\-CORE\:HEADER](/docs/src/functions.md#function-adp-github-core-header)
 * F
-  * <a href="/docs/src/functions.md#function-adp-github-fref">ADP-GITHUB:FREF</a>
+  * [ADP\-GITHUB\:FREF](/docs/src/functions.md#function-adp-github-fref)
 * E
-  * <a href="/docs/src/functions.md#function-adp-github-core-example">ADP-GITHUB-CORE:EXAMPLE</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-enumerate">ADP-GITHUB-CORE:ENUMERATE</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-emphasis">ADP-GITHUB-CORE:EMPHASIS</a>
+  * [ADP\-GITHUB\-CORE\:EXAMPLE](/docs/src/functions.md#function-adp-github-core-example)
+  * [ADP\-GITHUB\-CORE\:ENUMERATE](/docs/src/functions.md#function-adp-github-core-enumerate)
+  * [ADP\-GITHUB\-CORE\:EMPHASIS](/docs/src/functions.md#function-adp-github-core-emphasis)
 * D
-  * <a href="/docs/src/functions.md#function-adp-github-defvar">ADP-GITHUB:DEFVAR</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defun">ADP-GITHUB:DEFUN</a>
-  * <a href="/docs/src/functions.md#function-adp-github-deftype">ADP-GITHUB:DEFTYPE</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defstruct">ADP-GITHUB:DEFSTRUCT</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defsetf">ADP-GITHUB:DEFSETF</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defparameter">ADP-GITHUB:DEFPARAMETER</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defpackage">ADP-GITHUB:DEFPACKAGE</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defmethod">ADP-GITHUB:DEFMETHOD</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defmacro">ADP-GITHUB:DEFMACRO</a>
-  * <a href="/docs/src/functions.md#function-adp-github-define-symbol-macro">ADP-GITHUB:DEFINE-SYMBOL-MACRO</a>
-  * <a href="/docs/src/functions.md#function-adp-github-define-setf-expander">ADP-GITHUB:DEFINE-SETF-EXPANDER</a>
-  * <a href="/docs/src/functions.md#function-adp-github-define-modify-macro">ADP-GITHUB:DEFINE-MODIFY-MACRO</a>
-  * <a href="/docs/src/functions.md#function-adp-github-define-method-combination">ADP-GITHUB:DEFINE-METHOD-COMBINATION</a>
-  * <a href="/docs/src/functions.md#function-adp-github-define-condition">ADP-GITHUB:DEFINE-CONDITION</a>
-  * <a href="/docs/src/functions.md#function-adp-github-define-compiler-macro">ADP-GITHUB:DEFINE-COMPILER-MACRO</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defgeneric">ADP-GITHUB:DEFGENERIC</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defconstant">ADP-GITHUB:DEFCONSTANT</a>
-  * <a href="/docs/src/functions.md#function-adp-github-defclass">ADP-GITHUB:DEFCLASS</a>
+  * [ADP\-GITHUB\:DEFVAR](/docs/src/functions.md#function-adp-github-defvar)
+  * [ADP\-GITHUB\:DEFUN](/docs/src/functions.md#function-adp-github-defun)
+  * [ADP\-GITHUB\:DEFTYPE](/docs/src/functions.md#function-adp-github-deftype)
+  * [ADP\-GITHUB\:DEFSTRUCT](/docs/src/functions.md#function-adp-github-defstruct)
+  * [ADP\-GITHUB\:DEFSETF](/docs/src/functions.md#function-adp-github-defsetf)
+  * [ADP\-GITHUB\:DEFPARAMETER](/docs/src/functions.md#function-adp-github-defparameter)
+  * [ADP\-GITHUB\:DEFPACKAGE](/docs/src/functions.md#function-adp-github-defpackage)
+  * [ADP\-GITHUB\:DEFMETHOD](/docs/src/functions.md#function-adp-github-defmethod)
+  * [ADP\-GITHUB\:DEFMACRO](/docs/src/functions.md#function-adp-github-defmacro)
+  * [ADP\-GITHUB\:DEFINE\-SYMBOL\-MACRO](/docs/src/functions.md#function-adp-github-define-symbol-macro)
+  * [ADP\-GITHUB\:DEFINE\-SETF\-EXPANDER](/docs/src/functions.md#function-adp-github-define-setf-expander)
+  * [ADP\-GITHUB\:DEFINE\-MODIFY\-MACRO](/docs/src/functions.md#function-adp-github-define-modify-macro)
+  * [ADP\-GITHUB\:DEFINE\-METHOD\-COMBINATION](/docs/src/functions.md#function-adp-github-define-method-combination)
+  * [ADP\-GITHUB\:DEFINE\-CONDITION](/docs/src/functions.md#function-adp-github-define-condition)
+  * [ADP\-GITHUB\:DEFINE\-COMPILER\-MACRO](/docs/src/functions.md#function-adp-github-define-compiler-macro)
+  * [ADP\-GITHUB\:DEFGENERIC](/docs/src/functions.md#function-adp-github-defgeneric)
+  * [ADP\-GITHUB\:DEFCONSTANT](/docs/src/functions.md#function-adp-github-defconstant)
+  * [ADP\-GITHUB\:DEFCLASS](/docs/src/functions.md#function-adp-github-defclass)
 * C
-  * <a href="/docs/src/functions.md#function-adp-github-core-code-block">ADP-GITHUB-CORE:CODE-BLOCK</a>
-  * <a href="/docs/src/functions.md#function-adp-github-core-cell">ADP-GITHUB-CORE:CELL</a>
+  * [ADP\-GITHUB\-CORE\:CODE\-BLOCK](/docs/src/functions.md#function-adp-github-core-code-block)
+  * [ADP\-GITHUB\-CORE\:CELL](/docs/src/functions.md#function-adp-github-core-cell)
 * B
-  * <a href="/docs/src/functions.md#function-adp-github-core-bold">ADP-GITHUB-CORE:BOLD</a>
+  * [ADP\-GITHUB\-CORE\:BOLD](/docs/src/functions.md#function-adp-github-core-bold)

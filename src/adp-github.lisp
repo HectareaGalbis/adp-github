@@ -8,6 +8,7 @@
 (defvar *process-file* nil)
 (defvar *files* nil)
 (defvar *export-file* nil)
+(defvar *unique-ids* nil)
 
 (defmethod adp:pre-process-system ((o adp-github-op) s)
   (setf *tags* (make-tags-container)))
@@ -18,8 +19,6 @@
 (defmethod adp:post-process-file ((o adp-github-op) f)
   (setf *process-file* nil))
 
-;; (defmethod adp:scribble-package ((o adp-github-op) f)
-;;   (find-package "ADPGH"))
 
 (defun get-tag-value (tag)
   (tags-tag-value *tags* tag))
@@ -30,6 +29,9 @@
 (defun get-tag-symbols (type)
   (get-tag-symbols-impl *tags* type))
 
+
+;; (defun get-unique-id (text)
+;;   (unique-ids-tittle-to-id *unique-ids* text))
 
 (defun src-to-target-pathname (path)
   (if (and (string= (pathname-name path) "README")
@@ -65,18 +67,31 @@
 
 (defmethod adp:export-content ((op adp-github-op) files system)
   (let ((*files* files))
-    (maphash (lambda (file-path file)
-               (declare (ignore file-path))
-               (let* ((*export-file* file)
-                      (content (with-output-to-string (stream)
-                                 (loop for element across (adp:file-elements file)
-                                       do (export-element element stream))))
-                      (target-path (file-target-absolute-pathname (adp:file-component file))))
-                 (warn "Exporting ~a" (asdf:system-relative-pathname system target-path))
-                 (ensure-directories-exist target-path)
-                 (with-open-file (file-str target-path :direction :output :if-exists :supersede
-                                                       :if-does-not-exist :create)
-                   (princ content file-str))
-                 (warn "Completed")))
-             files)
-    (setf *tags* nil)))
+    (loop for file across files
+          do (let* ((*export-file* file)
+                    (content (with-output-to-string (stream)
+                               (loop for element across (adp:file-elements file)
+                                     do (export-element element stream))))
+                    (target-path (file-target-absolute-pathname (adp:file-component file))))
+               (warn "Exporting ~a" (asdf:system-relative-pathname system target-path))
+               (ensure-directories-exist target-path)
+               (with-open-file (file-str target-path :direction :output :if-exists :supersede
+                                                     :if-does-not-exist :create)
+                 (princ content file-str))
+               (warn "Completed"))))
+  (setf *tags* nil))
+
+;; (maphash (lambda (file-path file)
+;;                (declare (ignore file-path))
+;;                (let* ((*export-file* file)
+;;                       (content (with-output-to-string (stream)
+;;                                  (loop for element across (adp:file-elements file)
+;;                                        do (export-element element stream))))
+;;                       (target-path (file-target-absolute-pathname (adp:file-component file))))
+;;                  (warn "Exporting ~a" (asdf:system-relative-pathname system target-path))
+;;                  (ensure-directories-exist target-path)
+;;                  (with-open-file (file-str target-path :direction :output :if-exists :supersede
+;;                                                        :if-does-not-exist :create)
+;;                    (princ content file-str))
+;;                  (warn "Completed")))
+;;              files)

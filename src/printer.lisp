@@ -75,15 +75,14 @@
   `(defmethod export-element ((element ,type) stream)
      (let* ((tag (header-tag element))
             (text (content-to-string (header-elements element))))
+       (format stream "<a id=~s></a>"
+               (tag-to-string tag))
        (format stream "~v@{#~} ~a"
-               ,level text)
-       ;; (format stream "<~a id=~s>~a</~a>"
-       ;;         ,html-token (tag-to-string tag) (escape-html-characters text) ,html-token)
-       )))
+               ,level text))))
 
 (define-header-process-method header 1)
 (define-header-process-method subheader 2)
-(define-header-process-method subheader 3)
+(define-header-process-method subsubheader 3)
 
 
 ;; ------ text ------
@@ -100,12 +99,8 @@
          (target-location (header-target-location header-obj))
          (header-text (or (header-ref-text-elements element)
                           (content-to-string (header-elements header-obj)))))
-    (format stream "<a href=\"/~a#~a\">~a</a>"
-            target-location (convert-to-github-header-anchor header-text) (escape-html-characters header-text))
-    
-    ;; (format stream "<a href=\"/~a#~a\">~a</a>"
-    ;;         target-location (tag-to-string tag) (escape-html-characters header-text))
-    ))
+    (format stream "[~a](/~a#~a)"
+            (escape-characters header-text) target-location (tag-to-string tag))))
 
 (defmethod export-element ((element symbol-reference) stream)
   (let* ((tag (text-reference-tag element))
@@ -114,8 +109,8 @@
       (error "Error: The tag ~s of type ~s does not exist."
              (tag-symbol tag) (tag-type tag)))
     (let ((target-location (definition-target-location ref-obj)))
-      (format stream "<a href=\"/~a#~a\">~a</a>"
-              target-location (tag-to-string tag) (escape-html-characters (prin1-to-string (tag-symbol tag)))))))
+      (format stream "[~a](/~a#~a)"
+              (escape-characters (prin1-to-string (tag-symbol tag))) target-location (tag-to-string tag)))))
 
 
 ;; ------ table ------
@@ -186,7 +181,7 @@
 (defun project-headers (files)
   "Return the header-type elements of a project."
   (let ((headers (make-array 10 :adjustable t :fill-pointer 0)))
-    (loop for file being the hash-value of files
+    (loop for file across files
 	  do (let ((file-headers (file-headers file)))
 	       (loop for file-header across file-headers
 		     if (typep file-header '(or header subheader))
@@ -248,7 +243,7 @@
 (defmethod export-element ((element table-of-contents) stream)
   (with-slots (project) element
     (let ((headers (project-headers *files*)))
-      (export-element (print (make-itemize-toc headers)) stream))))
+      (export-element (make-itemize-toc headers) stream))))
 
 (defmethod export-element ((element mini-table-of-contents) stream)
   (with-slots (file) element
