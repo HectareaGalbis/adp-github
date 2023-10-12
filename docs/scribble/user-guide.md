@@ -8,12 +8,12 @@ I will try to do my best explaining how to use ADP\. If this is not sufficient\,
 
 * [User Guide](/docs/scribble/user-guide.md#header-adp-github-user-guide)
   * [Headers](/docs/scribble/user-guide.md#header-adp-github-headertag909)
-* [This is a header](/docs/scribble/user-guide.md#header-adp-github-headertag913)
-  * [This is a subheader](/docs/scribble/user-guide.md#header-adp-github-headertag914)
-    * [This is a subsubheader](/docs/scribble/user-guide.md#header-adp-github-headertag915)
-  * [Tables](/docs/scribble/user-guide.md#header-adp-github-headertag916)
-  * [Lists](/docs/scribble/user-guide.md#header-adp-github-headertag917)
-  * [Text style](/docs/scribble/user-guide.md#header-adp-github-headertag918)
+* [This is a header](/docs/scribble/user-guide.md#header-adp-github-headertag910)
+  * [This is a subheader](/docs/scribble/user-guide.md#header-adp-github-headertag911)
+    * [This is a subsubheader](/docs/scribble/user-guide.md#header-adp-github-headertag912)
+  * [Tables](/docs/scribble/user-guide.md#header-adp-github-headertag913)
+  * [Lists](/docs/scribble/user-guide.md#header-adp-github-headertag914)
+  * [Text style](/docs/scribble/user-guide.md#header-adp-github-headertag915)
 
 
 <a id="header-adp-github-headertag909"></a>
@@ -22,21 +22,21 @@ I will try to do my best explaining how to use ADP\. If this is not sufficient\,
 You can add headers in your documentation\. In other words\, they work as titles or subtitles\. You can this way organize your guide with different sections \(like I do in this guide\)\. The macros that add headers are [adp\-github\-core\:header](/docs/src/functions.md#function-adp-github-core-header)\, [adp\-github\-core\:subheader](/docs/src/functions.md#function-adp-github-core-subheader) and [adp\-github\-core\:subsubheader](/docs/src/functions.md#function-adp-github-core-subsubheader)\. They need a string as the first argument\. For example\, if I write this\:
 
 `````common-lisp
-#<header {10033E5DF3}>
-#<subheader {100342A933}>
-#<subsubheader {1003555013}>
+@header{This is a header}
+@subheader{This is a subheader}
+@subsubheader{This is a subsubheader}
 `````
 
 You will see this\:
 
-<a id="header-adp-github-headertag913"></a>
+<a id="header-adp-github-headertag910"></a>
 # This is a header
-<a id="header-adp-github-headertag914"></a>
+<a id="header-adp-github-headertag911"></a>
 ## This is a subheader
-<a id="header-adp-github-headertag915"></a>
+<a id="header-adp-github-headertag912"></a>
 ### This is a subsubheader
 
-<a id="header-adp-github-headertag916"></a>
+<a id="header-adp-github-headertag913"></a>
 ## Tables
 
 You can add tables using the macros [adp\-github\-core\:table](/docs/src/functions.md#function-adp-github-core-table)\, [adp\-github\-core\:row](/docs/src/functions.md#function-adp-github-core-row) and [adp\-github\-core\:cell](/docs/src/functions.md#function-adp-github-core-cell)\. The best way to see how to use it is an example\. Imagine we have some info in our lisp files\:
@@ -61,8 +61,14 @@ Now we can create a table like this\:
 @table[
   @row[
     @cell{Age} @cell{Name} @cell{Salary}
+  ]
+  @row[
     @cell[(get-age peter-info)] @cell[(get-name peter-info)] @cell[(get-salary peter-info)]{€}
+  ]
+  @row[
     @cell[(get-age maria-info)] @cell[(get-name maria-info)] @cell[(get-salary maria-info)]{€}
+  ]
+  @row[
     @cell[(get-age laura-info)] @cell[(get-name laura-info)] @cell[(get-salary laura-info)]{€}
   ]
 ]
@@ -75,19 +81,25 @@ And you will see this\:
 <td>Age</td>
 <td>Name</td>
 <td>Salary</td>
+</tr>
+<tr>
 <td>34</td>
 <td>Peter Garcia</td>
 <td>1435€</td>
+</tr>
+<tr>
 <td>27</td>
 <td>Maria Martinez</td>
 <td>1765€</td>
+</tr>
+<tr>
 <td>53</td>
 <td>Laura Beneyto</td>
 <td>1543€</td>
 </tr>
 </table>
 
-<a id="header-adp-github-headertag917"></a>
+<a id="header-adp-github-headertag914"></a>
 ## Lists
 
 You can add lists with [adp\-github\-core\:itemize](/docs/src/functions.md#function-adp-github-core-itemize) or [adp\-github\-core\:enumerate](/docs/src/functions.md#function-adp-github-core-enumerate)\. For example\:
@@ -123,7 +135,7 @@ You will see this\:
   2. 6 oranges
 
 
-<a id="header-adp-github-headertag918"></a>
+<a id="header-adp-github-headertag915"></a>
 ## Text style
 
 We can enrich the text with the macros [adp\-github\-core\:bold](/docs/src/functions.md#function-adp-github-core-bold)\, [adp\-github\-core\:italic](/docs/src/functions.md#function-adp-github-core-italic)\, [adp\-github\-core\:emphasis](/docs/src/functions.md#function-adp-github-core-emphasis) and [adp\-github\-core\:link](/docs/src/functions.md#function-adp-github-core-link)\. For example\:

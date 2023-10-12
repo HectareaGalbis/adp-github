@@ -14,11 +14,11 @@ I will try to do my best explaining how to use ADP. If this is not sufficient, n
 
 You can add headers in your documentation. In other words, they work as titles or subtitles. You can this way organize your guide with different sections (like I do in this guide). The macros that add headers are @fref[header], @fref[subheader] and @fref[subsubheader]. They need a string as the first argument. For example, if I write this:
 
-@verbatim-code-block[:lang "common-lisp"]{
+@verbatim-code-block[:lang "common-lisp"]|{
 @header{This is a header}
 @subheader{This is a subheader}
 @subsubheader{This is a subsubheader}
-}
+}|
 
 You will see this:
 
@@ -51,8 +51,14 @@ Now we can create a table like this:
 @table[
   @row[
     @cell{Age} @cell{Name} @cell{Salary}
+  ]
+  @row[
     @cell[(get-age peter-info)] @cell[(get-name peter-info)] @cell[(get-salary peter-info)]{€}
+  ]
+  @row[
     @cell[(get-age maria-info)] @cell[(get-name maria-info)] @cell[(get-salary maria-info)]{€}
+  ]
+  @row[
     @cell[(get-age laura-info)] @cell[(get-name laura-info)] @cell[(get-salary laura-info)]{€}
   ]
 ]
@@ -63,8 +69,14 @@ And you will see this:
 @table[
   @row[
     @cell{Age} @cell{Name} @cell{Salary}
+  ]
+  @row[
     @cell[34] @cell["Peter Garcia"] @cell[1435]{€}
+  ]
+  @row[
     @cell[27] @cell["Maria Martinez"] @cell[1765]{€}
+  ]
+  @row[
     @cell[53] @cell["Laura Beneyto"] @cell[1543]{€}
   ]
 ]
