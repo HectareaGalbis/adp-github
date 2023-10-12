@@ -159,7 +159,7 @@ The large **house with _the old woman_**\.
 Lastly\, you can quote text\:
 
 `````text
-@quote{
+@quoted{
 A driller by day
 A driller by night
 Bugs never hurt
@@ -170,7 +170,7 @@ Sharp as a ruler
 Just me and my baby
 @italic{Perfectly Tuned Cooler}
 
-- @link[:address "https://www.reddit.com/user/TEAdown/"]{TEAdown}
+- A Deep Rock Galactic poem by @link[:address "https://www.reddit.com/user/TEAdown/"]{TEAdown}
 }
 `````
 
@@ -184,4 +184,4 @@ Just me and my baby
 > Just me and my baby<br>
 > _Perfectly Tuned Cooler_<br>
 > <br>
-> \- [TEAdown](https://www.reddit.com/user/TEAdown/)
+> \- A Deep Rock Galactic poem by [TEAdown](https://www.reddit.com/user/TEAdown/)

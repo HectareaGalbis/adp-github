@@ -161,7 +161,7 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ quote ------
-(adv-defun quote (&rest elements)
+(adv-defun quoted (&rest elements)
   (make-instance 'quoted :elements elements))
 
 

@@ -20,7 +20,7 @@ This is the list of functions and macros defined by ``` ADP-GITHUB ```\. Almost 
 * R
   * [adp\-github\-core\:row](/docs/src/functions.md#function-adp-github-core-row)
 * Q
-  * [adp\-github\:quote](/docs/src/functions.md#function-adp-github-quote)
+  * [adp\-github\-core\:quoted](/docs/src/functions.md#function-adp-github-core-quoted)
 * M
   * [adp\-github\-core\:mini\-table\-of\-contents](/docs/src/functions.md#function-adp-github-core-mini-table-of-contents)
 * L
@@ -368,11 +368,11 @@ This is the list of functions and macros defined by ``` ADP-GITHUB ```\. Almost 
     (make-instance 'adpgh-core:link :elements rest-elements :address address)))
 ```
 
-<a id="function-adp-github-quote"></a>
-#### Function: quote
+<a id="function-adp-github-core-quoted"></a>
+#### Function: quoted
 
 ```common-lisp
-(defun adpgh:quote (&rest elements)
+(defun adpgh-core:quoted (&rest elements)
   (make-instance 'adpgh-core:quoted :elements elements))
 ```
 

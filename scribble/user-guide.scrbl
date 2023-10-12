@@ -146,7 +146,7 @@ The large @bold{house with @italic{the old woman}}.
 Lastly, you can quote text:
 
 @verbatim-code-block[:lang "text"]|{
-@quote{
+@quoted{
 A driller by day
 A driller by night
 Bugs never hurt
@@ -157,11 +157,11 @@ Sharp as a ruler
 Just me and my baby
 @italic{Perfectly Tuned Cooler}
 
-- @link[:address "https://www.reddit.com/user/TEAdown/"]{TEAdown}
+- A Deep Rock Galactic poem by @link[:address "https://www.reddit.com/user/TEAdown/"]{TEAdown}
 }
 }|
 
-@quote{
+@quoted{
 A driller by day
 A driller by night
 Bugs never hurt
@@ -172,5 +172,5 @@ Sharp as a ruler
 Just me and my baby
 @italic{Perfectly Tuned Cooler}
 
-- @link[:address "https://www.reddit.com/user/TEAdown/"]{TEAdown}
+- A Deep Rock Galactic poem by @link[:address "https://www.reddit.com/user/TEAdown/"]{TEAdown}
 }
