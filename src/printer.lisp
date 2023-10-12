@@ -364,6 +364,7 @@
           if (and (stringp elem)
                   (char= #\linefeed (aref elem 0)))
             do (setf quote-sym t)
+               (princ "<br>" stream)
           do (export-element elem stream))))
 
 

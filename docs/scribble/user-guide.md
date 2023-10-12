@@ -175,13 +175,13 @@ Just me and my baby
 `````
 
 > A driller by day<br>
-> A driller by night
-> Bugs never hurt
-> As they\'re frozen from fright
-> 
-> My c4 goes boom
-> Sharp as a ruler
-> Just me and my baby
-> _Perfectly Tuned Cooler_
-> 
+> A driller by night<br>
+> Bugs never hurt<br>
+> As they\'re frozen from fright<br>
+> <br>
+> My c4 goes boom<br>
+> Sharp as a ruler<br>
+> Just me and my baby<br>
+> _Perfectly Tuned Cooler_<br>
+> <br>
 > \- [TEAdown](https://www.reddit.com/user/TEAdown/)
