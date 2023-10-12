@@ -95,12 +95,14 @@
 ;; ------ text references ------
 (defmethod export-element ((element header-reference) stream)
   (let* ((tag (text-reference-tag element))
-         (header-obj (get-tag-value tag))
-         (target-location (header-target-location header-obj))
-         (header-elements (or (header-ref-text-elements element)
-                          (header-elements header-obj))))
-    (format stream "[~a](/~a#~a)"
-            (content-to-string header-elements) target-location (tag-to-string tag))))
+         (header-obj (get-tag-value tag)))
+    (when (not header-obj)
+      (error "Error: The tag ~s of type ~s does not exist."
+             (tag-symbol tag) (tag-type tag)))
+    (let ((target-location (header-target-location header-obj))
+          (header-elements (or (header-ref-text-elements element)
+                               (header-elements header-obj))))(format stream "[~a](/~a#~a)"
+          (content-to-string header-elements) target-location (tag-to-string tag)))))
 
 (defmethod export-element ((element symbol-reference) stream)
   (let* ((tag (text-reference-tag element))
@@ -381,7 +383,7 @@
 (defmethod export-element ((element verbatim-code-block) stream)
   (let ((lang (verbatim-code-block-lang element))
         (elements (verbatim-code-block-elements element)))
-    (format stream "`````~a~%~{~a~}~%`````" lang elements)))
+    (format stream "`````~@[~a~]~%~{~a~}~%`````" lang elements)))
 
 
 ;; ------ definitions ------

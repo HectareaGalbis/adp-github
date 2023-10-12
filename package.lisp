@@ -3,7 +3,7 @@
   (:use #:cl #:alexandria)
   (:nicknames #:adpgh-core)
   (:export #:make-tag #:row-cells #:get-tag-value #:file-target-relative-pathname  #:*process-file*
-           #:adv-header #:adv-subheader #:adv-defmacro #:adv-defun
+           #:adv-header #:adv-subheader #:header-target-location #:adv-defmacro #:adv-defun
 
            #:header #:subheader #:subsubheader #:text #:header-reference #:variable-reference
            #:function-reference #:type-reference #:cell #:row #:table #:item #:itemize #:enumerate

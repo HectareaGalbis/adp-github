@@ -16,4 +16,6 @@
                              (:file "printer" :depends-on ("pprint-dispatch" "definition-components"
                                                                              "adp-github" "elements" "tags"))
                              (:file "functions" :depends-on ("adp-github" "elements" "adp-adv-github" "tags"))))
+               (:module "scribble"
+                :components ((:scribble "user-guide")))
                (:scribble "README" :depends-on ("src"))))

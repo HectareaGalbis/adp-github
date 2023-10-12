@@ -1,9 +1,9 @@
-<a id="header-adp-github-headertag775"></a>
+<a id="header-adp-github-reference"></a>
 # Reference
 
 This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost all these functions can be used in both lisp and text mode\. However\, the last macros that define things\, must only be used in lisp mode\.
 
-<a id="header-adp-github-headertag776"></a>
+<a id="header-adp-github-headertag775"></a>
 ## Lisp and text mode functions
 
 <a id="function-adp-github-core-header"></a>
@@ -13,27 +13,27 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
 (defmacro adpgh-core:header (&rest args)
   (list (quote let*)
         (list
-         (list 'tag777
+         (list 'tag776
                (list (quote get-keyword-parameter) (quote :tag)
                      (list (quote quote) args)))
-         (list 'fixed-tag-sym778
-               (list (quote or) 'tag777 (quote (make-unique-tag))))
-         (list 'tag-obj779
-               (list (quote adpgh-core:make-tag) 'fixed-tag-sym778
+         (list 'fixed-tag-sym777
+               (list (quote or) 'tag776 (quote (make-unique-tag))))
+         (list 'tag-obj778
+               (list (quote adpgh-core:make-tag) 'fixed-tag-sym777
                      (quote :header)))
-         (list 'header-obj780
+         (list 'header-obj779
                (list (quote make-instance)
                      (list (quote quote) 'adpgh-core:header) (quote :elements)
                      (list (quote remove-keyword-parameters)
                            (list (quote quote) args))
-                     (quote :user-tag-p) (list (quote and) 'tag777 (quote t))
-                     (quote :tag) 'tag-obj779 (quote :target-location)
+                     (quote :user-tag-p) (list (quote and) 'tag776 (quote t))
+                     (quote :tag) 'tag-obj778 (quote :target-location)
                      (quote
                       (adpgh-core:file-target-relative-pathname
                        adpgh-core:*process-file*)))))
-        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj779)
-              'header-obj780)
-        (list (quote values) 'header-obj780)))
+        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj778)
+              'header-obj779)
+        (list (quote values) 'header-obj779)))
 ```
 
 <a id="function-adp-github-core-subheader"></a>
@@ -43,28 +43,28 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
 (defmacro adpgh-core:subheader (&rest args)
   (list (quote let*)
         (list
-         (list 'tag783
+         (list 'tag782
                (list (quote get-keyword-parameter) (quote :tag)
                      (list (quote quote) args)))
-         (list 'fixed-tag-sym784
-               (list (quote or) 'tag783 (quote (make-unique-tag))))
-         (list 'tag-obj785
-               (list (quote adpgh-core:make-tag) 'fixed-tag-sym784
+         (list 'fixed-tag-sym783
+               (list (quote or) 'tag782 (quote (make-unique-tag))))
+         (list 'tag-obj784
+               (list (quote adpgh-core:make-tag) 'fixed-tag-sym783
                      (quote :header)))
-         (list 'header-obj786
+         (list 'header-obj785
                (list (quote make-instance)
                      (list (quote quote) 'adpgh-core:subheader)
                      (quote :elements)
                      (list (quote remove-keyword-parameters)
                            (list (quote quote) args))
-                     (quote :user-tag-p) (list (quote and) 'tag783 (quote t))
-                     (quote :tag) 'tag-obj785 (quote :target-location)
+                     (quote :user-tag-p) (list (quote and) 'tag782 (quote t))
+                     (quote :tag) 'tag-obj784 (quote :target-location)
                      (quote
                       (adpgh-core:file-target-relative-pathname
                        adpgh-core:*process-file*)))))
-        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj785)
-              'header-obj786)
-        (list (quote values) 'header-obj786)))
+        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj784)
+              'header-obj785)
+        (list (quote values) 'header-obj785)))
 ```
 
 <a id="function-adp-github-core-subsubheader"></a>
@@ -74,28 +74,28 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
 (defmacro adpgh-core:subsubheader (&rest args)
   (list (quote let*)
         (list
-         (list 'tag789
+         (list 'tag788
                (list (quote get-keyword-parameter) (quote :tag)
                      (list (quote quote) args)))
-         (list 'fixed-tag-sym790
-               (list (quote or) 'tag789 (quote (make-unique-tag))))
-         (list 'tag-obj791
-               (list (quote adpgh-core:make-tag) 'fixed-tag-sym790
+         (list 'fixed-tag-sym789
+               (list (quote or) 'tag788 (quote (make-unique-tag))))
+         (list 'tag-obj790
+               (list (quote adpgh-core:make-tag) 'fixed-tag-sym789
                      (quote :header)))
-         (list 'header-obj792
+         (list 'header-obj791
                (list (quote make-instance)
                      (list (quote quote) 'adpgh-core:subsubheader)
                      (quote :elements)
                      (list (quote remove-keyword-parameters)
                            (list (quote quote) args))
-                     (quote :user-tag-p) (list (quote and) 'tag789 (quote t))
-                     (quote :tag) 'tag-obj791 (quote :target-location)
+                     (quote :user-tag-p) (list (quote and) 'tag788 (quote t))
+                     (quote :tag) 'tag-obj790 (quote :target-location)
                      (quote
                       (adpgh-core:file-target-relative-pathname
                        adpgh-core:*process-file*)))))
-        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj791)
-              'header-obj792)
-        (list (quote values) 'header-obj792)))
+        (list (quote setf) (list (quote adpgh-core:get-tag-value) 'tag-obj790)
+              'header-obj791)
+        (list (quote values) 'header-obj791)))
 ```
 
 <a id="function-adp-github-core-text"></a>
@@ -325,8 +325,10 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
 #### Function: verbatim\-code\-block
 
 ```common-lisp
-(defun adpgh-core:verbatim-code-block (lang &rest elements)
-  (make-instance 'adpgh-core:verbatim-code-block :lang lang :elements elements))
+(defun adpgh-core:verbatim-code-block (&rest elements)
+  (with-key-params ((lang) rest-elements elements)
+    (make-instance 'adpgh-core:verbatim-code-block :lang lang :elements
+                   rest-elements)))
 ```
 
 <a id="function-adp-github-core-example"></a>
@@ -351,7 +353,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                 (quote :output) output (quote :result) result))))
 ```
 
-<a id="header-adp-github-headertag847"></a>
+<a id="header-adp-github-headertag846"></a>
 ## Only lisp mode functions
 
 <a id="function-adp-github-defclass"></a>
@@ -367,26 +369,26 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag848
+                     (list 'tag847
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':type)))
                     (list
-                     (list 'obj849
+                     (list 'obj848
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:defclass-definition)
                                   (quote :expression)
                                   (list (quote quote) (cons 'defclass body))
-                                  (list (quote :tag) 'tag848
+                                  (list (quote :tag) 'tag847
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj849)
+                   (list (quote adp:add-element) 'obj848)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag848)
-                          'obj849)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag847)
+                          'obj848)))))
          (list (cons 'defclass body)))))
 ```
 
@@ -403,26 +405,26 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag852
+                     (list 'tag851
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':variable)))
                     (list
-                     (list 'obj853
+                     (list 'obj852
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:defconstant-definition)
                                   (quote :expression)
                                   (list (quote quote) (cons 'defconstant body))
-                                  (list (quote :tag) 'tag852
+                                  (list (quote :tag) 'tag851
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj853)
+                   (list (quote adp:add-element) 'obj852)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag852)
-                          'obj853)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag851)
+                          'obj852)))))
          (list (cons 'defconstant body)))))
 ```
 
@@ -439,26 +441,26 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag856
+                     (list 'tag855
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':function)))
                     (list
-                     (list 'obj857
+                     (list 'obj856
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:defgeneric-definition)
                                   (quote :expression)
                                   (list (quote quote) (cons 'defgeneric body))
-                                  (list (quote :tag) 'tag856
+                                  (list (quote :tag) 'tag855
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj857)
+                   (list (quote adp:add-element) 'obj856)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag856)
-                          'obj857)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag855)
+                          'obj856)))))
          (list (cons 'defgeneric body)))))
 ```
 
@@ -475,7 +477,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append nil
                            (list
-                            (list 'obj861
+                            (list 'obj860
                                   (list* (quote make-instance)
                                          (list (quote quote)
                                                'adpgh-core:define-compiler-macro-definition)
@@ -484,7 +486,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                                                (cons 'define-compiler-macro
                                                      body))
                                          nil))))
-                   (list (quote adp:add-element) 'obj861) nil)))
+                   (list (quote adp:add-element) 'obj860) nil)))
          (list (cons 'define-compiler-macro body)))))
 ```
 
@@ -501,27 +503,27 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag864
+                     (list 'tag863
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':type)))
                     (list
-                     (list 'obj865
+                     (list 'obj864
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:define-condition-definition)
                                   (quote :expression)
                                   (list (quote quote)
                                         (cons 'define-condition body))
-                                  (list (quote :tag) 'tag864
+                                  (list (quote :tag) 'tag863
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj865)
+                   (list (quote adp:add-element) 'obj864)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag864)
-                          'obj865)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag863)
+                          'obj864)))))
          (list (cons 'define-condition body)))))
 ```
 
@@ -538,7 +540,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append nil
                            (list
-                            (list 'obj869
+                            (list 'obj868
                                   (list* (quote make-instance)
                                          (list (quote quote)
                                                'adpgh-core:define-method-combination-definition)
@@ -547,7 +549,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                                                (cons 'define-method-combination
                                                      body))
                                          nil))))
-                   (list (quote adp:add-element) 'obj869) nil)))
+                   (list (quote adp:add-element) 'obj868) nil)))
          (list (cons 'define-method-combination body)))))
 ```
 
@@ -564,27 +566,27 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag872
+                     (list 'tag871
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':function)))
                     (list
-                     (list 'obj873
+                     (list 'obj872
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:define-modify-macro-definition)
                                   (quote :expression)
                                   (list (quote quote)
                                         (cons 'define-modify-macro body))
-                                  (list (quote :tag) 'tag872
+                                  (list (quote :tag) 'tag871
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj873)
+                   (list (quote adp:add-element) 'obj872)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag872)
-                          'obj873)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag871)
+                          'obj872)))))
          (list (cons 'define-modify-macro body)))))
 ```
 
@@ -601,7 +603,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append nil
                            (list
-                            (list 'obj877
+                            (list 'obj876
                                   (list* (quote make-instance)
                                          (list (quote quote)
                                                'adpgh-core:define-setf-expander-definition)
@@ -610,7 +612,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                                                (cons 'define-setf-expander
                                                      body))
                                          nil))))
-                   (list (quote adp:add-element) 'obj877) nil)))
+                   (list (quote adp:add-element) 'obj876) nil)))
          (list (cons 'define-setf-expander body)))))
 ```
 
@@ -627,27 +629,27 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag880
+                     (list 'tag879
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':variable)))
                     (list
-                     (list 'obj881
+                     (list 'obj880
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:define-symbol-macro-definition)
                                   (quote :expression)
                                   (list (quote quote)
                                         (cons 'define-symbol-macro body))
-                                  (list (quote :tag) 'tag880
+                                  (list (quote :tag) 'tag879
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj881)
+                   (list (quote adp:add-element) 'obj880)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag880)
-                          'obj881)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag879)
+                          'obj880)))))
          (list (cons 'define-symbol-macro body)))))
 ```
 
@@ -664,26 +666,26 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag884
+                     (list 'tag883
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':function)))
                     (list
-                     (list 'obj885
+                     (list 'obj884
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:defmacro-definition)
                                   (quote :expression)
                                   (list (quote quote) (cons 'defmacro body))
-                                  (list (quote :tag) 'tag884
+                                  (list (quote :tag) 'tag883
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj885)
+                   (list (quote adp:add-element) 'obj884)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag884)
-                          'obj885)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag883)
+                          'obj884)))))
          (list (cons 'defmacro body)))))
 ```
 
@@ -700,7 +702,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append nil
                            (list
-                            (list 'obj889
+                            (list 'obj888
                                   (list* (quote make-instance)
                                          (list (quote quote)
                                                'adpgh-core:defmethod-definition)
@@ -708,7 +710,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                                          (list (quote quote)
                                                (cons 'defmethod body))
                                          nil))))
-                   (list (quote adp:add-element) 'obj889) nil)))
+                   (list (quote adp:add-element) 'obj888) nil)))
          (list (cons 'defmethod body)))))
 ```
 
@@ -725,7 +727,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append nil
                            (list
-                            (list 'obj893
+                            (list 'obj892
                                   (list* (quote make-instance)
                                          (list (quote quote)
                                                'adpgh-core:defpackage-definition)
@@ -733,7 +735,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                                          (list (quote quote)
                                                (cons 'defpackage body))
                                          nil))))
-                   (list (quote adp:add-element) 'obj893) nil)))
+                   (list (quote adp:add-element) 'obj892) nil)))
          (list (cons 'defpackage body)))))
 ```
 
@@ -750,27 +752,27 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag896
+                     (list 'tag895
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':variable)))
                     (list
-                     (list 'obj897
+                     (list 'obj896
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:defparameter-definition)
                                   (quote :expression)
                                   (list (quote quote)
                                         (cons 'defparameter body))
-                                  (list (quote :tag) 'tag896
+                                  (list (quote :tag) 'tag895
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj897)
+                   (list (quote adp:add-element) 'obj896)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag896)
-                          'obj897)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag895)
+                          'obj896)))))
          (list (cons 'defparameter body)))))
 ```
 
@@ -787,7 +789,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append nil
                            (list
-                            (list 'obj901
+                            (list 'obj900
                                   (list* (quote make-instance)
                                          (list (quote quote)
                                                'adpgh-core:defsetf-definition)
@@ -795,7 +797,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                                          (list (quote quote)
                                                (cons 'defsetf body))
                                          nil))))
-                   (list (quote adp:add-element) 'obj901) nil)))
+                   (list (quote adp:add-element) 'obj900) nil)))
          (list (cons 'defsetf body)))))
 ```
 
@@ -812,26 +814,26 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag904
+                     (list 'tag903
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':type)))
                     (list
-                     (list 'obj905
+                     (list 'obj904
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:defstruct-definition)
                                   (quote :expression)
                                   (list (quote quote) (cons 'defstruct body))
-                                  (list (quote :tag) 'tag904
+                                  (list (quote :tag) 'tag903
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj905)
+                   (list (quote adp:add-element) 'obj904)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag904)
-                          'obj905)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag903)
+                          'obj904)))))
          (list (cons 'defstruct body)))))
 ```
 
@@ -848,26 +850,26 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag908
+                     (list 'tag907
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':type)))
                     (list
-                     (list 'obj909
+                     (list 'obj908
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:deftype-definition)
                                   (quote :expression)
                                   (list (quote quote) (cons 'deftype body))
-                                  (list (quote :tag) 'tag908
+                                  (list (quote :tag) 'tag907
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj909)
+                   (list (quote adp:add-element) 'obj908)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag908)
-                          'obj909)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag907)
+                          'obj908)))))
          (list (cons 'deftype body)))))
 ```
 
@@ -884,7 +886,7 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag912
+                     (list 'tag911
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote)
                                        (if (symbolp (car body))
@@ -892,22 +894,22 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
                                            nil))
                                  ':function)))
                     (list
-                     (list 'obj913
+                     (list 'obj912
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:defun-definition)
                                   (quote :expression)
                                   (list (quote quote) (cons 'defun body))
-                                  (list (quote :tag) 'tag912
+                                  (list (quote :tag) 'tag911
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj913)
+                   (list (quote adp:add-element) 'obj912)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag912)
-                          'obj913)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag911)
+                          'obj912)))))
          (list (cons 'defun body)))))
 ```
 
@@ -924,26 +926,26 @@ This is the list of functions and macros defined by ``` ADP\-GITHUB ```\. Almost
             (list* (quote let*)
                    (append
                     (list
-                     (list 'tag916
+                     (list 'tag915
                            (list (quote adpgh-core:make-tag)
                                  (list (quote quote) (car body)) ':variable)))
                     (list
-                     (list 'obj917
+                     (list 'obj916
                            (list* (quote make-instance)
                                   (list (quote quote)
                                         'adpgh-core:defvar-definition)
                                   (quote :expression)
                                   (list (quote quote) (cons 'defvar body))
-                                  (list (quote :tag) 'tag916
+                                  (list (quote :tag) 'tag915
                                         (quote :target-location)
                                         (quote
                                          (adpgh-core:file-target-relative-pathname
                                           adpgh-core:*process-file*)))))))
-                   (list (quote adp:add-element) 'obj917)
+                   (list (quote adp:add-element) 'obj916)
                    (list
                     (list (quote setf)
-                          (list (quote adpgh-core:get-tag-value) 'tag916)
-                          'obj917)))))
+                          (list (quote adpgh-core:get-tag-value) 'tag915)
+                          'obj916)))))
          (list (cons 'defvar body)))))
 ```
 

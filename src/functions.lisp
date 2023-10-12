@@ -1,7 +1,7 @@
 
 (in-package #:adpgh)
 
-#@header{Reference}
+#@header[:tag reference]{Reference}
 
 #@text{
 This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost all these functions can be used in both lisp and text mode. However, the last macros that define things, must only be used in lisp mode.
@@ -28,17 +28,17 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
              (remove-keyword-parameters (cddr params))
              (cons (car params) (remove-keyword-parameters (cdr params)))))))
 
-;; (cl:defmacro with-key-params ((key-params rest-args args) &body body)
-;;   (once-only (args)
-;;     (let* ((keyword-args (mapcar (lambda (key-arg)
-;;                                    (intern (symbol-name key-arg) "KEYWORD"))
-;;                                  key-args))
-;;            (let-args (mapcar (lambda (key-arg keyword-arg)
-;;                                `(,key-arg (get-keyword-parameter ,keyword-arg ,args)))
-;;                              key-args keyword-args)))
-;;       `(let (,@let-args
-;;              (,rest-args (remove-keyword-parameters ,args)))
-;;          ,@body))))
+(cl:defmacro with-key-params ((key-args rest-args args) &body body)
+  (once-only (args)
+    (let* ((keyword-args (mapcar (lambda (key-arg)
+                                   (intern (symbol-name key-arg) "KEYWORD"))
+                                 key-args))
+           (let-args (mapcar (lambda (key-arg keyword-arg)
+                               `(,key-arg (get-keyword-parameter ,keyword-arg ,args)))
+                             key-args keyword-args)))
+      `(let (,@let-args
+             (,rest-args (remove-keyword-parameters ,args)))
+         ,@body))))
 
 
 ;; ------ header ------
@@ -168,8 +168,9 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ verbatim code block ------
-(adv-defun verbatim-code-block (lang &rest elements)
-  (make-instance 'verbatim-code-block :lang lang :elements elements))
+(adv-defun verbatim-code-block (&rest elements)
+  (with-key-params ((lang) rest-elements elements)
+    (make-instance 'verbatim-code-block :lang lang :elements rest-elements)))
 
 
 ;; ------ example ------
