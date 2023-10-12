@@ -1,24 +1,24 @@
-<a id="header-adp-github-headertag918"></a>
+<a id="header-adp-github-headertag919"></a>
 # Add Documentation\, Please\.\.\. with Github Flavoured Markdown
 
 Welcome to ADP\-GITHUB\!
 
 ``` ADP-GITHUB ``` is an extension for ``` ADP ```\. It exports some functions and macros to print markdown\-styled objects like headers\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ``` adp-github ``` package\, although you can use the nickname ``` adpgh ```\.
 
-* [Add Documentation\, Please\.\.\. with Github Flavoured Markdown](/README.md#header-adp-github-headertag918)
-  * [Documentation](/README.md#header-adp-github-headertag919)
-  * [How to use](/README.md#header-adp-github-headertag920)
-  * [Where the files are generated](/README.md#header-adp-github-headertag921)
-
-
-<a id="header-adp-github-headertag919"></a>
-## Documentation
-
-* [Reference](/docs/src/functions.md#header-adp-github-reference)
-* [User guide](/docs/scribble/user-guide.md#header-adp-github-user-guide)
+* [Add Documentation\, Please\.\.\. with Github Flavoured Markdown](/README.md#header-adp-github-headertag919)
+  * [Documentation](/README.md#header-adp-github-headertag920)
+  * [How to use](/README.md#header-adp-github-headertag921)
+  * [Where the files are generated](/README.md#header-adp-github-headertag922)
 
 
 <a id="header-adp-github-headertag920"></a>
+## Documentation
+
+* [Reference](/docs/src/functions.md#header-adp-github-reference)
+* [User Guide](/docs/scribble/user-guide.md#header-adp-github-user-guide)
+
+
+<a id="header-adp-github-headertag921"></a>
 ## How to use
 
 In your ``` asd ``` file\, you need to ``` :defsystem-depends-on ``` the system ``` adp-github ```\. Also\, is really recommended to make a separate system only for documentation generation\. And\, lastly\, you should specify ``` :build-operation ``` to be ``` "adp-github-op" ```\.
@@ -42,7 +42,7 @@ Now\, from the REPL\, just evaluate the following expression\:
 (asdf:make "my-system/docs")
 `````
 
-<a id="header-adp-github-headertag921"></a>
+<a id="header-adp-github-headertag922"></a>
 ## Where the files are generated
 
 There is a simple rule and one expception\. The rule says that every file is generated in a mirrored place under the ``` docs ``` directory\. For example\, the contents of file ``` src/myfile.scrbl ``` are printed into the file ``` docs/src/myfile.md ```\.

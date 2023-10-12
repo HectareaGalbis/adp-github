@@ -112,7 +112,7 @@
           :type list)))
 
 (defclass enumerate ()
-  ((items :initarg :item
+  ((items :initarg :items
           :reader enumerate-items
           :type list)))
 
@@ -179,9 +179,9 @@
 
 ;; ------ link ------
 (defclass link ()
-  ((name :initarg :name
-         :reader link-name
-         :type string)
+  ((elements :initarg :elements
+         :reader link-elements
+         :type list)
    (address :initarg :address
             :reader link-address
             :type string))
@@ -199,7 +199,7 @@
 
 
 ;; ------ code block ------
-(defclass code-block ()
+(defclass code-of-block ()
   ((expressions :initarg :expressions
                 :reader code-block-expressions
                 :type list))
@@ -208,7 +208,7 @@
 
 
 ;; ------ verbatim code block ------
-(defclass verbatim-code-block ()
+(defclass verbatim-code-of-block ()
   ((lang :initarg :lang
          :reader verbatim-code-block-lang
          :type string)

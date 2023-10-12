@@ -326,24 +326,18 @@
 ;; ------ text decorators ------
 (defmethod export-element ((element bold) stream)
   (let* ((elements (text-decorator-elements element))
-         (content (with-output-to-string (str)
-                    (loop for element across elements
-                          do (export-element element str)))))
-    (format stream "<strong>~a</strong>" (escape-characters content))))
+         (content (content-to-string elements)))
+    (format stream "**~a**" (escape-characters content))))
 
 (defmethod export-element ((element italic) stream)
   (let* ((elements (text-decorator-elements element))
-         (content (with-output-to-string (str)
-                    (loop for element across elements
-                          do (export-element element str)))))
-    (format stream "<em>~a</em>" (escape-characters content))))
+         (content (content-to-string elements)))
+    (format stream "_~a_" (escape-characters content))))
 
 (defmethod export-element ((element emphasis) stream)
   (let* ((elements (text-decorator-elements element))
-         (content (with-output-to-string (str)
-                    (loop for element across elements
-                          do (export-element element str)))))
-    (format stream "<strong><em>~a</em></strong>" (escape-characters content))))
+         (content (content-to-string elements)))
+    (format stream "***~a***" (escape-characters content))))
 
 (defmethod export-element ((element inline-code) stream)
   (let* ((elements (text-decorator-elements element))
@@ -354,9 +348,9 @@
 
 ;; ------ link ------
 (defmethod export-element ((element link) stream)
-  (let ((name (link-name element))
+  (let ((text (content-to-string (link-elements element)))
         (address (link-address element)))
-    (format stream "[~a](~a)" (escape-characters name) address)))
+    (format stream "[~a](~a)" text address)))
 
 
 ;; ------ quote ------
@@ -379,13 +373,13 @@
   (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
     (prin1-to-string expr)))
 
-(defmethod export-element ((element code-block) stream)
+(defmethod export-element ((element code-of-block) stream)
   (let ((expressions (code-block-expressions element)))
     (format stream "`````common-lisp~%~{~a~^~%~%~}~%`````" (mapcar #'code-to-string expressions))))
 
 
 ;; ------ verbatim-code-block ------
-(defmethod export-element ((element verbatim-code-block) stream)
+(defmethod export-element ((element verbatim-code-of-block) stream)
   (let ((lang (verbatim-code-block-lang element))
         (elements (verbatim-code-block-elements element)))
     (format stream "`````~@[~a~]~%~{~a~}~%`````" lang elements)))

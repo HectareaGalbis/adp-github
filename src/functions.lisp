@@ -7,6 +7,8 @@
 This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost all these functions can be used in both lisp and text mode. However, the last macros that define things, must only be used in lisp mode.
 }
 
+#@table-of-functions[]
+
 #@subheader{Lisp and text mode functions}
 
 ;; ------ aux functions ------
@@ -153,8 +155,9 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ web link ------
-(adv-defun link (name address)
-  (make-instance 'link :name name :address address))
+(adv-defun link (&rest elements)
+  (with-key-params ((address) rest-elements elements)
+    (make-instance 'link :elements rest-elements :address address)))
 
 
 ;; ------ quote ------
@@ -164,13 +167,13 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 ;; ------ code block ------
 (adv-defmacro code-block (&rest expressions)
-  `(make-instance 'code-block :expressions ',expressions))
+  `(make-instance 'code-of-block :expressions ',expressions))
 
 
 ;; ------ verbatim code block ------
 (adv-defun verbatim-code-block (&rest elements)
   (with-key-params ((lang) rest-elements elements)
-    (make-instance 'verbatim-code-block :lang lang :elements rest-elements)))
+    (make-instance 'verbatim-code-of-block :lang lang :elements rest-elements)))
 
 
 ;; ------ example ------

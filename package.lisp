@@ -8,7 +8,7 @@
            #:header #:subheader #:subsubheader #:text #:header-reference #:variable-reference
            #:function-reference #:type-reference #:cell #:row #:table #:item #:itemize #:enumerate
            #:table-of-contents #:mini-table-of-contents #:table-of-functions #:table-of-symbols #:table-of-types
-           #:image #:bold #:italic #:emphasis #:inline-code #:link #:quoted #:code-block #:verbatim-code-block
+           #:image #:bold #:italic #:emphasis #:inline-code #:link #:quoted #:code-of-block #:verbatim-code-of-block
            #:example 
             
            #:defclass-definition #:defconstant-definition #:defgeneric-definition
