@@ -386,6 +386,16 @@
     (format stream "`````~@[~a~]~%~{~a~}~%`````" lang elements)))
 
 
+;; ------ example ------
+(defmethod export-element ((element example) stream)
+  (let ((expressions (example-expressions element))
+        (output (example-output element))
+        (results (example-results element)))
+    (format stream "`````common-lisp~%~{~a~^~%~%~}~%`````~%" (mapcar #'code-to-string expressions))
+    (format stream "`````text~%~a~%`````~%" output)
+    (format stream "`````common-lisp~%~{~s~^~%~%~}~%`````" results)))
+
+
 ;; ------ definitions ------
 (defmacro define-definition-process (type header-name)
   (with-gensyms (element stream expression tag)

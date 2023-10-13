@@ -183,7 +183,7 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 	    (,result (multiple-value-list (with-output-to-string (*standard-output* ,output)
 					    ,@expressions))))
 
-       (make-instance 'example :expressions ',expressions :output ,output :result ,result))))
+       (make-instance 'example :expressions ',expressions :output ,output :results ,result))))
 
 #@subheader{Only lisp mode functions}
 

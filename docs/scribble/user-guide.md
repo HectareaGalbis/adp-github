@@ -14,6 +14,8 @@ I will try to do my best explaining how to use ADP\. If this is not sufficient\,
   * [Tables](/docs/scribble/user-guide.md#header-adp-github-headertag913)
   * [Lists](/docs/scribble/user-guide.md#header-adp-github-headertag914)
   * [Text style](/docs/scribble/user-guide.md#header-adp-github-headertag915)
+  * [Images](/docs/scribble/user-guide.md#header-adp-github-headertag916)
+  * [Code blocks](/docs/scribble/user-guide.md#header-adp-github-headertag917)
 
 
 <a id="header-adp-github-headertag909"></a>
@@ -185,3 +187,105 @@ Just me and my baby
 > _Perfectly Tuned Cooler_<br>
 > <br>
 > \- A Deep Rock Galactic poem by [TEAdown](https://www.reddit.com/user/TEAdown/)
+
+
+<a id="header-adp-github-headertag916"></a>
+## Images
+
+You can add images with the macro [adp\-github\-core\:image](/docs/src/functions.md#function-adp-github-core-image)\. For example\, an image is located at ``` guides/images/ ```\. If I evaluate the next expression\:
+
+`````text
+@image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.5]
+`````
+
+You will see\:
+
+<img src="/images/Lisp_logo.svg" alt="Lisp logo" width="0%">
+
+
+<a id="header-adp-github-headertag917"></a>
+## Code blocks
+
+A good Lisp tutorial must include Lisp code examples\. ADP defines some macros to print code blocks\: [adp\-github\:code\-block](/docs/src/functions.md#function-adp-github-code-block)\, [adp\-github\:verbatim\-code\-block](/docs/src/functions.md#function-adp-github-verbatim-code-block) and [adp\-github\-core\:example](/docs/src/functions.md#function-adp-github-core-example)\. The first macro does not evaluate the code\. So\, for example if you write this\:
+
+`````text
+@code-block[
+  (this is not (valid code))
+  (but it (is (ok)))
+]
+`````
+
+You will see\:
+
+`````common-lisp
+(this is not (valid code))
+
+(but it (is (ok)))
+`````
+
+The macro [adp\-github\:verbatim\-code\-block](/docs/src/functions.md#function-adp-github-verbatim-code-block) allows you to write non\-Lisp code\. It can receive\, optionally\, the language to be used\:
+
+`````text
+@verbatim-code-block[:lang "c"]{
+  int main(){
+    printf("Hello world!");
+    return 0;
+  }
+}
+`````
+
+`````c
+int main(){
+  printf("Hello world!");
+  return 0;
+}
+`````
+
+If you want to print also \@\-syntax expressions\, you can use the ``` |{...}| ``` form\:
+
+`````text
+@verbatim-code-block[:lang "scribble"]|{
+  @cmd[datum]{parse-body}
+}|
+`````
+
+`````scribble
+@cmd[datum]{parse-body}
+`````
+
+Lastly\, [adp\-github\-core\:example](/docs/src/functions.md#function-adp-github-core-example) evaluate the Lisp code you write on it\. And what is more\, it prints the standard output as well as the returned values\. For example\, writing this\:
+
+`````text
+@example[
+  (loop for i from 0 below 10
+        do (print i))
+  (values "Hello" "world")
+]
+`````
+
+You will see\:
+
+`````common-lisp
+(loop for i from 0 below 10
+      do (print i))
+
+(values "Hello" "world")
+`````
+`````text
+
+0 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+`````
+`````common-lisp
+"Hello"
+
+"world"
+`````

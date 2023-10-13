@@ -174,3 +174,83 @@ Just me and my baby
 
 - A Deep Rock Galactic poem by @link[:address "https://www.reddit.com/user/TEAdown/"]{TEAdown}
 }
+
+
+@subheader{Images}
+
+You can add images with the macro @fref[image]. For example, an image is located at @inline{guides/images/}. If I evaluate the next expression:
+
+@verbatim-code-block[:lang "text"]|{
+  @image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.5]
+}|
+
+You will see:
+
+@image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.5]
+
+
+@subheader{Code blocks}
+
+A good Lisp tutorial must include Lisp code examples. ADP defines some macros to print code blocks: @fref[code-block], @fref[verbatim-code-block] and @fref[example]. The first macro does not evaluate the code. So, for example if you write this:
+
+@verbatim-code-block[:lang "text"]|{
+  @code-block[
+    (this is not (valid code))
+    (but it (is (ok)))
+  ]
+}|
+
+You will see:
+
+@code-block[
+  (this is not (valid code))
+  (but it (is (ok)))
+]
+
+The macro @fref[verbatim-code-block] allows you to write non-Lisp code. It can receive, optionally, the language to be used:
+
+@verbatim-code-block[:lang "text"]|{
+@verbatim-code-block[:lang "c"]{
+  int main(){
+    printf("Hello world!");
+    return 0;
+  }     
+}
+}|
+
+@verbatim-code-block[:lang "c"]|{
+  int main(){
+    printf("Hello world!");
+    return 0;
+  }     
+}|
+
+If you want to print also @"@"-syntax expressions, you can use the @inline["|{...}|"] form:
+
+@verbatim-code-block[:lang "text"]|{
+@verbatim-code-block[:lang "scribble"]|{
+  @cmd[datum]{parse-body}     
+}|
+}|
+
+@verbatim-code-block[:lang "scribble"]|{
+  @cmd[datum]{parse-body}     
+}|
+
+Lastly, @fref[example] evaluate the Lisp code you write on it. And what is more, it prints the standard output as well as the returned values. For example, writing this:
+
+@verbatim-code-block[:lang "text"]|{
+@example[
+  (loop for i from 0 below 10
+        do (print i))
+  (values "Hello" "world")
+]
+}|
+
+You will see:
+
+@example[
+  (loop for i from 0 below 10
+        do (print i))
+  (values "Hello" "world")
+]

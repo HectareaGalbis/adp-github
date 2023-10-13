@@ -414,7 +414,7 @@ This is the list of functions and macros defined by ``` ADP-GITHUB ```\. Almost 
                               expressions))))
           (list (quote make-instance) (quote 'adpgh-core:example)
                 (quote :expressions) (list (quote quote) expressions)
-                (quote :output) output (quote :result) result))))
+                (quote :output) output (quote :results) result))))
 ```
 
 <a id="header-adp-github-headertag836"></a>
