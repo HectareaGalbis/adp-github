@@ -195,12 +195,12 @@ Just me and my baby
 You can add images with the macro [adp\-github\-core\:image](/docs/src/functions.md#function-adp-github-core-image)\. For example\, an image is located at ``` guides/images/ ```\. If I evaluate the next expression\:
 
 `````text
-@image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.5]
+@image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.1]
 `````
 
 You will see\:
 
-<img src="/images/Lisp_logo.svg" alt="Lisp logo" width="50%">
+<img src="/images/Lisp_logo.svg" alt="Lisp logo" width="10%">
 
 
 <a id="header-adp-github-headertag917"></a>

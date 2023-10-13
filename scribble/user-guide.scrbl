@@ -181,12 +181,12 @@ Just me and my baby
 You can add images with the macro @fref[image]. For example, an image is located at @inline{guides/images/}. If I evaluate the next expression:
 
 @verbatim-code-block[:lang "text"]|{
-  @image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.5]
+  @image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.1]
 }|
 
 You will see:
 
-@image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.5]
+@image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.1]
 
 
 @subheader{Code blocks}
