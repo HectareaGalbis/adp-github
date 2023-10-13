@@ -321,7 +321,7 @@
         (alt-text (image-alt-text element))
         (scale (image-scale element)))
     (format stream "<img src=\"/~a\" alt=~s width=\"~a%\">"
-            path (escape-html-characters alt-text) (floor scale))))
+            path (escape-html-characters alt-text) (floor (* scale 100.0)))))
 
 ;; ------ text decorators ------
 (defmethod export-element ((element bold) stream)

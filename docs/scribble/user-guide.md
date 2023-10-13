@@ -200,7 +200,7 @@ You can add images with the macro [adp\-github\-core\:image](/docs/src/functions
 
 You will see\:
 
-<img src="/images/Lisp_logo.svg" alt="Lisp logo" width="0%">
+<img src="/images/Lisp_logo.svg" alt="Lisp logo" width="50%">
 
 
 <a id="header-adp-github-headertag917"></a>
