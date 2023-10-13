@@ -16,6 +16,9 @@ I will try to do my best explaining how to use ADP\. If this is not sufficient\,
   * [Text style](/docs/scribble/user-guide.md#header-adp-github-headertag915)
   * [Images](/docs/scribble/user-guide.md#header-adp-github-headertag916)
   * [Code blocks](/docs/scribble/user-guide.md#header-adp-github-headertag917)
+  * [Cross references](/docs/scribble/user-guide.md#header-adp-github-headertag920)
+    * [Header tags](/docs/scribble/user-guide.md#header-adp-github-headertag921)
+    * [Function\, variable and type tags](/docs/scribble/user-guide.md#header-adp-github-headertag922)
 
 
 <a id="header-adp-github-headertag909"></a>
@@ -289,3 +292,59 @@ You will see\:
 
 "world"
 `````
+
+<a id="header-adp-github-headertag920"></a>
+## Cross references
+
+ADP\-GITHUB supports cross references with tags\. A tag is just a symbol with some information associated\. There are four types of tags\: ``` :header ```\, ``` :function ```\, ``` :variable ``` and ``` :type ```\.
+
+<a id="header-adp-github-headertag921"></a>
+### Header tags
+
+A header\-tag is a symbol with a header associated\. We have already seen how to add a header to the documentation\. But I didn\'t say that the macros [adp\-github\-core\:header](/docs/src/functions.md#function-adp-github-core-header)\, [adp\-github\-core\:subheader](/docs/src/functions.md#function-adp-github-core-subheader) and [adp\-github\-core\:subsubheader](/docs/src/functions.md#function-adp-github-core-subsubheader) receives a second optional argument\. As you can imagine\, this second argument must be a symbol that will be converted to a header tag\. For example\, the first header of this file is created with this expression\:
+
+`````text
+@header[:tag user-guide]{User Guide}
+`````
+
+Now the symbol ``` user-guide ``` is a header tag\. We can make a reference to that header with the macro [adp\-github\:href](/docs/src/functions.md#function-adp-github-href)\. For example\, if I write this\:
+
+`````text
+Go to the top: @href[user-guide].
+`````
+
+Then you will see\:
+
+Go to the top\: [User Guide](/docs/scribble/user-guide.md#header-adp-github-user-guide)\.
+
+<a id="header-adp-github-headertag922"></a>
+### Function\, variable and type tags
+
+These tags are symbols associated with a function\, a variable or a type respectively\. More specifically\, the macros used to define things like [adp\-github\:defun](/docs/src/functions.md#function-adp-github-defun)\, [adp\-github\:defparameter](/docs/src/functions.md#function-adp-github-defparameter) or [adp\-github\:defstruct](/docs/src/functions.md#function-adp-github-defstruct) can create automatically a function tag\, a variable tag or a type tag respectively\. The tag created is the symbol of the name of the function\, variable or type defined respectively\. ADP\-GITHUB defines three types of tags because the same symbol can refer to a function\, a variable and a type simultaneously\. The next list shows what type of tags are defined by which macros\:
+
+* Function tags\:
+  * [adp\-github\:defgeneric](/docs/src/functions.md#function-adp-github-defgeneric)
+  * [adp\-github\:define\-modify\-macro](/docs/src/functions.md#function-adp-github-define-modify-macro)
+  * [adp\-github\:defmacro](/docs/src/functions.md#function-adp-github-defmacro)
+  * [adp\-github\:defun](/docs/src/functions.md#function-adp-github-defun)
+* Symbol tags\:
+  * [adp\-github\:defconstant](/docs/src/functions.md#function-adp-github-defconstant)
+  * [adp\-github\:define\-symbol\-macro](/docs/src/functions.md#function-adp-github-define-symbol-macro)
+  * [adp\-github\:defparameter](/docs/src/functions.md#function-adp-github-defparameter)
+  * [adp\-github\:defvar](/docs/src/functions.md#function-adp-github-defvar)
+* Type tags\:
+  * [adp\-github\:defclass](/docs/src/functions.md#function-adp-github-defclass)
+  * [adp\-github\:define\-condition](/docs/src/functions.md#function-adp-github-define-condition)
+  * [adp\-github\:defstruct](/docs/src/functions.md#function-adp-github-defstruct)
+  * [adp\-github\:deftype](/docs/src/functions.md#function-adp-github-deftype)
+
+
+Same as with header\-tags\, we can make reference to functions\, variables and types with [adp\-github\:fref](/docs/src/functions.md#function-adp-github-fref)\, [adp\-github\:vref](/docs/src/functions.md#function-adp-github-vref) and [adp\-github\:tref](/docs/src/functions.md#function-adp-github-tref)\. For example\, to make a reference to an ADP\-GITHUB macro\:
+
+`````scribble
+A refeence to an ADP-GITHUB macro: @fref[header].
+`````
+
+You will see\:
+
+A reference to an ADP\-GITHUB macro\: [adp\-github\-core\:header](/docs/src/functions.md#function-adp-github-core-header)\.

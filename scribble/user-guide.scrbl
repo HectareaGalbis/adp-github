@@ -254,3 +254,64 @@ You will see:
         do (print i))
   (values "Hello" "world")
 ]
+
+@subheader{Cross references}
+
+ADP-GITHUB supports cross references with tags. A tag is just a symbol with some information associated. There are four types of tags: @inline{:header}, @inline{:function}, @inline{:variable} and @inline{:type}.
+
+@subsubheader{Header tags}
+
+A header-tag is a symbol with a header associated. We have already seen how to add a header to the documentation. But I didn't say that the macros @fref[header], @fref[subheader] and @fref[subsubheader] receives a second optional argument. As you can imagine, this second argument must be a symbol that will be converted to a header tag. For example, the first header of this file is created with this expression:
+
+@verbatim-code-block[:lang "text"]|{
+@header[:tag user-guide]{User Guide}
+}|
+
+Now the symbol @inline{user-guide} is a header tag. We can make a reference to that header with the macro @fref[href]. For example, if I write this:
+
+@verbatim-code-block[:lang "text"]|{
+Go to the top: @href[user-guide].
+}|
+
+Then you will see:
+
+Go to the top: @href[user-guide].
+
+@subsubheader{Function, variable and type tags}
+
+These tags are symbols associated with a function, a variable or a type respectively. More specifically, the macros used to define things like @fref[defun], @fref[defparameter] or @fref[defstruct] can create automatically a function tag, a variable tag or a type tag respectively. The tag created is the symbol of the name of the function, variable or type defined respectively. ADP-GITHUB defines three types of tags because the same symbol can refer to a function, a variable and a type simultaneously. The next list shows what type of tags are defined by which macros:
+
+@itemize[
+  @item{Function tags:}
+  @itemize[
+    @item{@fref[defgeneric]}
+    @item{@fref[define-modify-macro]}
+    @item{@fref[defmacro]}
+    @item{@fref[defun]}
+  ]
+  @item{Symbol tags:}
+  @itemize[
+    @item{@fref[defconstant]}
+    @item{@fref[define-symbol-macro]}
+    @item{@fref[defparameter]}
+    @item{@fref[defvar]}
+  ]
+  @item{Type tags:}
+  @itemize[
+    @item{@fref[defclass]}
+    @item{@fref[define-condition]}
+    @item{@fref[defstruct]}
+    @item{@fref[deftype]}
+  ]
+]
+
+Same as with header-tags, we can make reference to functions, variables and types with @fref[fref], @fref[vref] and @fref[tref]. For example, to make a reference to an ADP-GITHUB macro:
+
+@verbatim-code-block[:lang "scribble"]|{
+A refeence to an ADP-GITHUB macro: @fref[header].
+}|
+
+You will see:
+
+A reference to an ADP-GITHUB macro: @fref[header].
+
