@@ -1,5 +1,5 @@
 
-(in-package #:adpgh-core)
+(in-package #:adpgh)
 
 
 ;; ----- Aux functions -----
@@ -117,7 +117,7 @@
     (when (not ref-obj)
       (error "Error: The tag ~s of type ~s does not exist."
              (tag-symbol tag) (tag-type tag)))
-    (let ((target-location (definition-target-location ref-obj)))
+    (let ((target-location (description-target-location ref-obj)))
       (format stream "[~a](/~a#~a)"
               (escape-characters (prin1-to-string (tag-symbol tag))) target-location (tag-to-string tag)))))
 
@@ -396,37 +396,223 @@
     (format stream "`````common-lisp~%~{~s~^~%~%~}~%`````" results)))
 
 
-;; ------ definitions ------
-(defmacro define-definition-process (type header-name)
-  (with-gensyms (element stream expression tag)
-    `(defmethod export-element ((,element ,type) ,stream)
-       (let ((,expression (definition-expression ,element))
-             (,tag (and (typep ,element 'tagged-definition)
-                        (definition-tag ,element))))
-         (format ,stream "<a id=~s></a>~%"
-                 (tag-to-string ,tag))
-         (format ,stream "#### ~a: ~a~%~%"
-                 ,header-name (escape-characters (princ-to-string (cadr ,expression))))
-         (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
-           (format ,stream "```common-lisp~%")
-           (prin1 ,expression ,stream)
-           (format ,stream "~%```"))))))
+;; ------ function description ------
+(defun macro-description-title (symbol stream)
+  (format stream "#### Macro: ~a" symbol)
+  #+sbcl
+  (format stream " ~s" (sb-introspect:function-lambda-list symbol)))
 
-(define-definition-process defclass-definition "Class")
-(define-definition-process defconstant-definition "Constant")
-(define-definition-process defgeneric-definition "Generic function")
-(define-definition-process define-compiler-macro-definition "Compiler macro")
-(define-definition-process define-condition-definition "Condition")
-(define-definition-process define-method-combination-definition "Method combination")
-(define-definition-process define-modify-macro-definition "Modify macro")
-(define-definition-process define-setf-expander-definition "Setf expander")
-(define-definition-process define-symbol-macro-definition "Symbol macro")
-(define-definition-process defmacro-definition "Macro")
-(define-definition-process defmethod-definition "Method")
-(define-definition-process defpackage-definition "Package")
-(define-definition-process defparameter-definition "Parameter")
-(define-definition-process defsetf-definition "Setf")
-(define-definition-process defstruct-definition "Struct")
-(define-definition-process deftype-definition "Type")
-(define-definition-process defun-definition "Function")
-(define-definition-process defvar-definition "Variable")
+(defun function-description-title (symbol stream)
+  (format stream "#### Function: ~a ~s"
+          symbol (cadr (function-lambda-expression (symbol-function symbol)))))
+
+(defun generic-description-title (symbol stream)
+  (format stream "#### Generic function: ~a ~s"
+          symbol (c2mop:generic-function-lambda-list (symbol-function symbol))))
+
+(defun description-docstring (symbol stream)
+  (let ((docstring (documentation symbol 'function)))
+    (princ (or (and docstring (escape-characters docstring)) "_Undocumented_") stream)))
+
+(defmethod export-element ((element function-description) stream)
+  (let* ((symbol (description-symbol element))
+         (*print-pprint-dispatch* *adp-pprint-dispatch*))
+    (cond
+      ((macro-function symbol)
+       (macro-description-title symbol stream))
+      ((typep (symbol-function symbol) 'generic-function)
+       (generic-description-title symbol stream))
+      ((symbol-function symbol)
+       (function-description-title symbol stream)))
+    (terpri stream)
+    (terpri stream)
+    (description-docstring symbol stream)))
+
+
+;; ------ variable description ------
+(defun variable-description-title (symbol stream)
+  (let ((title (if (constantp symbol) "Constant" "Variable")))
+    (format stream "#### ~a: ~s" title symbol)))
+
+(defun variable-description-default (symbol stream)
+  (format stream "* Initial value: ~s" (symbol-value symbol)))
+
+(defun variable-description-docstring (symbol stream)
+  (let ((docstring (documentation symbol 'variable)))
+    (princ (or (and docstring (escape-characters docstring)) "_Undocumented_") stream)))
+
+(defmethod export-element ((element variable-description) stream)
+  (let ((symbol (description-symbol element))
+        (*print-pprint-dispatch* *adp-pprint-dispatch*))
+    (variable-description-title symbol stream)
+    (terpri stream)
+    (terpri stream)
+    (variable-description-default symbol stream)
+    (terpri stream)
+    (terpri stream)
+    (variable-description-docstring symbol stream)))
+
+
+;; ------ class description ------
+(defun class-description-title (class stream)
+  (format stream "#### Class: ~a" (class-name class)))
+
+(defun class-description-docstring (class stream)
+  (let ((docstring (documentation symbol 'type)))
+    (princ (or (and docstring (escape-characters docstring)) "_Undocumented_") stream)))
+
+(defun class-description-metaclass (class stream)
+  (format stream "* Metaclass: ~a" (class-name (typeof class))))
+
+(defun class-description-precedence-list (class stream)
+  (format stream "* Precedence list: ~{~s~^, ~}" (c2mop:class-precedence-list class)))
+
+(defun class-description-direct-superclasses (class stream)
+  (format stream "* Direct superclasses: ~{~s~^, ~}" (c2mop:class-direct-superclasses class)))
+
+(defun class-description-direct-subclasses (class stream)
+  (format stream "* Direct subclasses: ~{~s~^, }" (c2mop:class-direct-subclasses class)))
+
+
+(defun symbol-to-maybe-reference (symbol)
+  (let ((externalp (nth-value 1 (find-symbol (symbol-name symbol) (symbol-package symbol))))
+        (tag (make-tag symbol :function)))
+    (when (and externalp (get-tag-value tag))
+      (make-instance 'variable-reference :tag tag))))
+
+(defun slot-name-item (slot-definition)
+  (make-instance 'item :elements (list (format nil "~a :" (c2mop:slot-definition-name slot-definition)))))
+
+(defun slot-allocation-item (slot-definition)
+  (make-instance 'item :elements (list (format nil "Allocation: ~a"
+                                               (c2mop:slot-definition-allocation slot-definition)))))
+
+(defun slot-readers-item (slot-definition)
+  (let ((readers (c2mop:slot-definition-readers slot-definition)))
+    (and readers
+         (make-instace 'item :elements (list (format nil "Readers: ~{~a~^, ~}"
+                                                     (mapcar #'symbol-to-maybe-reference readers)))))))
+
+(defun slot-writers-item (slot-definition)
+  (let ((writers (c2mop:slot-definition-writers slot-definition)))
+    (and writer
+         (make-instace 'item :elements (list (format nil "Writers: ~{~a~^, ~}"
+                                                     (mapcar #'symbol-to-maybe-reference writer)))))))
+
+(defun slot-properties-itemize (slot-definition)
+  (make-instance 'itemize :items `(,(slot-allocation-item slot-definition)
+                                   ,@(let ((readers-item (slot-readers-items slot-definition)))
+                                       (and readers-item `(readers-item)))
+                                   ,@(let ((writers-item (slot-writers-items slot-definition)))
+                                       (and writers-item `(writers-item))))))
+
+(defun direct-slots-itemize (class)
+  (let ((direct-slots (c2mop:class-direct-slots class)))
+    (make-instance 'itemize :items (apply #'append (mapcar (lambda (slot)
+                                                             (list (slot-name-item slot)
+                                                                   (slot-properties-itemize slot)))
+                                                           direct-slots)))))
+
+(defun class-direct-slots-itemize (class)
+  (make-instance 'itemize :items (list (make-instance 'item :elements (list "Direct slots:"))
+                                       (direct-slots-itemize class))))
+
+(defun class-description-direct-slots (class stream)
+  (export-element (class-direct-slots-itemize class) stream))
+
+(defmethod export-element ((element class-description) stream)
+  (let ((class (find-class (description-symbol element))))
+    (class-description-title class stream)
+    (terpri stream)
+    (terpri stream)
+    (class-description-docstring class stream)
+    (terpri stream)
+    (terpri stream)
+    (class-description-metaclass class stream)
+    (terpri stream)
+    (class-description-precedence-list class stream)
+    (terpri stream)
+    (class-description-direct-superclasses class stream)
+    (terpri stream)
+    (class-description-direct-subclasses class stream)
+    (terpri)
+    (class-description-direct-slots class stream)))
+
+
+;; ------ package description ------
+(defun package-description-title (pkg stream)
+  (format stream "#### Package: ~a" (package-name pkg)))
+
+(defun package-description-docstring (pkg stream)
+  (let ((docstring (documentation pkg t)))
+    (princ (or (and docstring (escape-characters docstring)) "_Undocumented_") stream)))
+
+(defun package-description-nicknames (pkg stream)
+  (format stream "* Nicknames: ~{~a~^, ~}" (package-nicknames pkg)))
+
+(defun package-description-exported-symbols (pkg stream)
+  (format stream "* Exported symbols: ")
+  (let ((external-symbols '()))
+    (do-external-symbols (sym pkg)
+      (push sym external-symbols))
+    (let ((*print-case* :downcase))
+      (format stream "~{~a~^, ~}" (sort external-symbols #'string<=)))))
+
+(defmethod export-element ((element package-description) stream)
+  (let ((pkg (description-package element)))
+    (package-description-title pkg stream)
+    (terpri stream)
+    (terpri stream)
+    (package-description-docstring pkg stream)
+    (terpri stream)
+    (terpri stream)
+    (package-description-nicknames pkg stream)
+    (terpri stream)
+    (package-description-exported-symbols pkg stream)))
+
+
+;; ------ glossary ------
+(defmethod export-element ((element glossary) stream)
+  (let ((descriptions (glossary-descriptions element)))
+    (sort descriptions #'string<= :key (lambda (x) (description-symbol x)))
+    (when (not (null descriptions))
+      (export-element (car descriptions) stream)
+      (loop for description in (cdr descriptions)
+            do (terpri stream)
+               (terpri stream)
+               (export-element description stream)))))
+
+
+;; (defmacro define-definition-process (type header-name)
+;;   (with-gensyms (element stream expression tag)
+;;     `(defmethod export-element ((,element ,type) ,stream)
+;;        (let ((,expression (definition-expression ,element))
+;;              (,tag (and (typep ,element 'tagged-definition)
+;;                         (definition-tag ,element))))
+;;          (format ,stream "<a id=~s></a>~%"
+;;                  (tag-to-string ,tag))
+;;          (format ,stream "#### ~a: ~a~%~%"
+;;                  ,header-name (escape-characters (princ-to-string (cadr ,expression))))
+;;          (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
+;;            (format ,stream "```common-lisp~%")
+;;            (prin1 ,expression ,stream)
+;;            (format ,stream "~%```"))))))
+
+;; (define-definition-process defclass-definition "Class")
+;; (define-definition-process defconstant-definition "Constant")
+;; (define-definition-process defgeneric-definition "Generic function")
+;; (define-definition-process define-compiler-macro-definition "Compiler macro")
+;; (define-definition-process define-condition-definition "Condition")
+;; (define-definition-process define-method-combination-definition "Method combination")
+;; (define-definition-process define-modify-macro-definition "Modify macro")
+;; (define-definition-process define-setf-expander-definition "Setf expander")
+;; (define-definition-process define-symbol-macro-definition "Symbol macro")
+;; (define-definition-process defmacro-definition "Macro")
+;; (define-definition-process defmethod-definition "Method")
+;; (define-definition-process defpackage-definition "Package")
+;; (define-definition-process defparameter-definition "Parameter")
+;; (define-definition-process defsetf-definition "Setf")
+;; (define-definition-process defstruct-definition "Struct")
+;; (define-definition-process deftype-definition "Type")
+;; (define-definition-process defun-definition "Function")
+;; (define-definition-process defvar-definition "Variable")

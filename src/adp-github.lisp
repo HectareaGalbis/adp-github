@@ -1,5 +1,5 @@
 
-(in-package #:adpgh-core)
+(in-package #:adpgh)
 
 (adp:define-adp-operation adp-github-op)
 

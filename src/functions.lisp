@@ -1,36 +1,27 @@
 
 (in-package #:adpgh)
 
-#@header[:tag reference]{Reference}
-
-#@text{
-This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost all these functions can be used in both lisp and text mode. However, the last macros that define things, must only be used in lisp mode.
-}
-
-#@table-of-functions[]
-
-#@subheader{Lisp and text mode functions}
 
 ;; ------ aux functions ------
-(cl:defun make-unique-tag ()
+(defun make-unique-tag ()
   (let ((new-tag (gensym "HEADERTAG")))
     (import new-tag "ADP-GITHUB")
     (values new-tag)))
 
-(cl:defun get-keyword-parameter (key params)
+(defun get-keyword-parameter (key params)
   (cond
     ((null params) nil)
     ((eq key (car params)) (cadr params))
     (t (get-keyword-parameter key (cdr params)))))
 
-(cl:defun remove-keyword-parameters (params)
+(defun remove-keyword-parameters (params)
   (and params
        (let ((key (car params)))
          (if (keywordp key)
              (remove-keyword-parameters (cddr params))
              (cons (car params) (remove-keyword-parameters (cdr params)))))))
 
-(cl:defmacro with-key-params ((key-args rest-args args) &body body)
+(defmacro with-key-params ((key-args rest-args args) &body body)
   (once-only (args)
     (let* ((keyword-args (mapcar (lambda (key-arg)
                                    (intern (symbol-name key-arg) "KEYWORD"))
@@ -44,9 +35,9 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ header ------
-(cl:defmacro define-header-function (name type)
+(defmacro define-header-function (name type)
   (with-gensyms (tag fixed-tag-sym tag-obj header-obj)
-    `(adv-defmacro ,name (&rest args)
+    `(defmacro ,name (&rest args)
        `(let* ((,',tag (get-keyword-parameter :tag ',args))
                (,',fixed-tag-sym (or ,',tag (make-unique-tag)))
                (,',tag-obj (make-tag ,',fixed-tag-sym :header))
@@ -64,13 +55,13 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ text ------
-(adv-defun text (&rest elements)
+(defun text (&rest elements)
   (make-instance 'text :elements elements))
 
 
 ;; ------ references ------
-(cl:defmacro define-reference-function (name type tag-type)
-  `(adv-defmacro ,name (sym)
+(defmacro define-reference-function (name type tag-type)
+  `(defmacro ,name (sym)
      `(make-instance ',',type :tag (make-tag ',sym ,',tag-type))))
 
 (define-reference-function href header-reference :header)
@@ -80,16 +71,16 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ table ------
-(adv-defun cell (&rest elements)
+(defun cell (&rest elements)
   (make-instance 'cell :elements elements))
 
-(adv-defun row (&rest elements)
+(defun row (&rest elements)
   (loop for element in elements
         when (not (typep element 'cell))
           do (error "Each element of a row must be a cell."))
   (make-instance 'row :cells elements))
 
-(adv-defun table (&rest elements)
+(defun table (&rest elements)
   (assert (> (length elements) 0))
   (let ((num-cells (length (row-cells (car elements)))))
     (loop for element in elements
@@ -102,16 +93,16 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ itemize ------
-(adv-defun item (&rest elements)
+(defun item (&rest elements)
   (make-instance 'item :elements elements))
 
-(adv-defun itemize (&rest elements)
+(defun itemize (&rest elements)
   (loop for element in elements
         when (not (typep element '(or item itemize enumerate)))
           do (error "Each element of a list must be an item."))
   (make-instance 'itemize :items elements))
 
-(adv-defun enumerate (&rest elements)
+(defun enumerate (&rest elements)
   (loop for element in elements
         when (not (typep element '(or item itemize enumerate)))
           do (error "Each element of a list must be an item."))
@@ -119,24 +110,24 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ table of contents ------
-(adv-defun table-of-contents ()
+(defun table-of-contents ()
   (make-instance 'table-of-contents))
 
-(adv-defun mini-table-of-contents ()
+(defun mini-table-of-contents ()
   (make-instance 'mini-table-of-contents))
 
-(adv-defun table-of-functions ()
+(defun table-of-functions ()
   (make-instance 'table-of-functions))
 
-(adv-defun table-of-symbols ()
+(defun table-of-symbols ()
   (make-instance 'table-of-symbols))
 
-(adv-defun table-of-types ()
+(defun table-of-types ()
   (make-instance 'table-of-types))
 
 
 ;; ------ image ------
-(adv-defun image (path &key (alt-text "Image") (scale 1.0))
+(defun image (path &key (alt-text "Image") (scale 1.0))
   (make-instance 'image
                  :path path
                  :alt-text alt-text
@@ -144,40 +135,40 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
 
 ;; ------ text decorators ------
-(cl:defmacro define-text-decorator (name type)
-  `(adv-defun ,name (&rest elements)
+(defmacro define-text-decorator (name type)
+  `(defun ,name (&rest elements)
      (make-instance ',type :elements elements)))
 
 (define-text-decorator bold bold)
 (define-text-decorator italic italic)
 (define-text-decorator emphasis emphasis)
-(define-text-decorator inline inline-code)
+(define-text-decorator code inline-code)
 
 
 ;; ------ web link ------
-(adv-defun link (&rest elements)
+(defun link (&rest elements)
   (with-key-params ((address) rest-elements elements)
     (make-instance 'link :elements rest-elements :address address)))
 
 
 ;; ------ quote ------
-(adv-defun quoted (&rest elements)
+(defun quoted (&rest elements)
   (make-instance 'quoted :elements elements))
 
 
 ;; ------ code block ------
-(adv-defmacro code-block (&rest expressions)
+(defmacro code-block (&rest expressions)
   `(make-instance 'code-of-block :expressions ',expressions))
 
 
 ;; ------ verbatim code block ------
-(adv-defun verbatim-code-block (&rest elements)
+(defun verbatim-code-block (&rest elements)
   (with-key-params ((lang) rest-elements elements)
     (make-instance 'verbatim-code-of-block :lang lang :elements rest-elements)))
 
 
 ;; ------ example ------
-(adv-defmacro example (&rest expressions)
+(defmacro example (&rest expressions)
   (with-gensyms (output result)
     `(let* ((,output (make-array 10 :adjustable t :fill-pointer 0 :element-type 'character))
 	    (,result (multiple-value-list (with-output-to-string (*standard-output* ,output)
@@ -185,70 +176,154 @@ This is the list of functions and macros defined by @inline{ADP-GITHUB}. Almost 
 
        (make-instance 'example :expressions ',expressions :output ,output :results ,result))))
 
-#@subheader{Only lisp mode functions}
 
-;; ------ definitions ------
-(cl:defmacro define-definition-macro (name type tag-extraction-expr tag-type docstring)
-  (let ((body (if tag-extraction-expr
-		  (car tag-extraction-expr)
-		  (make-symbol "BODY")))
-	(tag-extraction (if tag-extraction-expr
-			    (cadr tag-extraction-expr)
-			    nil))
-        (cl-name (find-symbol (symbol-name name) "CL")))
-    (with-gensyms (tag obj)
-      `(adv-defmacro ,name (&body ,body)
-         ,docstring
-         `(progn
-	    ,@(when adp:*adp*
-	        `((let* (,@,(when tag-extraction-expr
-                              ``((,',tag (make-tag ',,tag-extraction ,',tag-type))))
-                         (,',obj (make-instance ',',type
-					        :expression '(,',cl-name ,@,body)
-					        ,@,(when tag-extraction-expr
-						     ``(:tag ,',tag
-                                                        :target-location (file-target-relative-pathname *process-file*))))))
-                    (adp:add-element ,',obj)
-                    ,@,(when tag-extraction-expr
-                         ``((setf (get-tag-value ,',tag) ,',obj))))))
-	    (,',cl-name ,@,body))))))
+;; ------ function descriptions ------
+(defmacro function-description (sym)
+  (with-gensyms (tag instance)
+    `(let ((,tag (make-tag ',sym :function))
+           (,instance (make-instance 'function-description :symbol ',sym
+                                                           :target-location (file-target-relative-pathname *process-file*))))
+       (when (not (get-tag-value ,tag))
+         (setf (get-tag-value ,tag) ,instance))
+       (values ,instance))))
 
-(define-definition-macro defclass defclass-definition (body (car body)) :type
-  "Add a defclass declaration. The macro expands to cl:defclass. Also, the class name is used to create a type-tag.")
-(define-definition-macro defconstant defconstant-definition (body (car body)) :variable
-  "Add a defconstant declaration. The macro expands to cl:defconstant. Also, the constant name is used to create a symbol-tag.")
-(define-definition-macro defgeneric defgeneric-definition (body (car body)) :function
-  "Add a defgeneric declaration. The macro expands to cl:defgeneric. Also, the generic function name is used to create a function-tag.")
-(define-definition-macro define-compiler-macro define-compiler-macro-definition nil nil
-  "Add a define-compiler-macro declaration. The macro expands to cl:define-compiler-macro.")
-(define-definition-macro define-condition define-condition-definition (body (car body)) :type
-  "Add a define-condition declaration. The macro expands to cl:define-condition. Also, the condition name is used to create a type-tag.")
-(define-definition-macro define-method-combination define-method-combination-definition nil nil
-  "Add a define-method-combination declaration. The macro expands to cl:define-method-combination.")
-(define-definition-macro define-modify-macro define-modify-macro-definition (body (car body)) :function
-  "Add a define-modify-macro declaration. The macro expands to cl:define-modify-macro. Also, the macro name is used to create a function-tag.")
-(define-definition-macro define-setf-expander define-setf-expander-definition nil nil
-  "Add a define-setf-expander declaration. The macro expands to cl:define-setf-expander.")
-(define-definition-macro define-symbol-macro define-symbol-macro-definition (body (car body)) :variable
-  "Add a define-symbol-macro declaration. The macro expands to cl:define-symbol-macro. Also, the symbol name is used to create a symbol-tag.")
-(define-definition-macro defmacro defmacro-definition (body (car body)) :function
-  "Add a defmacro declaration. The macro expands to cl:defmacro. Also, the macro name is used to create a function-tag.")
-(define-definition-macro defmethod defmethod-definition nil nil
-  "Add a defmethod declaration. The macro expands to cl:defmethod.")
-(define-definition-macro defpackage defpackage-definition nil nil
-  "Add a defpackage declaration. The macro expands to cl:defpackage.")
-(define-definition-macro defparameter defparameter-definition (body (car body)) :variable
-  "Add a defparameter declaration. The macro expands to cl:defparameter. Also, the parameter name is used to create a symbol-tag.")
-(define-definition-macro defsetf defsetf-definition nil nil
-  "Add a defsetf declaration. The macro expands to cl:defsetf.")
-(define-definition-macro defstruct defstruct-definition (body (car body)) :type
-  "Add a defstruct declaration. The macro expands to cl:defstruct. Also, the struct name is used to create a type-tag.")
-(define-definition-macro deftype deftype-definition (body (car body)) :type
-  "Add a deftype declaration. The macro expands to cl:deftype. Also, the type name is used to create a type-tag.")
-(define-definition-macro defun defun-definition (body (if (symbolp (car body))
-								 (car body)
-								 nil))
-  :function
-  "Add a defun declaration. The macro expands to cl:defun. Also, the function name is used to create a function-tag.")
-(define-definition-macro defvar defvar-definition (body (car body)) :variable
-  "Add a defvar declaration. The macro expands to cl:defvar. Also, the variable name is used to create a symbol-tag.")
+
+;; ------ variable description ------
+(defmacro variable-description (sym)
+  (with-gensyms (tag instance)
+    `(let ((,tag (make-tag ',sym :variable))
+           (,instance (make-instance 'variable-description :symbol ',sym
+                                                           :target-location (file-target-relative-pathname *process-file*))))
+       (when (not (get-tag-value ,tag))
+         (setf (get-tag-value ,tag) ,instance))
+       (values ,instance))))
+
+
+;; ------ class description ------
+(defmacro class-description (sym)
+  (with-gensyms (tag instance)
+    `(let ((,tag (make-tag ',sym :class))
+           (,instance (make-instance 'class-description :symbol ',sym
+                                                        :target-location (file-target-relative-pathname *process-file*))))
+       (when (not (get-tag-value ,tag))
+         (setf (get-tag-value ,tag) ,instance))
+       (values ,instance))))
+
+
+;; ------ package description ------
+(defmacro package-description (pkg)
+  (with-gensyms (actual-pkg tag instance)
+    `(let* ((,actual-pkg (find-package ',pkg))
+            (,tag (make-tag (intern (package-name ,actual-pkg) "KEYWORD") :package))
+            (,instance (make-instance 'package-description :package ,actual-pkg
+                                                           :target-location (file-target-relative-pathname *process-file*))))
+       (when (not (get-tag-value ,tag))
+         (setf (get-tag-value ,tag) ,instance))
+       (values ,instance))))
+
+
+;; ------ glossary ------
+(defmacro function-glossary (pkg)
+  (with-gensyms (fdescriptions sym tag instance)
+    `(let ((,fdescriptions '()))
+       (do-external-symbols (,sym (find-package ',pkg))
+         (when (fboundp ,sym)
+           (let ((,tag (make-tag ,sym :function))
+                 (,instance (make-instance 'function-description :symbol ,sym
+                                                                 :target-location (file-target-relative-pathname *process-file*))))
+             (push ,instance ,fdescriptions)
+             (setf (get-tag-value ,tag) ,instance))))
+       (make-instance 'function-glossary :descriptions ,fdescriptions))))
+
+(defmacro variable-glossary (pkg)
+  (with-gensyms (vdescriptions sym tag instance)
+    `(let ((,vdescriptions '()))
+       (do-external-symbols (,sym (find-package ',pkg))
+         (when (boundp ,sym)
+           (let ((,tag (make-tag ,sym :variable))
+                 (,instance (make-instance 'function-description :symbol ,sym
+                                                                 :target-location (file-target-relative-pathname *process-file*))))
+             (push ,instance ,vdescriptions)
+             (setf (get-tag-value ,tag) ,instance))))
+       (make-instance 'variable-glossary :descriptions ,vdescriptions))))
+
+(defmacro class-glossary (pkg)
+  (with-gensyms (cdescriptions sym tag instance)
+    `(let ((,cdescriptions '()))
+       (do-external-symbols (,sym (find-package ',pkg))
+         (when (find-class ,sym)
+           (let ((,tag (make-tag ,sym :class))
+                 (,instance (make-instance 'class-description :symbol ,sym
+                                                              :target-location (file-target-relative-pathname *process-file*))))
+             (push ,instance ,cdescriptions)
+             (setf (get-tag-value ,tag) ,instance))))
+       (make-instance 'variable-glossary :descriptions ,cdescriptions))))
+
+
+
+
+
+;; (defmacro define-definition-macro (name type tag-extraction-expr tag-type docstring)
+;;   (let ((body (if tag-extraction-expr
+;; 		  (car tag-extraction-expr)
+;; 		  (make-symbol "BODY")))
+;; 	(tag-extraction (if tag-extraction-expr
+;; 			    (cadr tag-extraction-expr)
+;; 			    nil))
+;;         (cl-name (find-symbol (symbol-name name) "CL")))
+;;     (with-gensyms (tag obj)
+;;       `(defmacro ,name (&body ,body)
+;;          ,docstring
+;;          `(progn
+;; 	    ,@(when adp:*adp*
+;; 	        `((let* (,@,(when tag-extraction-expr
+;;                               ``((,',tag (make-tag ',,tag-extraction ,',tag-type))))
+;;                          (,',obj (make-instance ',',type
+;; 					        :expression '(,',cl-name ,@,body)
+;; 					        ,@,(when tag-extraction-expr
+;; 						     ``(:tag ,',tag
+;;                                                         :target-location (file-target-relative-pathname *process-file*))))))
+;;                     (adp:add-element ,',obj)
+;;                     ,@,(when tag-extraction-expr
+;;                          ``((setf (get-tag-value ,',tag) ,',obj))))))
+;; 	    (,',cl-name ,@,body))))))
+
+;; (define-definition-macro defclass defclass-definition (body (car body)) :type
+;;   "Add a defclass declaration. The macro expands to defclass. Also, the class name is used to create a type-tag.")
+;; (define-definition-macro defconstant defconstant-definition (body (car body)) :variable
+;;   "Add a defconstant declaration. The macro expands to defconstant. Also, the constant name is used to create a symbol-tag.")
+;; (define-definition-macro defgeneric defgeneric-definition (body (car body)) :function
+;;   "Add a defgeneric declaration. The macro expands to defgeneric. Also, the generic function name is used to create a function-tag.")
+;; (define-definition-macro define-compiler-macro define-compiler-macro-definition nil nil
+;;   "Add a define-compiler-macro declaration. The macro expands to define-compiler-macro.")
+;; (define-definition-macro define-condition define-condition-definition (body (car body)) :type
+;;   "Add a define-condition declaration. The macro expands to define-condition. Also, the condition name is used to create a type-tag.")
+;; (define-definition-macro define-method-combination define-method-combination-definition nil nil
+;;   "Add a define-method-combination declaration. The macro expands to define-method-combination.")
+;; (define-definition-macro define-modify-macro define-modify-macro-definition (body (car body)) :function
+;;   "Add a define-modify-macro declaration. The macro expands to define-modify-macro. Also, the macro name is used to create a function-tag.")
+;; (define-definition-macro define-setf-expander define-setf-expander-definition nil nil
+;;   "Add a define-setf-expander declaration. The macro expands to define-setf-expander.")
+;; (define-definition-macro define-symbol-macro define-symbol-macro-definition (body (car body)) :variable
+;;   "Add a define-symbol-macro declaration. The macro expands to define-symbol-macro. Also, the symbol name is used to create a symbol-tag.")
+;; (define-definition-macro defmacro defmacro-definition (body (car body)) :function
+;;   "Add a defmacro declaration. The macro expands to defmacro. Also, the macro name is used to create a function-tag.")
+;; (define-definition-macro defmethod defmethod-definition nil nil
+;;   "Add a defmethod declaration. The macro expands to defmethod.")
+;; (define-definition-macro defpackage defpackage-definition nil nil
+;;   "Add a defpackage declaration. The macro expands to defpackage.")
+;; (define-definition-macro defparameter defparameter-definition (body (car body)) :variable
+;;   "Add a defparameter declaration. The macro expands to defparameter. Also, the parameter name is used to create a symbol-tag.")
+;; (define-definition-macro defsetf defsetf-definition nil nil
+;;   "Add a defsetf declaration. The macro expands to defsetf.")
+;; (define-definition-macro defstruct defstruct-definition (body (car body)) :type
+;;   "Add a defstruct declaration. The macro expands to defstruct. Also, the struct name is used to create a type-tag.")
+;; (define-definition-macro deftype deftype-definition (body (car body)) :type
+;;   "Add a deftype declaration. The macro expands to deftype. Also, the type name is used to create a type-tag.")
+;; (define-definition-macro defun defun-definition (body (if (symbolp (car body))
+;; 								 (car body)
+;; 								 nil))
+;;   :function
+;;   "Add a defun declaration. The macro expands to defun. Also, the function name is used to create a function-tag.")
+;; (define-definition-macro defvar defvar-definition (body (car body)) :variable
+;;   "Add a defvar declaration. The macro expands to defvar. Also, the variable name is used to create a symbol-tag.")

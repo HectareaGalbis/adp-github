@@ -5,7 +5,7 @@
 
 Welcome to ADP-GITHUB!
 
-@inline{ADP-GITHUB} is an extension for @inline{ADP}. It exports some functions and macros to print markdown-styled objects like headers, lists, code blocks and more. It also supports cross references and table of contents. Every symbol is exported from the @inline{adp-github} package, although you can use the nickname @inline{adpgh}.
+@code{ADP-GITHUB} is an extension for @code{ADP}. It exports some functions and macros to print markdown-styled objects like headers, lists, code blocks and more. It also supports cross references and table of contents. Every symbol is exported from the @code{adp-github} package, although you can use the nickname @code{adpgh}.
 
 @mini-table-of-contents[]
 
@@ -18,7 +18,7 @@ Welcome to ADP-GITHUB!
 
 @subheader{How to use}
 
-In your @inline{asd} file, you need to @inline{:defsystem-depends-on} the system @inline{adp-github}. Also, is really recommended to make a separate system only for documentation generation. And, lastly, you should specify @inline{:build-operation} to be @inline{"adp-github-op"}.
+In your @code{asd} file, you need to @code{:defsystem-depends-on} the system @code{adp-github}. Also, is really recommended to make a separate system only for documentation generation. And, lastly, you should specify @code{:build-operation} to be @code{"adp-github-op"}.
 
 @verbatim-code-block[:lang "common-lisp"]{
 (defsystem "my-system"
@@ -41,7 +41,7 @@ Now, from the REPL, just evaluate the following expression:
 
 @subheader{Where the files are generated}
 
-There is a simple rule and one expception. The rule says that every file is generated in a mirrored place under the @inline{docs} directory. For example, the contents of file @inline{src/myfile.scrbl} are printed into the file @inline{docs/src/myfile.md}.
+There is a simple rule and one expception. The rule says that every file is generated in a mirrored place under the @code{docs} directory. For example, the contents of file @code{src/myfile.scrbl} are printed into the file @code{docs/src/myfile.md}.
 
-The exception is the file @inline{README.scrbl}. If that file is placed at the root directory, then the output is placed in the same place.
+The exception is the file @code{README.scrbl}. If that file is placed at the root directory, then the output is placed in the same place.
 

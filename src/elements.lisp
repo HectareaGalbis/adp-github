@@ -1,5 +1,5 @@
 
-(in-package #:adpgh-core)
+(in-package #:adpgh)
 
 
 ;; ----- header -----
@@ -234,91 +234,122 @@
    "Represents an example."))
 
 
-;; ------ definitions ------
-(defclass definition ()
-  ((expression :initarg :expression
-               :reader definition-expression))
-  (:documentation
-   "Represetns a definition."))
-
-(defclass tagged-definition (definition)
-  ((tag :initarg :tag
-        :reader definition-tag
-        :type tag)
+;; ------ description ------
+(defclass description ()
+  ((symbol :initarg :symbol
+           :reader description-symbol
+           :type symbol)
    (target-location :initarg :target-location
-                    :reader definition-target-location
-                    :type pathname))
-  (:documentation
-   "Represents a tagged definition."))
+                    :reader description-target-location
+                    :type pathname)))
 
-(defclass defclass-definition (tagged-definition) ()
-  (:documentation
-   "Represents a class definition."))
+(defclass function-description (description) ())
+(defclass variable-description (description) ())
+(defclass class-description (description) ())
 
-(defclass defconstant-definition (tagged-definition) ()
-  (:documentation
-   "Represents a constant definition."))
+(defclass package-description ()
+  ((package :initarg :package
+            :reader description-package
+            :type package)
+   (target-location :initarg :target-location
+                    :reader description-target-location
+                    :type pathname)))
 
-(defclass defgeneric-definition (tagged-definition) ()
-  (:documentation
-   "Represents a generic function definition."))
 
-(defclass define-compiler-macro-definition (definition) ()
-  (:documentation
-   "Represents a compiler macro definition."))
+;; ------ glossary ------
+(defclass glossary ()
+  ((descriptions :initarg :descriptions
+                 :reader glossary-descriptions)))
 
-(defclass define-condition-definition (tagged-definition) ()
-  (:documentation
-   "Represents a condition definition."))
+(defclass function-glossary (glossary) ())
+(defclass variable-glossary (glossary) ())
+(defclass class-glossary (glossary) ())
 
-(defclass define-method-combination-definition (definition) ()
-  (:documentation
-   "Represents a method combination definition."))
 
-(defclass define-modify-macro-definition (tagged-definition) ()
-  (:documentation
-   "Represents a modify macro definition."))
+;; (defclass definition ()
+;;   ((expression :initarg :expression
+;;                :reader definition-expression))
+;;   (:documentation
+;;    "Represetns a definition."))
 
-(defclass define-setf-expander-definition (definition) ()
-  (:documentation
-   "Represents a setf expander definition."))
+;; (defclass tagged-definition (definition)
+;;   ((tag :initarg :tag
+;;         :reader definition-tag
+;;         :type tag)
+;;    (target-location :initarg :target-location
+;;                     :reader definition-target-location
+;;                     :type pathname))
+;;   (:documentation
+;;    "Represents a tagged definition."))
 
-(defclass define-symbol-macro-definition (tagged-definition) ()
-  (:documentation
-   "Represents a symbol macro definition."))
+;; (defclass defclass-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a class definition."))
 
-(defclass defmacro-definition (tagged-definition) ()
-  (:documentation
-   "Represents a macro definition."))
+;; (defclass defconstant-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a constant definition."))
 
-(defclass defmethod-definition (definition) ()
-  (:documentation
-   "Represents a defmethod definition."))
+;; (defclass defgeneric-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a generic function definition."))
 
-(defclass defpackage-definition (definition) ()
-  (:documentation
-   "Represents a package definition."))
+;; (defclass define-compiler-macro-definition (definition) ()
+;;   (:documentation
+;;    "Represents a compiler macro definition."))
 
-(defclass defparameter-definition (tagged-definition) ()
-  (:documentation
-   "Represents a parameter definition."))
+;; (defclass define-condition-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a condition definition."))
 
-(defclass defsetf-definition (definition) ()
-  (:documentation
-   "Represents a setf definition."))
+;; (defclass define-method-combination-definition (definition) ()
+;;   (:documentation
+;;    "Represents a method combination definition."))
 
-(defclass defstruct-definition (tagged-definition) ()
-  (:documentation
-   "Represents a struct definition."))
+;; (defclass define-modify-macro-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a modify macro definition."))
 
-(defclass deftype-definition (tagged-definition) ()
-  (:documentation
-   "Represents a type definition."))
+;; (defclass define-setf-expander-definition (definition) ()
+;;   (:documentation
+;;    "Represents a setf expander definition."))
 
-(defclass defun-definition (tagged-definition) ()
-  (:documentation
-   "Represents a function definition."))
+;; (defclass define-symbol-macro-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a symbol macro definition."))
 
-(defclass defvar-definition (tagged-definition) ()
-  (:documentation
-   "Represents a variable definition."))
+;; (defclass defmacro-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a macro definition."))
+
+;; (defclass defmethod-definition (definition) ()
+;;   (:documentation
+;;    "Represents a defmethod definition."))
+
+;; (defclass defpackage-definition (definition) ()
+;;   (:documentation
+;;    "Represents a package definition."))
+
+;; (defclass defparameter-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a parameter definition."))
+
+;; (defclass defsetf-definition (definition) ()
+;;   (:documentation
+;;    "Represents a setf definition."))
+
+;; (defclass defstruct-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a struct definition."))
+
+;; (defclass deftype-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a type definition."))
+
+;; (defclass defun-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a function definition."))
+
+;; (defclass defvar-definition (tagged-definition) ()
+;;   (:documentation
+;;    "Represents a variable definition."))

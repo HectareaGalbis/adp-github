@@ -1,5 +1,5 @@
 
-(in-package #:adpgh-core)
+(in-package #:adpgh)
 
 
 (defun documentationp (expr)
