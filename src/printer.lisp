@@ -403,8 +403,12 @@
   (format stream " ~s" (sb-introspect:function-lambda-list symbol)))
 
 (defun function-description-title (symbol stream)
-  (format stream "#### Function: ~a ~s"
-          symbol (cadr (function-lambda-expression (symbol-function symbol)))))
+  (format stream "#### Function: ~a" symbol)
+  #+sbcl
+  (format stream " ~s" (sb-introspect:function-lambda-list symbol))
+  ;; (format stream "#### Function: ~a ~@[~s~]"
+  ;;         symbol (cadr (print (function-lambda-expression (symbol-function symbol)))))
+  )
 
 (defun generic-description-title (symbol stream)
   (format stream "#### Generic function: ~a ~s"
@@ -432,10 +436,10 @@
 ;; ------ variable description ------
 (defun variable-description-title (symbol stream)
   (let ((title (if (constantp symbol) "Constant" "Variable")))
-    (format stream "#### ~a: ~s" title symbol)))
+    (format stream "#### ~a: ~a" title (escape-characters (prin1-to-string symbol)))))
 
-(defun variable-description-default (symbol stream)
-  (format stream "* Initial value: ~s" (symbol-value symbol)))
+;; (defun variable-description-default (symbol stream)
+;;   (format stream "* Initial value: ~s" (symbol-value symbol)))
 
 (defun variable-description-docstring (symbol stream)
   (let ((docstring (documentation symbol 'variable)))
@@ -447,9 +451,9 @@
     (variable-description-title symbol stream)
     (terpri stream)
     (terpri stream)
-    (variable-description-default symbol stream)
-    (terpri stream)
-    (terpri stream)
+    ;; (variable-description-default symbol stream)
+    ;; (terpri stream)
+    ;; (terpri stream)
     (variable-description-docstring symbol stream)))
 
 
@@ -458,11 +462,11 @@
   (format stream "#### Class: ~a" (class-name class)))
 
 (defun class-description-docstring (class stream)
-  (let ((docstring (documentation symbol 'type)))
+  (let ((docstring (documentation class 'type)))
     (princ (or (and docstring (escape-characters docstring)) "_Undocumented_") stream)))
 
 (defun class-description-metaclass (class stream)
-  (format stream "* Metaclass: ~a" (class-name (typeof class))))
+  (format stream "* Metaclass: ~a" (class-name (type-of class))))
 
 (defun class-description-precedence-list (class stream)
   (format stream "* Precedence list: ~{~s~^, ~}" (c2mop:class-precedence-list class)))
@@ -471,7 +475,7 @@
   (format stream "* Direct superclasses: ~{~s~^, ~}" (c2mop:class-direct-superclasses class)))
 
 (defun class-description-direct-subclasses (class stream)
-  (format stream "* Direct subclasses: ~{~s~^, }" (c2mop:class-direct-subclasses class)))
+  (format stream "* Direct subclasses: ~{~s~^, ~}" (c2mop:class-direct-subclasses class)))
 
 
 (defun symbol-to-maybe-reference (symbol)
@@ -490,20 +494,20 @@
 (defun slot-readers-item (slot-definition)
   (let ((readers (c2mop:slot-definition-readers slot-definition)))
     (and readers
-         (make-instace 'item :elements (list (format nil "Readers: ~{~a~^, ~}"
+         (make-instance 'item :elements (list (format nil "Readers: ~{~a~^, ~}"
                                                      (mapcar #'symbol-to-maybe-reference readers)))))))
 
 (defun slot-writers-item (slot-definition)
   (let ((writers (c2mop:slot-definition-writers slot-definition)))
-    (and writer
-         (make-instace 'item :elements (list (format nil "Writers: ~{~a~^, ~}"
-                                                     (mapcar #'symbol-to-maybe-reference writer)))))))
+    (and writers
+         (make-instance 'item :elements (list (format nil "Writers: ~{~a~^, ~}"
+                                                     (mapcar #'symbol-to-maybe-reference writers)))))))
 
 (defun slot-properties-itemize (slot-definition)
   (make-instance 'itemize :items `(,(slot-allocation-item slot-definition)
-                                   ,@(let ((readers-item (slot-readers-items slot-definition)))
+                                   ,@(let ((readers-item (slot-readers-item slot-definition)))
                                        (and readers-item `(readers-item)))
-                                   ,@(let ((writers-item (slot-writers-items slot-definition)))
+                                   ,@(let ((writers-item (slot-writers-item slot-definition)))
                                        (and writers-item `(writers-item))))))
 
 (defun direct-slots-itemize (class)
@@ -552,11 +556,11 @@
 
 (defun package-description-exported-symbols (pkg stream)
   (format stream "* Exported symbols: ")
-  (let ((external-symbols '()))
+  (let ((external-symbols '())
+        (*print-case* :downcase))
     (do-external-symbols (sym pkg)
-      (push sym external-symbols))
-    (let ((*print-case* :downcase))
-      (format stream "~{~a~^, ~}" (sort external-symbols #'string<=)))))
+      (push (princ-to-string sym) external-symbols))
+    (format stream "~{~a~^, ~}" (sort external-symbols #'string<=))))
 
 (defmethod export-element ((element package-description) stream)
   (let ((pkg (description-package element)))
@@ -569,6 +573,60 @@
     (package-description-nicknames pkg stream)
     (terpri stream)
     (package-description-exported-symbols pkg stream)))
+
+
+;; ------ system description ------
+(defun system-description-title (system stream)
+  (format stream "#### System: ~a" (asdf:component-name system)))
+
+(defun system-description-docstring (system stream)
+  (let ((docstring (asdf:system-description system)))
+    (princ (or (and docstring (escape-characters docstring)) "_No description_") stream)))
+
+(defmacro define-system-description-function (func-name sys-func-name string-name)
+  (with-gensyms (obj)
+    `(defun ,func-name (system stream)
+         (let ((,obj (,sys-func-name system)))
+           (and ,obj
+                (progn
+                  (format stream "* ~a: ~a" ,string-name ,obj)
+                  (values t)))))))
+
+(define-system-description-function system-description-author asdf:system-author "Author")
+(define-system-description-function system-description-mail asdf:system-mailto "Mail")
+(define-system-description-function system-description-homepage asdf:system-homepage "Homepage")
+(define-system-description-function system-description-license asdf:system-licence "License")
+
+(defun system-description-defsystem-depends-on (system stream)
+  (let ((dependencies (asdf:system-defsystem-depends-on system)))
+    (and dependencies
+         (progn
+           (format stream "* Defsystem depends on: ~:[~{~a~^, ~}~;None~]" (null dependencies) dependencies)
+           (values t)))))
+
+(defun system-description-depends-on (system stream)
+  (let ((dependencies (asdf:system-depends-on system)))
+    (format stream "* Depends on: ~:[~{~a~^, ~}~;None~]" (null dependencies) dependencies)))
+
+(defmethod export-element ((element system-description) stream)
+  (let ((system (description-system element)))
+    (system-description-title system stream)
+    (terpri stream)
+    (terpri stream)
+    (system-description-docstring system stream)
+    (terpri stream)
+    (terpri stream)
+    (and (system-description-author system stream)
+         (terpri stream))
+    (and (system-description-mail system stream)
+         (terpri stream))
+    (and (system-description-homepage system stream)
+         (terpri stream))
+    (and (system-description-license system stream)
+         (terpri stream))
+    (and (system-description-defsystem-depends-on system stream)
+         (terpri stream))
+    (system-description-depends-on system stream)))
 
 
 ;; ------ glossary ------

@@ -2,32 +2,20 @@
 <a id="header-adp-github-reference"></a>
 # Reference
 
-Package: ADP-GITHUB
+#### System: adp-github
+
+ADP extension to generate github markdown files\.
+
+* Author: Héctor Galbis Sanchis
+* License: MIT
+* Depends on: alexandria, closer-mop, adp
+
+#### Package: ADP-GITHUB
 
 _Undocumented_
 
 * Nicknames: ADPGH
-* Exported symbols: bold, cell, code-block, emphasis, enumerate, example, fref, function-description, function-glossary, header, href, image, inline, italic, item, itemize, link, mini-table-of-contents, quoted, row, subheader, subsubheader, table, table-of-contents, table-of-functions, table-of-symbols, table-of-types, text, tref, verbatim-code-block, vref
-
-#### Function: adpgh:bold (&rest elements)
-
-_Undocumented_
-
-#### Function: adpgh:cell (&rest elements)
-
-_Undocumented_
-
-#### Macro: adpgh:code-block (&rest expressions)
-
-_Undocumented_
-
-#### Function: adpgh:emphasis (&rest elements)
-
-_Undocumented_
-
-#### Function: adpgh:enumerate (&rest elements)
-
-_Undocumented_
+* Exported symbols: *tags*, bold, cell, code-block, emphasis, enumerate, example, fref, function-description, function-glossary, header, href, image, inline, italic, item, itemize, link, mini-table-of-contents, quoted, row, subheader, subsubheader, table, table-of-contents, table-of-functions, table-of-symbols, table-of-types, text, tref, verbatim-code-block, vref
 
 #### Macro: adpgh:example (&rest expressions)
 
@@ -129,3 +117,6 @@ _Undocumented_
 
 _Undocumented_
 
+#### Variable: adpgh\:\*tags\*
+
+_Undocumented_

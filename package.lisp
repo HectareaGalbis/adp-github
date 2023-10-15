@@ -33,6 +33,8 @@
            #:code-block #:verbatim-code-block #:example
 
            #:function-description #:function-glossary
+
+           #:*tags*
            
            ;; #:defclass #:defconstant #:defgeneric #:define-compiler-macro #:define-condition
            ;; #:define-method-combination #:define-modify-macro #:define-setf-expander #:define-symbol-macro

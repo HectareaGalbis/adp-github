@@ -255,6 +255,14 @@
                     :reader description-target-location
                     :type pathname)))
 
+(defclass system-description ()
+  ((system :initarg :system
+            :reader description-system
+            :type asdf:system)
+   (target-location :initarg :target-location
+                    :reader description-target-location
+                    :type pathname)))
+
 
 ;; ------ glossary ------
 (defclass glossary ()

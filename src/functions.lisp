@@ -222,6 +222,18 @@
        (values ,instance))))
 
 
+;; ------ system description ------
+(defmacro system-description (system-name)
+  (with-gensyms (system tag instance)
+    `(let* ((,system (asdf:find-system ',system-name))
+            (,tag (make-tag (intern (asdf:component-name ,system) "KEYWORD") :system))
+            (,instance (make-instance 'system-description :system ,system
+                                                          :target-location (file-target-relative-pathname *process-file*))))
+       (when (not (get-tag-value ,tag))
+         (setf (get-tag-value ,tag) ,instance))
+       (values ,instance))))
+
+
 ;; ------ glossary ------
 (defmacro function-glossary (pkg)
   (with-gensyms (fdescriptions sym tag instance)
@@ -241,7 +253,7 @@
        (do-external-symbols (,sym (find-package ',pkg))
          (when (boundp ,sym)
            (let ((,tag (make-tag ,sym :variable))
-                 (,instance (make-instance 'function-description :symbol ,sym
+                 (,instance (make-instance 'variable-description :symbol ,sym
                                                                  :target-location (file-target-relative-pathname *process-file*))))
              (push ,instance ,vdescriptions)
              (setf (get-tag-value ,tag) ,instance))))

@@ -5,16 +5,21 @@
 
 
 (defvar *tags* nil)
+(defvar *process-system* nil)
 (defvar *process-file* nil)
 (defvar *files* nil)
 (defvar *export-file* nil)
 (defvar *unique-ids* nil)
 
 (defmethod adp:pre-process-system ((o adp-github-op) s)
-  (setf *tags* (make-tags-container)))
+  (setf *tags* (make-tags-container))
+  (setf *process-system* s))
 
 (defmethod adp:pre-process-file ((o adp-github-op) f)
   (setf *process-file* f))
+
+(defmethod adp:post-process-system ((o adp-github-op) s)
+  (setf *process-system* nil))
 
 (defmethod adp:post-process-file ((o adp-github-op) f)
   (setf *process-file* nil))
