@@ -302,17 +302,17 @@
 (defmethod export-element ((element table-of-functions) stream)
   (export-element (make-itemize-tof) stream))
 
-(defun make-itemize-tos ()
+(defun make-itemize-tov ()
   (make-itemize-table (get-tag-symbols :variable) 'variable-reference :variable))
 
-(defmethod export-element ((element table-of-symbols) stream)
-  (export-element (make-itemize-tos) stream))
+(defmethod export-element ((element table-of-variables) stream)
+  (export-element (make-itemize-tov) stream))
 
-(defun make-itemize-tot ()
-  (make-itemize-table (get-tag-symbols :type) 'type-ref :type))
+(defun make-itemize-tocl ()
+  (make-itemize-table (get-tag-symbols :class) 'type-ref :class))
 
-(defmethod export-element ((element table-of-types) stream)
-  (export-element (make-itemize-tot) stream))
+(defmethod export-element ((element table-of-classes) stream)
+  (export-element (make-itemize-tocl) stream))
 
 
 ;; ------ image ------
@@ -369,29 +369,18 @@
 
 
 ;; ------ code-block ------
-(defun code-to-string (expr)
-  "Turn a code element into a string."
-  (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
-    (prin1-to-string expr)))
-
 (defmethod export-element ((element code-of-block) stream)
-  (let ((expressions (code-block-expressions element)))
-    (format stream "`````common-lisp~%~{~a~^~%~%~}~%`````" (mapcar #'code-to-string expressions))))
-
-
-;; ------ verbatim-code-block ------
-(defmethod export-element ((element verbatim-code-of-block) stream)
-  (let ((lang (verbatim-code-block-lang element))
-        (elements (verbatim-code-block-elements element)))
+  (let ((lang (code-block-lang element))
+        (elements (code-block-elements element)))
     (format stream "`````~@[~a~]~%~{~a~}~%`````" lang elements)))
 
 
 ;; ------ example ------
 (defmethod export-element ((element example) stream)
-  (let ((expressions (example-expressions element))
+  (let ((code (example-code element))
         (output (example-output element))
         (results (example-results element)))
-    (format stream "`````common-lisp~%~{~a~^~%~%~}~%`````~%" (mapcar #'code-to-string expressions))
+    (format stream "`````common-lisp~%~a~%`````~%" code)
     (format stream "`````text~%~a~%`````~%" output)
     (format stream "`````common-lisp~%~{~s~^~%~%~}~%`````" results)))
 

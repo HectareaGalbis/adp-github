@@ -12,7 +12,7 @@ Welcome to the ADP-GITHUB User Guide! I will try to do my best explaining how to
 
 You can add headers in your documentation. In other words, they work as titles or subtitles. You can this way organize your guide with different sections (like I do in this guide). The macros that add headers are @fref[header], @fref[subheader] and @fref[subsubheader]. They need a string as the first argument. For example, if I write this:
 
-@verbatim-code-block[:lang "common-lisp"]|{
+@code-block[:lang "common-lisp"]|{
 @header{This is a header}
 @subheader{This is a subheader}
 @subsubheader{This is a subsubheader}
@@ -28,7 +28,7 @@ You will see this:
 
 You can add tables using the macros @fref[table], @fref[row] and @fref[cell]. The best way to see how to use it is an example. Imagine we have some info in our lisp files:
 
-@code-block[
+@code-block{
   (cl:defparameter peter-info '(34 "Peter Garcia" 1435))
   (cl:defparameter maria-info '(27 "Maria Martinez" 1765))
   (cl:defparameter laura-info '(53 "Laura Beneyto" 1543))
@@ -41,11 +41,11 @@ You can add tables using the macros @fref[table], @fref[row] and @fref[cell]. Th
 
   (cl:defun get-salary (info)
     (third info))
-]
+}
 
 Now we can create a table like this:
 
-@verbatim-code-block[:lang "common-lisp"]|{
+@code-block[:lang "common-lisp"]|{
 @table[
   @row[
     @cell{Age} @cell{Name} @cell{Salary}
@@ -83,7 +83,7 @@ And you will see this:
 
 You can add lists with @fref[itemize] or @fref[enumerate]. For example:
 
-@verbatim-code-block[:lang "common-lisp"]|{
+@code-block[:lang "common-lisp"]|{
 @itemize[
   @item{Vegetables:}
   @enumerate[
@@ -125,7 +125,7 @@ You will see this:
 
 We can enrich the text with the macros @fref[bold], @fref[italic], @fref[emphasis] and @fref[link]. For example:
 
-@verbatim-code-block[:lang "text"]|{
+@code-block[:lang "text"]|{
 As @bold{Andrew} said: @italic{You only need @(+ 1 2 3)} @link[:address "https://en.wikipedia.org/wiki/Coin"]{coins} @italic{to enter in} @emphasis{The Giant Red Tree}.
 }|
 
@@ -135,7 +135,7 @@ As @bold{Andrew} said: @italic{You only need @(+ 1 2 3)} @link[:address "https:/
 
 You can nest @fref[bold] and @fref[italic] functions:
 
-@verbatim-code-block[:lang "text"]|{
+@code-block[:lang "text"]|{
 The large @bold{house with @italic{the old woman}}.
 }|
 
@@ -143,7 +143,7 @@ The large @bold{house with @italic{the old woman}}.
 
 Lastly, you can quote text:
 
-@verbatim-code-block[:lang "text"]|{
+@code-block[:lang "text"]|{
 @quoted{
 A driller by day
 A driller by night
@@ -178,7 +178,7 @@ Just me and my baby
 
 You can add images with the macro @fref[image]. For example, an image is located at @code{guides/images/}. If I evaluate the next expression:
 
-@verbatim-code-block[:lang "text"]|{
+@code-block[:lang "text"]|{
   @image[#P"images/Lisp_logo.svg" :alt-text "Lisp logo" :scale 0.1]
 }|
 
@@ -189,26 +189,26 @@ You will see:
 
 @subheader{Code blocks}
 
-A good Lisp tutorial must include Lisp code examples. ADP defines some macros to print code blocks: @fref[code-block], @fref[verbatim-code-block] and @fref[example]. The first macro does not evaluate the code. So, for example if you write this:
+A good Lisp tutorial must include Lisp code examples. ADP defines some macros to print code blocks: @fref[code-block] and @fref[example]. The first macro does not evaluate the code. So, for example if you write this:
 
-@verbatim-code-block[:lang "text"]|{
-  @code-block[
+@code-block[:lang "text"]|{
+  @code-block{
     (this is not (valid code))
     (but it (is (ok)))
-  ]
+  }
 }|
 
 You will see:
 
-@code-block[
+@code-block{
   (this is not (valid code))
   (but it (is (ok)))
-]
+}
 
-The macro @fref[verbatim-code-block] allows you to write non-Lisp code. It can receive, optionally, the language to be used:
+The macro @fref[code-block] allows you to write non-Lisp code as well. It can receive, optionally, the language to be used:
 
-@verbatim-code-block[:lang "text"]|{
-@verbatim-code-block[:lang "c"]{
+@code-block[:lang "text"]|{
+@code-block[:lang "c"]{
   int main(){
     printf("Hello world!");
     return 0;
@@ -216,104 +216,141 @@ The macro @fref[verbatim-code-block] allows you to write non-Lisp code. It can r
 }
 }|
 
-@verbatim-code-block[:lang "c"]|{
+@code-block[:lang "c"]{
   int main(){
     printf("Hello world!");
     return 0;
   }     
-}|
+}
 
 If you want to print also @"@"-syntax expressions, you can use the @code["|{...}|"] form:
 
-@verbatim-code-block[:lang "text"]|{
-@verbatim-code-block[:lang "scribble"]|{
+@code-block[:lang "text"]|{
+@code-block[:lang "scribble"]|{
   @cmd[datum]{parse-body}     
 }|
 }|
 
-@verbatim-code-block[:lang "scribble"]|{
+@code-block[:lang "scribble"]|{
   @cmd[datum]{parse-body}     
 }|
 
 Lastly, @fref[example] evaluate the Lisp code you write on it. And what is more, it prints the standard output as well as the returned values. For example, writing this:
 
-@verbatim-code-block[:lang "text"]|{
-@example[
+@code-block[:lang "text"]|{
+@example{
   (loop for i from 0 below 10
         do (print i))
   (values "Hello" "world")
-]
+}
 }|
 
 You will see:
 
-@example[
+@example{
   (loop for i from 0 below 10
         do (print i))
   (values "Hello" "world")
-]
+}
 
-@subheader{Cross references}
+See that we used the @code["{}"] form. I. e., we are writing text. It will be read and then evaluated. We can also use the @code["|{}|"] form to make scribble code to be printed:
 
-ADP-GITHUB supports cross references with tags. A tag is just a symbol with some information associated. There are four types of tags: @code{:header}, @code{:function}, @code{:variable} and @code{:type}.
-
-@subsubheader{Header tags}
-
-A header-tag is a symbol with a header associated. We have already seen how to add a header to the documentation. But I didn't say that the macros @fref[header], @fref[subheader] and @fref[subsubheader] receives a second optional argument. As you can imagine, this second argument must be a symbol that will be converted to a header tag. For example, the first header of this file is created with this expression:
-
-@verbatim-code-block[:lang "text"]|{
-@header[:tag user-guide]{User Guide}
+@code-block[:lang "text"]|{
+@example|{
+  (print @+[3 4])
+}|
 }|
 
-Now the symbol @code{user-guide} is a header tag. We can make a reference to that header with the macro @fref[href]. For example, if I write this:
-
-@verbatim-code-block[:lang "text"]|{
-Go to the top: @href[user-guide].
+@example|{
+  (print @+[3 4])
 }|
 
-Then you will see:
 
-Go to the top: @href[user-guide].
+@subheader{Descriptions and cross references}
+
+If we need to document our code, we may want to generate a refernce page where all the functions, variables or classes are described properly. Also, a good system to make a link to a description would be really nice.
+
+ADP-GITHUB creates references from description. Each time you create a description, a reference can be created to refer to that description. There are five types of descriptions: @code{functions}, @code{variables}, @code{classes}, @code{packages} and @code{systems}. And each type of description can be referenced by a reference of the same type.
 
 
-@subsubheader{Function descriptions}
+@subsubheader{Descriptions}
+
+Description can be inserted with the functions @fref[function-description], @fref[variable-description], @fref[class-description], @fref[package-description] and @fref[system-description].
+
+For example, ADP-GITHUB defines the function @fref[image] we've seen before. I we want a description of that function we need to write the following:
+
+@code-block[:lang "common-lisp"]|{
+@function-description[image]
+}|
+
+And we see this:
+
+@function-description[image]
+
+The same goes for the rest of functions. For example, we can see the description of the system @code{adp-github}.
+
+@code-block[:lang "common-lisp"]|{
+@system-description["adp-github"]
+}|
+
+@system-description["adp-github"]
 
 
-@; @subsubheader{Function, variable and type tags}
+@subsubheader{References}
 
-@; These tags are symbols associated with a function, a variable or a type respectively. More specifically, the macros used to define things like @fref[defun], @fref[defparameter] or @fref[defstruct] can create automatically a function tag, a variable tag or a type tag respectively. The tag created is the symbol of the name of the function, variable or type defined respectively. ADP-GITHUB defines three types of tags because the same symbol can refer to a function, a variable and a type simultaneously. The next list shows what type of tags are defined by which macros:
+We can differentiate between header references and description references. As you can guess, header references will reference to a header, subheader or subsubheader. On the other hand, descriptions references will reference to a description.
 
-@; @itemize[
-@;   @item{Function tags:}
-@;   @itemize[
-@;     @item{@fref[defgeneric]}
-@;     @item{@fref[define-modify-macro]}
-@;     @item{@fref[defmacro]}
-@;     @item{@fref[defun]}
-@;   ]
-@;   @item{Symbol tags:}
-@;   @itemize[
-@;     @item{@fref[defconstant]}
-@;     @item{@fref[define-symbol-macro]}
-@;     @item{@fref[defparameter]}
-@;     @item{@fref[defvar]}
-@;   ]
-@;   @item{Type tags:}
-@;   @itemize[
-@;     @item{@fref[defclass]}
-@;     @item{@fref[define-condition]}
-@;     @item{@fref[defstruct]}
-@;     @item{@fref[deftype]}
-@;   ]
-@; ]
+The functions that inserts references are @fref[href], @fref[fref], @fref[vref], @fref[cref], @fref[pref] and @fref[sref]. They insert a reference to a header, function, variable, class, package and system respectively.
 
-@; Same as with header-tags, we can make reference to functions, variables and types with @fref[fref], @fref[vref] and @fref[tref]. For example, to make a reference to an ADP-GITHUB macro:
+The @fref[href] function is a bit different from the others. It accepts a variable number of arguments, and it should receive a keyword argument @code{:tag}.
 
-@; @verbatim-code-block[:lang "scribble"]|{
-@; A refeence to an ADP-GITHUB macro: @fref[header].
-@; }|
+@code-block[:lang "common-lisp"]|{
+@href[:tag user-guide]{A link to the top.}
+}|
 
-@; You will see:
+@href[:tag user-guide]{A link to the top.}
 
-@; A reference to an ADP-GITHUB macro: @fref[header].
+As you can see, the rest of elements received are used to indicate the text of the inserted link. The rest of reference functions only receive one argument.
 
+Above we've inserted a system description. We can now create a reference to that description:
+
+@code-block[:lang "common-lisp"]|{
+@sref["adp-github"]
+}|
+
+And we will see:
+
+@sref["adp-github"]
+
+The same goes to the rest of types. However, there is one more thing we should know. If I use the following:
+
+@code-block[:lang "common-lisp"]|{
+@fref[image]
+}|
+
+@fref[image]
+
+you will see that the link goes to the reference page and not to the description we wrote above. That's because glossaries (that we will explain in the following section) have precedence over single descriptions. 
+
+
+@subheader{Glossaries}
+
+A system may export a ton of symbols, maybe hundreds. For that reason we need some way to insert descriptions automatically. That is the job of glossaries. We have glossaries of three types: @code{functions}, @code{variables} and @code{classes}. They can be inserted with the functions @fref[function-glossary], @fref[variable-glossary] and @fref[class-glossary].
+
+Each type of glossary will iterate over all the exported symbols looking for possible descriptions to insert. For example. the @fref[variable-glossary] will look for exported symbols that has a value associated with it. 
+
+The best example I can show here is the @href[:tag reference]{reference page} of this project. The complete source code of the reference page is the following:
+
+@code-block[:lang "scribble"]|{
+(in-package #:adpgh)
+
+@header[:tag reference]{Reference}
+
+@function-glossary[#:adpgh]
+}|
+
+@subheader{End of the guide}
+
+I hope I explained everything well. That's all ADP-GITHUB can offer to you.
+
+:D

@@ -1,122 +1,88 @@
-
 <a id="header-adp-github-reference"></a>
 # Reference
 
-#### System: adp-github
-
-ADP extension to generate github markdown files\.
-
-* Author: Héctor Galbis Sanchis
-* License: MIT
-* Depends on: alexandria, closer-mop, adp
-
-#### Package: ADP-GITHUB
-
-_Undocumented_
-
-* Nicknames: ADPGH
-* Exported symbols: *tags*, bold, cell, code-block, emphasis, enumerate, example, fref, function-description, function-glossary, header, href, image, inline, italic, item, itemize, link, mini-table-of-contents, quoted, row, subheader, subsubheader, table, table-of-contents, table-of-functions, table-of-symbols, table-of-types, text, tref, verbatim-code-block, vref
-
-#### Macro: adpgh:example (&rest expressions)
-
-_Undocumented_
-
-#### Macro: adpgh:fref (sym)
-
-_Undocumented_
-
-#### Macro: adpgh:function-description (sym)
-
-_Undocumented_
-
-#### Macro: adpgh:function-glossary (pkg)
-
-_Undocumented_
-
-#### Macro: adpgh:header (&rest args)
-
-_Undocumented_
-
-#### Macro: adpgh:href (sym)
-
-_Undocumented_
-
-#### Function: adpgh:image (path &key (alt-text "Image") (scale 1.0))
-
-_Undocumented_
-
 #### Function: adpgh:italic (&rest elements)
 
-_Undocumented_
+Inserts text with italic style\.
 
 #### Function: adpgh:item (&rest elements)
 
-_Undocumented_
+Inserts an element if it is used inside an itemize or enumerate\.
 
 #### Function: adpgh:itemize (&rest elements)
 
-_Undocumented_
+Inserts a list\. It can contains items or sublists\. The elements must be items\, itemizes or enumerates\.
 
 #### Function: adpgh:link (&rest elements)
 
-_Undocumented_
+Inserts a link\. It must receive the keyword \:address\. The rest of the elements will form the name of the
+link\.
 
 #### Function: adpgh:mini-table-of-contents nil
 
-_Undocumented_
+Inserts a table of contents with the headers\, subheaders and subsubheaders of the current file\.
+
+#### Macro: adpgh:package-description (pkg)
+
+Inserts a package description\. It must receive a package descriptor that represents the package\. 
+A package description also creates a package tag that can be used with pref\.
+
+#### Macro: adpgh:pref (pkg)
+
+Inserts a package reference\. I\. e\. a hyperlink to a package description\.
 
 #### Function: adpgh:quoted (&rest elements)
 
-_Undocumented_
+Inserts quoted text\.
 
 #### Function: adpgh:row (&rest elements)
 
-_Undocumented_
+The rows are the components of a table\. The elements must be cells\.
+
+#### Macro: adpgh:sref (system-name)
+
+Inserts a system reference\. I\. e\. a hyperlink to a system description\.
 
 #### Macro: adpgh:subheader (&rest args)
 
-_Undocumented_
+Inserts a subheader\. Also\, a keyword \:tag can be supplied to be used as a header tag\.
 
 #### Macro: adpgh:subsubheader (&rest args)
 
-_Undocumented_
+Inserts a subsubheader\. Also\, a keyword \:tag can be supplied to be used as a header tag\.
+
+#### Macro: adpgh:system-description (system-name)
+
+Inserts a system description\. It must receive a system description that represents the system\. 
+A system description also creates a system tag that can be used with sref\.
 
 #### Function: adpgh:table (&rest elements)
 
-_Undocumented_
+Inserts a table\. The elements must be rows\.
 
 #### Function: adpgh:table-of-contents nil
 
-_Undocumented_
+Inserts a table of contents with the headers and subheaders of every generated file\.
 
 #### Function: adpgh:table-of-functions nil
 
-_Undocumented_
-
-#### Function: adpgh:table-of-symbols nil
-
-_Undocumented_
-
-#### Function: adpgh:table-of-types nil
-
-_Undocumented_
+Inserts a table of function\. It is a list with references to all the functions that has a description
+inserted somewhere\.
 
 #### Function: adpgh:text (&rest elements)
 
-_Undocumented_
+Intended for using in lisp mode files or define custom functions\. Just inserts every argument\.
 
-#### Macro: adpgh:tref (sym)
+#### Macro: adpgh:variable-description (sym)
 
-_Undocumented_
+Inserts a variable description\. It must receive the variable name \(a symbol\) that represents the variable\. 
+A variable description also creates a variable tag that can be used with vref\.
 
-#### Function: adpgh:verbatim-code-block (&rest elements)
+#### Macro: adpgh:variable-glossary (pkg)
 
-_Undocumented_
+Inserts a variable glossary\. It will insert all the available variable descriptions\. They are gathered from
+the external symbols of a given package\. The argument pkg must be a package descriptor\.
 
 #### Macro: adpgh:vref (sym)
 
-_Undocumented_
-
-#### Variable: adpgh\:\*tags\*
-
-_Undocumented_
+Inserts a variable reference\. I\. e\. a hyperlink to a variable description\.

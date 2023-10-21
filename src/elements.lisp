@@ -70,9 +70,17 @@
   (:documentation
    "Represent a function reference element."))
 
-(defclass type-reference (symbol-reference) ()
+(defclass class-reference (symbol-reference) ()
   (:documentation
    "Represent a type reference element."))
+
+(defclass package-reference (symbol-reference) ()
+  (:documentation
+   "Represent a variable reference element."))
+
+(defclass system-reference (symbol-reference) ()
+  (:documentation
+   "Represent a variable reference element."))
 
 
 ;; ------ table ------
@@ -130,13 +138,13 @@
   (:documentation
    "Represents a table of functions."))
 
-(defclass table-of-symbols () ()
+(defclass table-of-variables () ()
   (:documentation
-   "Represents a table of symbols."))
+   "Represents a table of variables."))
 
-(defclass table-of-types () ()
+(defclass table-of-classes () ()
   (:documentation
-   "Represents a table of types."))
+   "Represents a table of classes."))
 
 
 ;; ------ image ------
@@ -198,32 +206,23 @@
    "Represents a quote."))
 
 
-;; ------ code block ------
-(defclass code-of-block ()
-  ((expressions :initarg :expressions
-                :reader code-block-expressions
-                :type list))
-  (:documentation
-   "Represents a code block."))
-
-
 ;; ------ verbatim code block ------
-(defclass verbatim-code-of-block ()
+(defclass code-of-block ()
   ((lang :initarg :lang
-         :reader verbatim-code-block-lang
+         :reader code-block-lang
          :type string)
    (elements :initarg :elements
-             :reader verbatim-code-block-elements
+             :reader code-block-elements
              :type list))
   (:documentation
-   "Represetns a verbatim code block."))
+   "Represetns a code block."))
 
 
-;; ------ code example ------
+;; ------ example ------
 (defclass example ()
-  ((expressions :initarg :expressions
-                :reader example-expressions
-                :type list)
+  ((code :initarg :code
+         :reader example-code
+         :type string)
    (output :initarg :output
            :reader example-output
            :type string)

@@ -12,15 +12,15 @@ Welcome to ADP-GITHUB!
 @subheader{Documentation}
 
 @itemize[
-  @item{@href[reference]}
-  @item{@href[user-guide]}
+  @item{@href[:tag reference]}
+  @item{@href[:tag user-guide]}
 ]
 
 @subheader{How to use}
 
 In your @code{asd} file, you need to @code{:defsystem-depends-on} the system @code{adp-github}. Also, is really recommended to make a separate system only for documentation generation. And, lastly, you should specify @code{:build-operation} to be @code{"adp-github-op"}.
 
-@verbatim-code-block[:lang "common-lisp"]{
+@code-block[:lang "common-lisp"]{
 (defsystem "my-system"
   :depends-on ("adp-github")  ; <- The main system should also depend on adp-github
   ;; ...
@@ -35,7 +35,7 @@ In your @code{asd} file, you need to @code{:defsystem-depends-on} the system @co
 
 Now, from the REPL, just evaluate the following expression:
 
-@verbatim-code-block[:lang "common-lisp"]{
+@code-block[:lang "common-lisp"]{
 (asdf:make "my-system/docs")
 }
 
