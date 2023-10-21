@@ -1,6 +1,77 @@
 <a id="header-adp-github-reference"></a>
 # Reference
 
+#### Function: adpgh:bold (&rest elements)
+
+Inserts text with bold style\.
+
+#### Function: adpgh:cell (&rest elements)
+
+The cells are the components of a row\. All the elements will be inserted inside a cell table\.
+
+#### Macro: adpgh:class-description (sym)
+
+Inserts a class description\. It must receive the class name \(a symbol\) that represents the class\. 
+A class description also creates a class tag that can be used with cref\.
+
+#### Macro: adpgh:class-glossary (pkg)
+
+Inserts a class glossary\. It will insert all the available class descriptions\. They are gathered from
+the external symbols of a given package\. The argument pkg must be a package descriptor\.
+
+#### Function: adpgh:code (&rest elements)
+
+Inserts text with code style\.
+
+#### Function: adpgh:code-block (&rest elements)
+
+Inserts a code of block\. It can receive the keyword \:lang\, a string that specifies the language to be used\.
+The rest of elements will be inserted inside a block of code\.
+
+#### Macro: adpgh:cref (sym)
+
+Inserts a class reference\. I\. e\. a hyperlink to a class description\.
+
+#### Function: adpgh:emphasis (&rest elements)
+
+Inserts text with emphasis style\.
+
+#### Function: adpgh:enumerate (&rest elements)
+
+Inserts a enumerated lists\. It can contain items or sublist\. The elements must be items\, itemizes or enumerates\.
+
+#### Macro: adpgh:example (&rest expressions)
+
+Inserts an example\. It is like code\-block\, but evaluates the code \(common lisp only\) and prints its output
+and returned values\.
+
+#### Macro: adpgh:fref (sym)
+
+Inserts a function reference\. I\. e\. a hyperlink to a function description\.
+
+#### Macro: adpgh:function-description (sym)
+
+Inserts a function description\. It must receive the function name \(a symbol\) that represents the function\. 
+A function description also creates a function tag that can be used with fref\.
+
+#### Macro: adpgh:function-glossary (pkg)
+
+Inserts a function glossary\. It will insert all the available function descriptions\. They are gathered from
+the external symbols of a given package\. The argument pkg must be a package descriptor\.
+
+#### Macro: adpgh:header (&rest args)
+
+Inserts a header\. Also\, a keyword \:tag can be supplied to be used as a header tag\.
+
+#### Macro: adpgh:href (&rest elements)
+
+Inserts a header reference\. I\. e\. a hyperlink to a header\.
+
+#### Function: adpgh:image (path &key (alt-text "Image") (scale 1.0))
+
+Inserts an image\. It must receive the path to the image \(relative to the project\'s root directory\)\.
+Optionally\, it can receive an alternative text description and the scale size of the image\.
+
 #### Function: adpgh:italic (&rest elements)
 
 Inserts text with italic style\.

@@ -217,7 +217,7 @@ The rest of elements will be inserted inside a block of code."
 (defmacro example (&rest expressions)
   "Inserts an example. It is like code-block, but evaluates the code (common lisp only) and prints its output
 and returned values."
-  (let* ((text-code (apply #'concatenate 'string (mapcar #'princ expressions)))
+  (let* ((text-code (apply #'concatenate 'string (mapcar #'princ-to-string expressions)))
          (code (with-input-from-string (text-stream text-code)
                  (loop for expr = (read text-stream nil nil)
                        while expr
@@ -303,7 +303,8 @@ the external symbols of a given package. The argument pkg must be a package desc
   (with-gensyms (fdescriptions sym tag instance)
     `(let ((,fdescriptions '()))
        (do-external-symbols (,sym (find-package ',pkg))
-         (when (fboundp ,sym)
+         (when (or (fboundp ,sym)
+                   (macro-function ,sym))
            (let ((,tag (make-tag ,sym :function))
                  (,instance (make-instance 'function-description :symbol ,sym
                                                                  :target-location (file-target-relative-pathname *process-file*))))

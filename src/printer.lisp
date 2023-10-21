@@ -620,8 +620,7 @@
 
 ;; ------ glossary ------
 (defmethod export-element ((element glossary) stream)
-  (let ((descriptions (glossary-descriptions element)))
-    (sort descriptions #'string<= :key (lambda (x) (description-symbol x)))
+  (let ((descriptions (sort (glossary-descriptions element) #'string<= :key #'description-symbol)))
     (when (not (null descriptions))
       (export-element (car descriptions) stream)
       (loop for description in (cdr descriptions)
