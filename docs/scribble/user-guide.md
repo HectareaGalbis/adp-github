@@ -333,6 +333,7 @@ For example\, ADP\-GITHUB defines the function [adp\-github\:image](/docs/scribb
 
 And we see this\:
 
+<a id="function-adp-github-image"></a>
 #### Function: adpgh:image (path &key (alt-text "Image") (scale 1.0))
 
 Inserts an image\. It must receive the path to the image \(relative to the project\'s root directory\)\.
@@ -344,6 +345,7 @@ The same goes for the rest of functions\. For example\, we can see the descripti
 @system-description["adp-github"]
 `````
 
+<a id="system-keyword-adp-github"></a>
 #### System: adp-github
 
 ADP extension to generate github markdown files\.

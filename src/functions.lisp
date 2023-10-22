@@ -234,9 +234,10 @@ and returned values."
   "Inserts a function description. It must receive the function name (a symbol) that represents the function. 
 A function description also creates a function tag that can be used with fref."
   (with-gensyms (tag instance)
-    `(let ((,tag (make-tag ',sym :function))
-           (,instance (make-instance 'function-description :symbol ',sym
-                                                           :target-location (file-target-relative-pathname *process-file*))))
+    `(let* ((,tag (make-tag ',sym :function))
+            (,instance (make-instance 'function-description :symbol ',sym
+                                                            :tag ,tag
+                                                            :target-location (file-target-relative-pathname *process-file*))))
        (when (not (get-tag-value ,tag))
          (setf (get-tag-value ,tag) ,instance))
        (values ,instance))))
@@ -247,9 +248,10 @@ A function description also creates a function tag that can be used with fref."
   "Inserts a variable description. It must receive the variable name (a symbol) that represents the variable. 
 A variable description also creates a variable tag that can be used with vref."
   (with-gensyms (tag instance)
-    `(let ((,tag (make-tag ',sym :variable))
-           (,instance (make-instance 'variable-description :symbol ',sym
-                                                           :target-location (file-target-relative-pathname *process-file*))))
+    `(let* ((,tag (make-tag ',sym :variable))
+            (,instance (make-instance 'variable-description :symbol ',sym
+                                                            :tag ,tag
+                                                            :target-location (file-target-relative-pathname *process-file*))))
        (when (not (get-tag-value ,tag))
          (setf (get-tag-value ,tag) ,instance))
        (values ,instance))))
@@ -260,9 +262,10 @@ A variable description also creates a variable tag that can be used with vref."
   "Inserts a class description. It must receive the class name (a symbol) that represents the class. 
 A class description also creates a class tag that can be used with cref."
   (with-gensyms (tag instance)
-    `(let ((,tag (make-tag ',sym :class))
-           (,instance (make-instance 'class-description :symbol ',sym
-                                                        :target-location (file-target-relative-pathname *process-file*))))
+    `(let* ((,tag (make-tag ',sym :class))
+            (,instance (make-instance 'class-description :symbol ',sym
+                                                         :tag ,tag
+                                                         :target-location (file-target-relative-pathname *process-file*))))
        (when (not (get-tag-value ,tag))
          (setf (get-tag-value ,tag) ,instance))
        (values ,instance))))
@@ -276,6 +279,7 @@ A package description also creates a package tag that can be used with pref."
     `(let* ((,actual-pkg (find-package ',pkg))
             (,tag (make-tag (intern (package-name ,actual-pkg) "KEYWORD") :package))
             (,instance (make-instance 'package-description :package ,actual-pkg
+                                                           :tag ,tag
                                                            :target-location (file-target-relative-pathname *process-file*))))
        (when (not (get-tag-value ,tag))
          (setf (get-tag-value ,tag) ,instance))
@@ -290,6 +294,7 @@ A system description also creates a system tag that can be used with sref."
     `(let* ((,system (asdf:find-system ',system-name))
             (,tag (make-tag (intern (asdf:component-name ,system) "KEYWORD") :system))
             (,instance (make-instance 'system-description :system ,system
+                                                          :tag ,tag
                                                           :target-location (file-target-relative-pathname *process-file*))))
        (when (not (get-tag-value ,tag))
          (setf (get-tag-value ,tag) ,instance))
@@ -305,9 +310,10 @@ the external symbols of a given package. The argument pkg must be a package desc
        (do-external-symbols (,sym (find-package ',pkg))
          (when (or (fboundp ,sym)
                    (macro-function ,sym))
-           (let ((,tag (make-tag ,sym :function))
-                 (,instance (make-instance 'function-description :symbol ,sym
-                                                                 :target-location (file-target-relative-pathname *process-file*))))
+           (let* ((,tag (make-tag ,sym :function))
+                  (,instance (make-instance 'function-description :symbol ,sym
+                                                                  :tag ,tag
+                                                                  :target-location (file-target-relative-pathname *process-file*))))
              (push ,instance ,fdescriptions)
              (setf (get-tag-value ,tag) ,instance))))
        (make-instance 'function-glossary :descriptions ,fdescriptions))))
@@ -319,9 +325,10 @@ the external symbols of a given package. The argument pkg must be a package desc
     `(let ((,vdescriptions '()))
        (do-external-symbols (,sym (find-package ',pkg))
          (when (boundp ,sym)
-           (let ((,tag (make-tag ,sym :variable))
-                 (,instance (make-instance 'variable-description :symbol ,sym
-                                                                 :target-location (file-target-relative-pathname *process-file*))))
+           (let* ((,tag (make-tag ,sym :variable))
+                  (,instance (make-instance 'variable-description :symbol ,sym
+                                                                  :tag ,tag
+                                                                  :target-location (file-target-relative-pathname *process-file*))))
              (push ,instance ,vdescriptions)
              (setf (get-tag-value ,tag) ,instance))))
        (make-instance 'variable-glossary :descriptions ,vdescriptions))))
@@ -333,9 +340,10 @@ the external symbols of a given package. The argument pkg must be a package desc
     `(let ((,cdescriptions '()))
        (do-external-symbols (,sym (find-package ',pkg))
          (when (find-class ,sym)
-           (let ((,tag (make-tag ,sym :class))
-                 (,instance (make-instance 'class-description :symbol ,sym
-                                                              :target-location (file-target-relative-pathname *process-file*))))
+           (let* ((,tag (make-tag ,sym :class))
+                  (,instance (make-instance 'class-description :symbol ,sym
+                                                               :tag ,tag
+                                                               :target-location (file-target-relative-pathname *process-file*))))
              (push ,instance ,cdescriptions)
              (setf (get-tag-value ,tag) ,instance))))
        (make-instance 'variable-glossary :descriptions ,cdescriptions))))

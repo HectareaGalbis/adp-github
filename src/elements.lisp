@@ -238,6 +238,9 @@
   ((symbol :initarg :symbol
            :reader description-symbol
            :type symbol)
+   (tag :initarg :tag
+        :reader description-tag
+        :type tag)
    (target-location :initarg :target-location
                     :reader description-target-location
                     :type pathname)))
@@ -250,6 +253,9 @@
   ((package :initarg :package
             :reader description-package
             :type package)
+   (tag :initarg :tag
+        :reader description-tag
+        :type tag)
    (target-location :initarg :target-location
                     :reader description-target-location
                     :type pathname)))
@@ -258,6 +264,9 @@
   ((system :initarg :system
             :reader description-system
             :type asdf:system)
+   (tag :initarg :tag
+        :reader description-tag
+        :type tag)
    (target-location :initarg :target-location
                     :reader description-target-location
                     :type pathname)))

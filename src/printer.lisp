@@ -386,6 +386,9 @@
 
 
 ;; ------ function description ------
+(defun function-description-anchor (tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string tag)))
+
 (defun macro-description-title (symbol stream)
   (format stream "#### Macro: ~a" symbol)
   #+sbcl
@@ -403,13 +406,16 @@
   (format stream "#### Generic function: ~a ~s"
           symbol (c2mop:generic-function-lambda-list (symbol-function symbol))))
 
-(defun description-docstring (symbol stream)
+(defun function-description-docstring (symbol stream)
   (let ((docstring (documentation symbol 'function)))
     (princ (or (and docstring (escape-characters docstring)) "_Undocumented_") stream)))
 
 (defmethod export-element ((element function-description) stream)
   (let* ((symbol (description-symbol element))
+         (tag (description-tag element))
          (*print-pprint-dispatch* *adp-pprint-dispatch*))
+    (function-description-anchor tag stream)
+    (terpri stream)
     (cond
       ((macro-function symbol)
        (macro-description-title symbol stream))
@@ -419,10 +425,13 @@
        (function-description-title symbol stream)))
     (terpri stream)
     (terpri stream)
-    (description-docstring symbol stream)))
+    (function-description-docstring symbol stream)))
 
 
 ;; ------ variable description ------
+(defun variable-description-anchor (tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string tag)))
+
 (defun variable-description-title (symbol stream)
   (let ((title (if (constantp symbol) "Constant" "Variable")))
     (format stream "#### ~a: ~a" title (escape-characters (prin1-to-string symbol)))))
@@ -436,7 +445,10 @@
 
 (defmethod export-element ((element variable-description) stream)
   (let ((symbol (description-symbol element))
+        (tag (description-tag element))
         (*print-pprint-dispatch* *adp-pprint-dispatch*))
+    (variable-description-anchor tag stream)
+    (terpri stream)
     (variable-description-title symbol stream)
     (terpri stream)
     (terpri stream)
@@ -447,6 +459,9 @@
 
 
 ;; ------ class description ------
+(defun class-description-anchor (tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string tag)))
+
 (defun class-description-title (class stream)
   (format stream "#### Class: ~a" (class-name class)))
 
@@ -514,7 +529,10 @@
   (export-element (class-direct-slots-itemize class) stream))
 
 (defmethod export-element ((element class-description) stream)
-  (let ((class (find-class (description-symbol element))))
+  (let ((class (find-class (description-symbol element)))
+        (tag (description-tag element)))
+    (class-description-anchor tag stream)
+    (terpri stream)
     (class-description-title class stream)
     (terpri stream)
     (terpri stream)
@@ -533,6 +551,9 @@
 
 
 ;; ------ package description ------
+(defun package-description-anchor (tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string tag)))
+
 (defun package-description-title (pkg stream)
   (format stream "#### Package: ~a" (package-name pkg)))
 
@@ -552,7 +573,10 @@
     (format stream "~{~a~^, ~}" (sort external-symbols #'string<=))))
 
 (defmethod export-element ((element package-description) stream)
-  (let ((pkg (description-package element)))
+  (let ((pkg (description-package element))
+        (tag (description-tag element)))
+    (package-description-anchor tag stream)
+    (terpri stream)
     (package-description-title pkg stream)
     (terpri stream)
     (terpri stream)
@@ -565,6 +589,9 @@
 
 
 ;; ------ system description ------
+(defun system-description-anchor (tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string tag)))
+
 (defun system-description-title (system stream)
   (format stream "#### System: ~a" (asdf:component-name system)))
 
@@ -598,7 +625,10 @@
     (format stream "* Depends on: ~:[~{~a~^, ~}~;None~]" (null dependencies) dependencies)))
 
 (defmethod export-element ((element system-description) stream)
-  (let ((system (description-system element)))
+  (let ((system (description-system element))
+        (tag (description-tag element)))
+    (system-description-anchor tag stream)
+    (terpri stream)
     (system-description-title system stream)
     (terpri stream)
     (terpri stream)
