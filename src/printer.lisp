@@ -436,8 +436,7 @@
 
 (defmethod export-element ((element function-description) stream)
   (let* ((symbol (description-symbol element))
-         (tag (description-tag element))
-         (*print-pprint-dispatch* *adp-pprint-dispatch*))
+         (tag (description-tag element)))
     (function-description-anchor tag stream)
     (terpri stream)
     (cond
@@ -469,8 +468,7 @@
 
 (defmethod export-element ((element variable-description) stream)
   (let ((symbol (description-symbol element))
-        (tag (description-tag element))
-        (*print-pprint-dispatch* *adp-pprint-dispatch*))
+        (tag (description-tag element)))
     (variable-description-anchor tag stream)
     (terpri stream)
     (variable-description-title symbol stream)
@@ -681,38 +679,3 @@
             do (terpri stream)
                (terpri stream)
                (export-element description stream)))))
-
-
-;; (defmacro define-definition-process (type header-name)
-;;   (with-gensyms (element stream expression tag)
-;;     `(defmethod export-element ((,element ,type) ,stream)
-;;        (let ((,expression (definition-expression ,element))
-;;              (,tag (and (typep ,element 'tagged-definition)
-;;                         (definition-tag ,element))))
-;;          (format ,stream "<a id=~s></a>~%"
-;;                  (tag-to-string ,tag))
-;;          (format ,stream "#### ~a: ~a~%~%"
-;;                  ,header-name (escape-characters (princ-to-string (cadr ,expression))))
-;;          (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
-;;            (format ,stream "```common-lisp~%")
-;;            (prin1 ,expression ,stream)
-;;            (format ,stream "~%```"))))))
-
-;; (define-definition-process defclass-definition "Class")
-;; (define-definition-process defconstant-definition "Constant")
-;; (define-definition-process defgeneric-definition "Generic function")
-;; (define-definition-process define-compiler-macro-definition "Compiler macro")
-;; (define-definition-process define-condition-definition "Condition")
-;; (define-definition-process define-method-combination-definition "Method combination")
-;; (define-definition-process define-modify-macro-definition "Modify macro")
-;; (define-definition-process define-setf-expander-definition "Setf expander")
-;; (define-definition-process define-symbol-macro-definition "Symbol macro")
-;; (define-definition-process defmacro-definition "Macro")
-;; (define-definition-process defmethod-definition "Method")
-;; (define-definition-process defpackage-definition "Package")
-;; (define-definition-process defparameter-definition "Parameter")
-;; (define-definition-process defsetf-definition "Setf")
-;; (define-definition-process defstruct-definition "Struct")
-;; (define-definition-process deftype-definition "Type")
-;; (define-definition-process defun-definition "Function")
-;; (define-definition-process defvar-definition "Variable")

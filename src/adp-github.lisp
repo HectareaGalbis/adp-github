@@ -76,8 +76,9 @@
     (loop for file across files
           do (let* ((*export-file* file)
                     (content (with-output-to-string (stream)
-                               (loop for element across (adp:file-elements file)
-                                     do (export-element element stream))))
+                               (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
+                                 (loop for element across (adp:file-elements file)
+                                       do (export-element element stream)))))
                     (target-path (file-target-absolute-pathname (adp:file-component file))))
                (warn "Exporting ~a" (asdf:system-relative-pathname system target-path))
                (ensure-directories-exist target-path)

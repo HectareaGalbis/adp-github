@@ -7,8 +7,8 @@
   :components ((:file "package")
                (:module "src"
                 :components ((:file "tags")
-                             (:file "adp-github" :depends-on ("tags"))
-                             (:file "elements" :depends-on ("tags"))
                              (:file "pprint-dispatch")
-                             (:file "printer" :depends-on ("pprint-dispatch" "adp-github" "elements" "tags"))
+                             (:file "adp-github" :depends-on ("tags" "pprint-dispatch"))
+                             (:file "elements" :depends-on ("tags"))
+                             (:file "printer" :depends-on ("adp-github" "elements" "tags"))
                              (:file "functions" :depends-on ("adp-github" "elements" "tags"))))))
