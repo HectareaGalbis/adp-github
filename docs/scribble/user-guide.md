@@ -380,7 +380,7 @@ Above we\'ve inserted a system description\. We can now create a reference to th
 
 And we will see\:
 
-[\:\|adp\-github\|](/docs/scribble/user-guide.md#system-keyword-adp-github)
+[adp\-github](/docs/scribble/user-guide.md#system-keyword-adp-github)
 
 The same goes to the rest of types\. However\, there is one more thing we should know\. If I use the following\:
 

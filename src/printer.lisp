@@ -121,6 +121,30 @@
       (format stream "[~a](/~a#~a)"
               (escape-characters (prin1-to-string (tag-symbol tag))) target-location (tag-to-string tag)))))
 
+(defmethod export-element ((element package-reference) stream)
+  (let* ((tag (text-reference-tag element))
+         (ref-obj (get-tag-value tag)))
+    (when (not ref-obj)
+      (error "Error: The tag ~s of type ~s does not exist."
+             (tag-symbol tag) (tag-type tag)))
+    (let ((target-location (description-target-location ref-obj)))
+      (format stream "[~a](/~a#~a)"
+              (escape-characters (string-downcase (symbol-name (tag-symbol tag))))
+              target-location
+              (tag-to-string tag)))))
+
+(defmethod export-element ((element system-reference) stream)
+  (let* ((tag (text-reference-tag element))
+         (ref-obj (get-tag-value tag)))
+    (when (not ref-obj)
+      (error "Error: The tag ~s of type ~s does not exist."
+             (tag-symbol tag) (tag-type tag)))
+    (let ((target-location (description-target-location ref-obj)))
+      (format stream "[~a](/~a#~a)"
+              (escape-characters (string-downcase (symbol-name (tag-symbol tag))))
+              target-location
+              (tag-to-string tag)))))
+
 
 ;; ------ table ------
 (defmethod export-element ((element cell) stream)
