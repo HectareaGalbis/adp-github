@@ -431,8 +431,14 @@
           symbol (c2mop:generic-function-lambda-list (symbol-function symbol))))
 
 (defun function-description-docstring (symbol stream)
-  (let ((docstring (documentation symbol 'function)))
-    (princ (or (and docstring (escape-characters docstring)) "_Undocumented_") stream)))
+  (let* ((docstring (documentation symbol 'function))
+         (docstring-block (and docstring
+                               (make-instance 'code-of-block :lang "text" :elements (list docstring)))))
+    (if docstring-block
+        (export-element docstring-block stream)
+        (princ "_Undocumented_" stream))
+    ;; (princ (or (and docstring (escape-characters docstring)) "_Undocumented_") stream)
+    ))
 
 (defmethod export-element ((element function-description) stream)
   (let* ((symbol (description-symbol element))
