@@ -22,15 +22,14 @@ In your @code{asd} file, you need to @code{:defsystem-depends-on} the system @co
 
 @code-block[:lang "common-lisp"]{
 (defsystem "my-system"
-  :depends-on ("adp-github")  ; <- The main system should also depend on adp-github
   ;; ...
   ) 
 
 (defsystem "my-system/docs"
   :defsystem-depends-on ("adp-github")
   :build-operation "adp-github-op"
-  :components ((:file "main")
-               (:scribble "README")))
+  :depends-on ("my-system")
+  :components ((:scribble "README")))
 }
 
 Now, from the REPL, just evaluate the following expression:
