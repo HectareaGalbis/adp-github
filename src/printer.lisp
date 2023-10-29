@@ -3,6 +3,12 @@
 
 
 ;; ----- Aux functions -----
+(defun safe-call (pkg-name func-name &rest args)
+  "Checks if a package and a function in that package exists. "
+  (let* ((pkg (find-package pkg-name))
+         (func (and pkg (find-symbol func-name pkg))))
+    (and func (apply func args))))
+
 (defun convert-to-github-header-anchor (str)
   (let ((down-str (string-downcase str))
 	(simple-str (make-array 100 :adjustable t :fill-pointer 0 :element-type 'character)))
@@ -416,12 +422,12 @@
 (defun macro-description-title (symbol stream)
   (format stream "#### Macro: ~a" symbol)
   #+sbcl
-  (format stream " ~s" (sb-introspect:function-lambda-list symbol)))
+  (format stream " ~s" (safe-call "SB-INTROSPECT" "FUNCTION-LAMBDA-LIST" symbol)))
 
 (defun function-description-title (symbol stream)
   (format stream "#### Function: ~a" symbol)
   #+sbcl
-  (format stream " ~s" (sb-introspect:function-lambda-list symbol))
+  (format stream " ~s" (safe-call "SB-INTROSPECT" "FUNCTION-LAMBDA-LIST" symbol))
   ;; (format stream "#### Function: ~a ~@[~s~]"
   ;;         symbol (cadr (print (function-lambda-expression (symbol-function symbol)))))
   )
