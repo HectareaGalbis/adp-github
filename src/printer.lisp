@@ -411,7 +411,8 @@
         (output (example-output element))
         (results (example-results element)))
     (format stream "`````common-lisp~%~a~%`````~%" code)
-    (format stream "`````text~%~a~%`````~%" output)
+    (and (> (length output) 0)
+         (format stream "`````text~%~a~%`````~%" output))
     (format stream "`````common-lisp~%~{~s~^~%~%~}~%`````" results)))
 
 
