@@ -428,10 +428,7 @@
 (defun function-description-title (symbol stream)
   (format stream "#### Function: ~a" symbol)
   #+sbcl
-  (format stream " ~s" (safe-call "SB-INTROSPECT" "FUNCTION-LAMBDA-LIST" symbol))
-  ;; (format stream "#### Function: ~a ~@[~s~]"
-  ;;         symbol (cadr (print (function-lambda-expression (symbol-function symbol)))))
-  )
+  (format stream " ~s" (arg:arglist (symbol-function symbol))))
 
 (defun generic-description-title (symbol stream)
   (format stream "#### Generic function: ~a ~s"

@@ -3,7 +3,7 @@
   :author "Héctor Galbis Sanchis"
   :description "ADP extension to generate github markdown files."
   :license "MIT"
-  :depends-on ("alexandria" "closer-mop" "adp")
+  :depends-on ("alexandria" "closer-mop" "adp" "trivial-arguments")
   :components ((:file "package")
                (:module "src"
                 :components ((:file "tags")
