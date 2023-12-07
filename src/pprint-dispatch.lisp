@@ -44,3 +44,16 @@
 
 
 (defvar *adp-pprint-dispatch* (make-custom-pprint-dispatch))
+
+
+(defun argument-symbol-pprint-function (stream sym)
+  (when (keywordp sym)
+    (princ ":" stream))
+  (princ (convert-string-case (symbol-name sym)) stream))
+
+(defun make-argument-pprint-dispatch ()
+  (let ((argument-pprint-dispatch (copy-pprint-dispatch)))    
+    (set-pprint-dispatch 'symbol #'argument-symbol-pprint-function 0 argument-pprint-dispatch)
+    (values argument-pprint-dispatch)))
+
+(defvar *argument-pprint-dispatch* (make-argument-pprint-dispatch))

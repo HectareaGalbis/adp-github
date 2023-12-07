@@ -420,15 +420,22 @@
 (defun function-description-anchor (tag stream)
   (format stream "<a id=~s></a>" (tag-to-string tag)))
 
+(defun function-description-arguments (symbol stream)
+  (let ((arguments (arg:arglist symbol)))
+    (when (not (eq arguments :unknown))
+      (if (null arguments)
+          (princ " ()" stream)
+          (let ((*print-right-margin* 999)
+                (*print-pprint-dispatch* *argument-pprint-dispatch*))
+            (format stream " ~s" arguments))))))
+
 (defun macro-description-title (symbol stream)
   (format stream "#### Macro: ~a" symbol)
-  #+sbcl
-  (format stream " ~s" (safe-call "SB-INTROSPECT" "FUNCTION-LAMBDA-LIST" symbol)))
+  (function-description-arguments symbol stream))
 
 (defun function-description-title (symbol stream)
   (format stream "#### Function: ~a" symbol)
-  #+sbcl
-  (format stream " ~s" (arg:arglist (symbol-function symbol))))
+  (function-description-arguments symbol stream))
 
 (defun generic-description-title (symbol stream)
   (format stream "#### Generic function: ~a ~s"
