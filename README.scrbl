@@ -5,7 +5,7 @@
 
 Welcome to ADP-GITHUB!
 
-@code{ADP-GITHUB} is an extension for @code{ADP}. It exports some functions and macros to print markdown-styled objects like headers, lists, code blocks and more. It also supports cross references and table of contents. Every symbol is exported from the @code{adp-github} package, although you can use the nickname @code{adpgh}.
+@code{ADP-GITHUB} is an exporter for @code{ADP}. It defines some functions and macros to print markdown-styled objects like headers, lists, code blocks and more. It also supports cross references and table of contents. Every symbol is exported from the @code{adp-github} package, although you can use the nickname @code{adpgh}.
 
 @mini-table-of-contents[]
 

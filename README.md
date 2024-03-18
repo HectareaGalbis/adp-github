@@ -3,7 +3,7 @@
 
 Welcome to ADP\-GITHUB\!
 
-``` ADP-GITHUB ``` is an extension for ``` ADP ```\. It exports some functions and macros to print markdown\-styled objects like headers\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ``` adp-github ``` package\, although you can use the nickname ``` adpgh ```\.
+``` ADP-GITHUB ``` is an exporter for ``` ADP ```\. It defines some functions and macros to print markdown\-styled objects like headers\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ``` adp-github ``` package\, although you can use the nickname ``` adpgh ```\.
 
 * [Add Documentation\, Please\.\.\. with Github Flavoured Markdown](/README.md#header-adp-github-headertag687)
   * [Documentation](/README.md#header-adp-github-headertag688)

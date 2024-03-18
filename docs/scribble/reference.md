@@ -150,7 +150,7 @@ link.
 `````
 
 <a id="function-adp-github-mini-table-of-contents"></a>
-#### Function: adpgh:mini-table-of-contents nil
+#### Function: adpgh:mini-table-of-contents ()
 
 `````text
 Inserts a table of contents with the headers, subheaders and subsubheaders of the current file.
@@ -222,14 +222,14 @@ Inserts a table. The elements must be rows.
 `````
 
 <a id="function-adp-github-table-of-contents"></a>
-#### Function: adpgh:table-of-contents nil
+#### Function: adpgh:table-of-contents ()
 
 `````text
 Inserts a table of contents with the headers and subheaders of every generated file.
 `````
 
 <a id="function-adp-github-table-of-functions"></a>
-#### Function: adpgh:table-of-functions nil
+#### Function: adpgh:table-of-functions ()
 
 `````text
 Inserts a table of function. It is a list with references to all the functions that has a description

@@ -354,7 +354,7 @@ ADP extension to generate github markdown files\.
 
 * Author: Héctor Galbis Sanchis
 * License: MIT
-* Depends on: alexandria, closer-mop, adp
+* Depends on: alexandria, closer-mop, adp, trivial-arguments
 
 
 <a id="header-adp-github-headertag682"></a>

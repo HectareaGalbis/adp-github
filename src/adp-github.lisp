@@ -3,6 +3,7 @@
 
 (adp:define-adp-operation adp-github-op)
 
+(adp:define-adp-file scribble "scrbl")
 
 (defvar *tags* nil)
 (defvar *process-system* nil)
