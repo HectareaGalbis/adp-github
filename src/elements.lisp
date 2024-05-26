@@ -2,6 +2,13 @@
 (in-package #:adpgh)
 
 
+;; ------ select-output-file -----
+(defclass select-output-file-type ()
+  ((path :initarg :path
+         :reader select-output-file-path
+         :type pathname)))
+
+
 ;; ----- header -----
 (defclass header-type ()
   ((elements :initarg :elements

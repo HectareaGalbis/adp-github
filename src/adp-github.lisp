@@ -10,6 +10,7 @@
 (defvar *process-file* nil)
 (defvar *files* nil)
 (defvar *export-file* nil)
+(defvar *target-file* nil)
 (defvar *unique-ids* nil)
 
 (defmethod adp:pre-process-system ((o adp-github-op) s)
@@ -76,14 +77,17 @@
         (*print-case* :downcase))
     (loop for file across files
           do (let* ((*export-file* file)
+                    (*target-file* nil)
                     (content (with-output-to-string (stream)
                                (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
                                  (loop for element across (adp:file-elements file)
                                        do (export-element element stream)))))
-                    (target-path (file-target-absolute-pathname (adp:file-component file))))
-               (warn "Exporting ~a" (asdf:system-relative-pathname system target-path))
-               (ensure-directories-exist target-path)
-               (with-open-file (file-str target-path :direction :output :if-exists :supersede
+                    (*target-file* (if *target-file*
+                                       *target-file*
+                                       (file-target-absolute-pathname (adp:file-component file)))))
+               (warn "Exporting ~a" (asdf:system-relative-pathname system *target-file*))
+               (ensure-directories-exist *target-file*)
+               (with-open-file (file-str *target-file* :direction :output :if-exists :supersede
                                                      :if-does-not-exist :create)
                  (princ content file-str))
                (warn "Completed"))))

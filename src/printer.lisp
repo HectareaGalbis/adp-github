@@ -83,6 +83,12 @@
   (princ (escape-characters element) stream))
 
 
+;; ------ select-output-file ------
+(defmethod export-element ((element select-output-file-type) stream)
+  (declare (ignore stream))
+  (setf *target-file* (select-output-file-path element)))
+
+
 ;; ------ header ------
 (defmacro define-header-process-method (type level)
   `(defmethod export-element ((element ,type) stream)
