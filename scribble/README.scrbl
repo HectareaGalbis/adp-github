@@ -1,6 +1,8 @@
 
 (in-package #:adpgh)
 
+@select-output-file["/README.md"]
+
 @header{Add Documentation, Please... with Github Flavoured Markdown}
 
 Welcome to ADP-GITHUB!
@@ -40,7 +42,7 @@ Now, from the REPL, just evaluate the following expression:
 
 @subheader{Where the files are generated}
 
-There is a simple rule and one expception. The rule says that every file is generated in a mirrored place under the @code{docs} directory. For example, the contents of file @code{src/myfile.scrbl} are printed into the file @code{docs/src/myfile.md}.
+There is a simple rule and one expception. The rule says that every file is generated in a mirrored place under the @code{docs} directory. For example, the contents of file @code{scribble/myfile.scrbl} are printed into the file @code{docs/scribble/myfile.md}.
 
-The exception is the file @code{README.scrbl}. If that file is placed at the root directory, then the output is placed in the same place.
+The exception is the use of @fref[select-output-file]. As the name suggest, you can select the output file. It accpets a pathname. That pathname is always treated as a relative path to the system's root directory.
 

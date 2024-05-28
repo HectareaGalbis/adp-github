@@ -148,7 +148,7 @@ an actual absolute pathname."
   "Inserts a list. It can contains items or sublists. The elements must be items, itemizes or enumerates."
   (loop for element in elements
         when (not (typep element '(or item itemize enumerate)))
-          do (error "Each element of a list must be an item."))
+          do (error "Each element of a list must be an item but found: ~s" element))
   (make-instance 'itemize :items elements))
 
 (defun enumerate (&rest elements)

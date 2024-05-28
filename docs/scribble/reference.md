@@ -185,6 +185,13 @@ Inserts quoted text.
 The rows are the components of a table. The elements must be cells.
 `````
 
+<a id="function-adp-github-select-output-file"></a>
+#### Function: adpgh:select-output-file (path)
+
+`````text
+Selects the output file. The pathname is always relative to the system's root directory.
+`````
+
 <a id="function-adp-github-sref"></a>
 #### Macro: adpgh:sref (system-name)
 

@@ -7,5 +7,5 @@
   :build-operation "adp-github-op"
   :components ((:module "scribble"
                 :components ((:scribble "reference")
-                             (:scribble "user-guide")))
-               (:scribble "README")))
+                             (:scribble "user-guide")
+                             (:scribble "README")))))

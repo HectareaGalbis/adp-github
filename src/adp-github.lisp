@@ -41,11 +41,8 @@
 ;;   (unique-ids-tittle-to-id *unique-ids* text))
 
 (defun src-to-target-pathname (path)
-  (if (and (string= (pathname-name path) "README")
-           (string= (pathname-type path) "scrbl"))
-      (merge-pathnames (make-pathname :type "md") path)
-      (merge-pathnames (make-pathname :directory (pathname-directory path) :name (pathname-name path) :type "md")
-                       (make-pathname :directory '(:relative "docs")))))
+  (merge-pathnames (make-pathname :directory (pathname-directory path) :name (pathname-name path) :type "md")
+                   (make-pathname :directory '(:relative "docs"))))
 
 
 (defun component-relative-pathname (file-component)
