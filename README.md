@@ -7,10 +7,10 @@ Welcome to ADP\-GITHUB\!
 
 ``` ADP-GITHUB ``` is an exporter for ``` ADP ```\. It defines some functions and macros to print markdown\-styled objects like headers\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ``` adp-github ``` package\, although you can use the nickname ``` adpgh ```\.
 
-* [Add Documentation\, Please\.\.\. with Github Flavoured Markdown](/docs/scribble/README.md#header-adp-github-headertag639)
-  * [Documentation](/docs/scribble/README.md#header-adp-github-headertag640)
-  * [How to use](/docs/scribble/README.md#header-adp-github-headertag641)
-  * [Where the files are generated](/docs/scribble/README.md#header-adp-github-headertag642)
+* [Add Documentation\, Please\.\.\. with Github Flavoured Markdown](/README.md#header-adp-github-headertag639)
+  * [Documentation](/README.md#header-adp-github-headertag640)
+  * [How to use](/README.md#header-adp-github-headertag641)
+  * [Where the files are generated](/README.md#header-adp-github-headertag642)
 
 
 <a id="header-adp-github-headertag640"></a>

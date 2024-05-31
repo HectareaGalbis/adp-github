@@ -35,21 +35,21 @@
 
 
 ;; ------ select-output-file ------
-(defun ensure-absolute-system-pathname (file-component path)
+(defun ensure-relative-pathname (path)
   "Given a path, relative or absolute, treats it as if it is relative to the system's root directory and returns
 an actual absolute pathname."
-  (let* ((system (asdf:component-system file-component))
-         (system-path (asdf:component-pathname system))
-         (rel-path (make-pathname :directory (cons :relative (cdr (pathname-directory path)))
-                                  :name (pathname-name path)
-                                  :type (or (pathname-type path) "md"))))
-    (merge-pathnames rel-path system-path)))
+  (make-pathname :directory (cons :relative (cdr (pathname-directory path)))
+                 :name (pathname-name path)
+                 :type (or (pathname-type path) "md")))
 
 (defun select-output-file (path)
   "Selects the output file. The pathname is always relative to the system's root directory."
   (unless (pathname-name path)
     (error "The pathname of the output file must have a name."))
-  (make-instance 'select-output-file-type :path (ensure-absolute-system-pathname *process-file* path)))
+  (let ((current-path (file-target-relative-pathname *process-file*))
+        (desired-path (ensure-relative-pathname path)))
+    (add-redirection current-path desired-path)
+    (make-instance 'select-output-file-type)))
 
 
 ;; ------ header ------

@@ -85,8 +85,7 @@
 
 ;; ------ select-output-file ------
 (defmethod export-element ((element select-output-file-type) stream)
-  (declare (ignore stream))
-  (setf *target-file* (select-output-file-path element)))
+  (declare (ignore stream)))
 
 
 ;; ------ header ------
@@ -118,10 +117,11 @@
     (when (not header-obj)
       (error "Error: The tag ~s of type ~s does not exist."
              (tag-symbol tag) (tag-type tag)))
-    (let ((target-location (header-target-location header-obj))
+    (let ((target-location (redirect-path (header-target-location header-obj)))
           (header-elements (or (header-ref-text-elements element)
-                               (header-elements header-obj))))(format stream "[~a](/~a#~a)"
-          (content-to-string header-elements) target-location (tag-to-string tag)))))
+                               (header-elements header-obj))))
+      (format stream "[~a](/~a#~a)"
+              (content-to-string header-elements) target-location (tag-to-string tag)))))
 
 (defmethod export-element ((element symbol-reference) stream)
   (let* ((tag (text-reference-tag element))
@@ -129,7 +129,7 @@
     (when (not ref-obj)
       (error "Error: The tag ~s of type ~s does not exist."
              (tag-symbol tag) (tag-type tag)))
-    (let ((target-location (description-target-location ref-obj)))
+    (let ((target-location (redirect-path (description-target-location ref-obj))))
       (format stream "[~a](/~a#~a)"
               (escape-characters (prin1-to-string (tag-symbol tag))) target-location (tag-to-string tag)))))
 
@@ -139,7 +139,7 @@
     (when (not ref-obj)
       (error "Error: The tag ~s of type ~s does not exist."
              (tag-symbol tag) (tag-type tag)))
-    (let ((target-location (description-target-location ref-obj)))
+    (let ((target-location (redirect-path (description-target-location ref-obj))))
       (format stream "[~a](/~a#~a)"
               (escape-characters (string-downcase (symbol-name (tag-symbol tag))))
               target-location
@@ -151,7 +151,7 @@
     (when (not ref-obj)
       (error "Error: The tag ~s of type ~s does not exist."
              (tag-symbol tag) (tag-type tag)))
-    (let ((target-location (description-target-location ref-obj)))
+    (let ((target-location (redirect-path (description-target-location ref-obj))))
       (format stream "[~a](/~a#~a)"
               (escape-characters (string-downcase (symbol-name (tag-symbol tag))))
               target-location

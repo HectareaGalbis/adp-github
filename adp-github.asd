@@ -8,6 +8,7 @@
                (:module "src"
                 :components ((:file "tags")
                              (:file "pprint-dispatch")
+                             (:file "redirection")
                              (:file "adp-github" :depends-on ("tags" "pprint-dispatch"))
                              (:file "elements" :depends-on ("tags"))
                              (:file "printer" :depends-on ("adp-github" "elements" "tags"))

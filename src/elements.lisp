@@ -3,10 +3,7 @@
 
 
 ;; ------ select-output-file -----
-(defclass select-output-file-type ()
-  ((path :initarg :path
-         :reader select-output-file-path
-         :type pathname)))
+(defclass select-output-file-type () ())
 
 
 ;; ----- header -----

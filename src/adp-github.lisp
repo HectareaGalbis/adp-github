@@ -10,7 +10,6 @@
 (defvar *process-file* nil)
 (defvar *files* nil)
 (defvar *export-file* nil)
-(defvar *target-file* nil)
 (defvar *unique-ids* nil)
 
 (defmethod adp:pre-process-system ((o adp-github-op) s)
@@ -60,9 +59,8 @@
 (defun file-target-relative-pathname (file-component)
   (src-to-target-pathname (component-relative-pathname file-component)))
 
-(defun file-target-absolute-pathname (file-component)
-  (let ((system (asdf:component-system file-component)))
-    (asdf:system-relative-pathname system (src-to-target-pathname (component-relative-pathname file-component)))))
+(defun file-target-absolute-pathname (system path &optional redirectedp)
+  (asdf:system-relative-pathname system (if redirectedp path (src-to-target-pathname path))))
 
 (defgeneric export-element (element stream)
   (:method ((element t) stream)
@@ -74,18 +72,20 @@
         (*print-case* :downcase))
     (loop for file across files
           do (let* ((*export-file* file)
-                    (*target-file* nil)
                     (content (with-output-to-string (stream)
                                (let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
                                  (loop for element across (adp:file-elements file)
-                                       do (export-element element stream)))))
-                    (*target-file* (if *target-file*
-                                       *target-file*
-                                       (file-target-absolute-pathname (adp:file-component file)))))
-               (warn "Exporting ~a" (asdf:system-relative-pathname system *target-file*))
-               (ensure-directories-exist *target-file*)
-               (with-open-file (file-str *target-file* :direction :output :if-exists :supersede
-                                                     :if-does-not-exist :create)
-                 (princ content file-str))
-               (warn "Completed"))))
+                                       do (export-element element stream))))))
+               (multiple-value-bind (target-path redirectedp)
+                   (redirect-path (file-target-relative-pathname (adp:file-component file)))
+                 (let ((target-file (file-target-absolute-pathname
+                                     (asdf:component-system (adp:file-component file))
+                                     target-path
+                                     redirectedp)))
+                   (warn "Exporting ~a" (asdf:system-relative-pathname system target-file))
+                   (ensure-directories-exist target-file)
+                   (with-open-file (file-str target-file :direction :output :if-exists :supersede
+                                                         :if-does-not-exist :create)
+                     (princ content file-str))
+                   (warn "Completed"))))))
   (setf *tags* nil))
