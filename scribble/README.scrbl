@@ -11,12 +11,32 @@ Welcome to ADP-GITHUB!
 
 @mini-table-of-contents[]
 
+
+@subheader{Installation}
+
+@itemize[
+@item{Manual:}
+]
+@code-block[:lang "sh"]{
+cd ~/common-lisp
+git clone https://github.com/Hectarea1996/adp-github.git
+}
+@itemize[
+@item{Quicklisp (Ultralisp):}
+]
+@code-block[:lang "common-lisp"]{
+(ql-dist:install-dist "http://dist.ultralisp.org/" :prompt nil)
+(ql:quickload "adp-github")
+}
+
+
 @subheader{Documentation}
 
 @itemize[
   @item{@href[:tag reference]}
   @item{@href[:tag user-guide]}
 ]
+
 
 @subheader{How to use}
 

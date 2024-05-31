@@ -1,26 +1,46 @@
 
 
-<a id="header-adp-github-headertag777"></a>
+<a id="header-adp-github-headertag639"></a>
 # Add Documentation\, Please\.\.\. with Github Flavoured Markdown
 
 Welcome to ADP\-GITHUB\!
 
 ``` ADP-GITHUB ``` is an exporter for ``` ADP ```\. It defines some functions and macros to print markdown\-styled objects like headers\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ``` adp-github ``` package\, although you can use the nickname ``` adpgh ```\.
 
-* [Add Documentation\, Please\.\.\. with Github Flavoured Markdown](/README.md#header-adp-github-headertag777)
-  * [Documentation](/README.md#header-adp-github-headertag778)
-  * [How to use](/README.md#header-adp-github-headertag779)
-  * [Where the files are generated](/README.md#header-adp-github-headertag780)
+* [Add Documentation\, Please\.\.\. with Github Flavoured Markdown](/README.md#header-adp-github-headertag639)
+  * [Installation](/README.md#header-adp-github-headertag640)
+  * [Documentation](/README.md#header-adp-github-headertag641)
+  * [How to use](/README.md#header-adp-github-headertag642)
+  * [Where the files are generated](/README.md#header-adp-github-headertag643)
 
 
-<a id="header-adp-github-headertag778"></a>
+
+<a id="header-adp-github-headertag640"></a>
+## Installation
+
+* Manual\:
+
+`````sh
+cd ~/common-lisp
+git clone https://github.com/Hectarea1996/adp-github.git
+`````
+* Quicklisp \(Ultralisp\)\:
+
+`````common-lisp
+(ql-dist:install-dist "http://dist.ultralisp.org/" :prompt nil)
+(ql:quickload "adp-github")
+`````
+
+
+<a id="header-adp-github-headertag641"></a>
 ## Documentation
 
 * [Reference](/docs/scribble/reference.md#header-adp-github-reference)
 * [User Guide](/docs/scribble/user-guide.md#header-adp-github-user-guide)
 
 
-<a id="header-adp-github-headertag779"></a>
+
+<a id="header-adp-github-headertag642"></a>
 ## How to use
 
 In your ``` asd ``` file\, you need to ``` :defsystem-depends-on ``` the system ``` adp-github ```\. Also\, is really recommended to make a separate system only for documentation generation\. And\, lastly\, you should specify ``` :build-operation ``` to be ``` "adp-github-op" ```\.
@@ -43,7 +63,7 @@ Now\, from the REPL\, just evaluate the following expression\:
 (asdf:make "my-system/docs")
 `````
 
-<a id="header-adp-github-headertag780"></a>
+<a id="header-adp-github-headertag643"></a>
 ## Where the files are generated
 
 There is a simple rule and one expception\. The rule says that every file is generated in a mirrored place under the ``` docs ``` directory\. For example\, the contents of file ``` scribble/myfile.scrbl ``` are printed into the file ``` docs/scribble/myfile.md ```\.
