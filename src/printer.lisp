@@ -29,7 +29,11 @@
 	(format nil "\\*~a\\*" (subseq sym-name 1 (1- length-name)))
 	(format nil "~a" sym))))
 
-(defun escape-characters (text)
+
+(defvar *context* :md
+  "Contains the current context where the text has to be printed.")
+
+(defun escape-md-characters (text)
   (let ((punctuation-chars '(#\! #\" #\# #\$ #\% #\& #\' #\( #\) #\* #\+ #\, #\- #\. #\/ #\: #\; #\< #\= #\> #\? #\@ #\[ #\\ #\] #\^ #\_ #\` #\{ #\| #\} #\~))
 	(fixed-text (make-array (length text) :adjustable t :fill-pointer 0 :element-type 'character)))
     (loop for char across text
@@ -50,6 +54,12 @@
 	    else
 	      do (princ char stream)))    
     (values fixed-text)))
+
+(defun escape-characters (text)
+  (case *context*
+    (:md (escape-md-characters text))
+    (:html (escape-html-characters text))
+    (t text)))
 
 (defun symbol-macro-p (sym &optional env)
   (let ((*macroexpand-hook* (constantly nil)))
@@ -160,13 +170,15 @@
 
 ;; ------ table ------
 (defmethod export-element ((element cell) stream)
-  (let ((content (with-output-to-string (str)
-                   (loop for element in (cell-elements element)
-                         if (and (stringp element)
-                                 (string= element "\n"))
-                           do (princ "<br>" str)
-                         else
-                           do (export-element element str)))))
+  (let* ((*context* :html)
+         (content (with-output-to-string (str)
+                    (loop for element in (cell-elements element)
+                          if (and (stringp element)
+                                  (string= element "\n"))
+                            do (princ "<br>" str)
+                          else
+                            do (export-element element str)))))
+    (print content)
     (format stream "<td>~a</td>" content)))
 
 (defmethod export-element ((element row) stream)
