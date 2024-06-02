@@ -178,7 +178,6 @@
                             do (princ "<br>" str)
                           else
                             do (export-element element str)))))
-    (print content)
     (format stream "<td>~a</td>" content)))
 
 (defmethod export-element ((element row) stream)
