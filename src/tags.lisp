@@ -2,52 +2,38 @@
 (in-package #:adpgh)
 
 
-(defun make-tags-container ()
-  (make-hash-table))
+(defvar *tags* nil
+  "The tags container.")
 
-(defun ensure-tag-table (tags type)
-  "Returns the hash table of tags of a given type."
-  (or (gethash type tags)
-      (setf (gethash type tags) (make-hash-table))))
+(defun make-unique-tag ()
+  "Returns a unique symbol tag."
+  (gentemp "TAG"))
 
-(defun get-tag-value-impl (tags symbol type)
-  (let* ((tag-table (ensure-tag-table tags type)))
-    (gethash symbol tag-table)))
+(defmacro with-tags (&body body)
+  "Evaluates the BODY with a fresh tags container."
+  `(let ((*tags* (make-hash-table :test 'eq)))
+     ,@body))
 
-(defun (setf get-tag-value-impl) (value tags symbol type)
-  (let ((tag-table (ensure-tag-table tags type)))
-    (setf (gethash symbol tag-table) value)))
+(defun ensure-tag-type-container (type)
+  "Returns a hash table for agiven keyword type."
+  (or (gethash type *tags*)
+      (setf (gethash type *tags*) (make-hash-table :test 'eq))))
 
-(defun get-tag-symbols-impl (tags type)
-  (let ((tag-table (ensure-tag-table tags type)))
-    (hash-table-keys tag-table)))
+(defun get-tags-value (type symbol)
+  "Return the value associated with a symbol and a type."
+  (gethash symbol (ensure-tag-type-container type)))
 
-(defclass tag ()
-  ((symbol :initarg :symbol
-           :reader tag-symbol
-           :type symbol)
-   (type :initarg :type
-         :reader tag-type
-         :type keyword)))
+(defun (setf get-tags-value) (value type symbol)
+  "Assigns the value associated with a symbol and a type. Raises an error if tag is already defined."
+  (symbol-macrolet ((tag-value (gethash symbol (ensure-tag-type-container type))))
+    (if (nth-value 1 tag-value)
+        (error "The ~a tag ~s is already defined." (string-downcase (symbol-name type)) symbol)
+        (setf tag-value value))))
 
-(defun make-tag (symbol type)
-  "Makes a tag."
-  (check-type symbol symbol)
-  (check-type type keyword)
-  (make-instance 'tag :symbol symbol :type type))
+(defun get-tags-of-type (type)
+  "Returns the tags container of the given TYPE as a hash-table."
+  (ensure-tag-type-container type))
 
-(defun tags-tag-value (tags tag)
-  "Retreives the value of a tag or nil if tag does not exist."
-  (check-type tags hash-table)
-  (check-type tag tag)
-  (let ((symbol (tag-symbol tag))
-        (type (tag-type tag)))
-    (get-tag-value-impl tags symbol type)))
-
-(defun (setf tags-tag-value) (value tags tag)
-  "Adds or updates a tag."
-  (check-type tags hash-table)
-  (check-type tag tag)
-  (let ((symbol (tag-symbol tag))
-        (type (tag-type tag)))
-    (setf (get-tag-value-impl tags symbol type) value)))
+(defun tag-to-string (type symbol)
+  "Returns the string representation of a tag."
+  (format nil "~a:~a:~a" (symbol-name type) (package-name (symbol-package symbol)) (symbol-name symbol)))

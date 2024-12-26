@@ -172,12 +172,12 @@
 (defmethod export-element ((element cell) stream)
   (let* ((*context* :html)
          (content (with-output-to-string (str)
-                    (loop for element in (cell-elements element)
-                          if (and (stringp element)
-                                  (string= element "\n"))
+                    (loop for cell-element in (cell-elements element)
+                          if (and (stringp cell-element)
+                                  (string= cell-element "\n"))
                             do (princ "<br>" str)
                           else
-                            do (export-element element str)))))
+                            do (export-element cell-element str)))))
     (format stream "<td>~a</td>" content)))
 
 (defmethod export-element ((element row) stream)
@@ -278,9 +278,10 @@
 	 (total-deep-levels (length deep-levels))
 	 (index 0))
     (labels ((make-itemize-toc-aux (current-level)
-	       (loop while (< index total-deep-levels)
-		     for header = (aref headers index)
-		     for deep-level = (aref deep-levels index)
+	       (loop for in-loop = (< index total-deep-levels)
+		     for header = (when in-loop (aref headers index))
+		     for deep-level = (when in-loop (aref deep-levels index))
+                     while in-loop
 		     until (< deep-level current-level)
 		     if (> deep-level current-level)
 		       collect (make-instance 'itemize

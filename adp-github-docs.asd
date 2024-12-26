@@ -4,8 +4,11 @@
   :description "Documentation system of ADP-GITHUB"
   :license "MIT"
   :defsystem-depends-on ("adp-github")
-  :build-operation "adp-github-op"
+  :class :adp-github
   :components ((:module "scribble"
-                :components ((:scribble "reference")
+                :serial t
+                :components ((:file "package")
+                             (:file "custom")
+                             (:scribble "reference")
                              (:scribble "user-guide")
                              (:scribble "README")))))

@@ -1,6 +1,6 @@
 
-(in-package #:adpgh)
+(in-package #:adpgh-docs)
 
-@header[:tag reference]{Reference}
+@title[:tag reference]{Reference}
 
-@function-glossary[#:adpgh]
+@adp-function-glossary[#:adpgh]
