@@ -1,20 +1,20 @@
 
 
-<a id="TITLE:ADPGH-DOCS:TAG34"></a>
+<a id="TITLE:ADPGH-DOCS:TAG15"></a>
 # Add Documentation\, Please\.\.\. with Github Flavoured Markdown
 
 Welcome to ADP\-GITHUB\!
 
 ```ADP-GITHUB``` is an exporter for ```ADP```\. It defines some functions and macros to print markdown\-styled objects like titles\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ```adp-github``` package\, although you can use the nickname ```adpgh```\.
 
-* [Installation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG35)
-* [Documentation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG36)
-* [How to use](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG37)
-* [Where the files are generated](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG38)
+* [Installation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG16)
+* [Documentation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG17)
+* [How to use](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG18)
+* [Where the files are generated](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG19)
 
 
 
-<a id="TITLE:ADPGH-DOCS:TAG35"></a>
+<a id="TITLE:ADPGH-DOCS:TAG16"></a>
 ## Installation
 
 * Manual\:
@@ -31,7 +31,7 @@ git clone https://github.com/Hectarea1996/adp-github.git
 `````
 
 
-<a id="TITLE:ADPGH-DOCS:TAG36"></a>
+<a id="TITLE:ADPGH-DOCS:TAG17"></a>
 ## Documentation
 
 * [Reference](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:REFERENCE)
@@ -39,7 +39,7 @@ git clone https://github.com/Hectarea1996/adp-github.git
 
 
 
-<a id="TITLE:ADPGH-DOCS:TAG37"></a>
+<a id="TITLE:ADPGH-DOCS:TAG18"></a>
 ## How to use
 
 In your ```asd``` file\, you need to ```:defsystem-depends-on``` the system ```adp-github```\. Also\, is really recommended to make a separate system only for documentation generation\. And\, lastly\, you should specify ```:build-operation``` to be ```"adp-github-op"```\.
@@ -62,7 +62,7 @@ Now\, from the REPL\, just evaluate the following expression\:
 (asdf:make "my-system/docs")
 `````
 
-<a id="TITLE:ADPGH-DOCS:TAG38"></a>
+<a id="TITLE:ADPGH-DOCS:TAG19"></a>
 ## Where the files are generated
 
 There is a simple rule and one expception\. The rule says that every file is generated in a mirrored place under the ```docs``` directory\. For example\, the contents of file ```scribble/myfile.scrbl``` are printed into the file ```docs/scribble/myfile.md```\.

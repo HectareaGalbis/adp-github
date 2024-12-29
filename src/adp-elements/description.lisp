@@ -3,27 +3,33 @@
 
 
 (defclass description (located-element)
-  ((object :initarg :object)))
+  ((object :initarg :object)
+   (tag :initarg :tag)))
 
 
 ;; --------------------------------------------------------------------------------
 (defclass function-description (description) ())
 
-(defun function-description% (name)
-  (make-instance 'function-description :object name))
+(defun function-description% (name tag)
+  (make-instance 'function-description :object name :tag tag))
 
-(adp:defmacro function-description (name)
+(adp:defmacro function-description (name :tag (tag (make-unique-tag)))
   "Inserts a function description. It must receive the function name (a symbol) that represents the function. 
 A function description also creates a function tag that can be used with fref."
-  `(function-description% ',name))
+  `(function-description% ',name ',tag))
 
 (defmethod process-element ((element function-description))
-  (with-slots ((name object)) element
+  (with-slots ((name object) tag) element
+    ;; Index and user tag  
+    (setf (get-tags-value :function tag) element)
+    ;; fref tag
     (when (not (nth-value 1 (get-tags-value :function name)))
       (setf (get-tags-value :function name) element))))
 
-(defun function-description-anchor (name stream)
-  (format stream "<a id=~s></a>" (tag-to-string :function name)))
+(defun function-description-anchor (name tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string :function name))
+  (terpri)
+  (format stream "<a id=~s></a>" (tag-to-string :function tag)))
 
 (defun function-description-arguments (name stream)
   (let ((arguments (arg:arglist name)))
@@ -54,8 +60,8 @@ A function description also creates a function tag that can be used with fref."
     (format stream "~/adpgh:format-element-md/" docstring-block)))
 
 (defmethod print-element (stream (element function-description))
-  (with-slots ((name object)) element
-    (function-description-anchor name stream)
+  (with-slots ((name object) tag) element
+    (function-description-anchor name tag stream)
     (terpri stream)
     (cond
       ((macro-function name)
@@ -72,23 +78,28 @@ A function description also creates a function tag that can be used with fref."
 ;; --------------------------------------------------------------------------------
 (defclass variable-description (description) ())
 
-(defun variable-description% (name)
+(defun variable-description% (name tag)
   "Inserts a variable description. It must receive the variable name (a symbol) that represents the variable. 
 A variable description also creates a variable tag that can be used with vref."
-  (make-instance 'variable-description :object name))
+  (make-instance 'variable-description :object name :tag tag))
 
-(adp:defmacro variable-description (name)
+(adp:defmacro variable-description (name :tag (tag (make-unique-tag)))
   "Inserts a variable description. It must receive the variable name (a symbol) that represents the variable. 
 A variable description also creates a variable tag that can be used with vref."
-  `(variable-description ',name))
+  `(variable-description ',name ',tag))
 
 (defmethod process-element ((element variable-description))
-  (with-slots ((name object)) element
+  (with-slots ((name object) tag) element
+    ;; Index and user tag
+    (setf (get-tags-value :variable tag) element)
+    ;; vref tag
     (when (not (nth-value 1 (get-tags-value :variable name)))
       (setf (get-tags-value :variable name) element))))
 
-(defun variable-description-anchor (name stream)
-  (format stream "<a id=~s></a>" (tag-to-string :variable name)))
+(defun variable-description-anchor (name tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string :variable name))
+  (terpri)
+  (format stream "<a id=~s></a>" (tag-to-string :variable tag)))
 
 (defun variable-description-title (name stream)
   (let ((title (if (constantp name) "Constant" "Variable")))
@@ -102,8 +113,8 @@ A variable description also creates a variable tag that can be used with vref."
     (format stream "~/adpgh:format-element-md/" docstring-block)))
 
 (defmethod print-element (stream (element variable-description))
-  (with-slots ((name object)) element
-    (variable-description-anchor name stream)
+  (with-slots ((name object) tag) element
+    (variable-description-anchor name tag stream)
     (terpri stream)
     (variable-description-title name stream)
     (terpri stream)
@@ -113,21 +124,26 @@ A variable description also creates a variable tag that can be used with vref."
 ;; --------------------------------------------------------------------------------
 (defclass class-description (description) ())
 
-(defun class-description% (sym)
-  (make-instance 'class-description :object sym))
+(defun class-description% (sym tag)
+  (make-instance 'class-description :object sym :tag tag))
 
-(adp:defmacro class-description (sym)
+(adp:defmacro class-description (sym :tag (tag (make-unique-tag)))
   "Inserts a class description. It must receive the class name (a symbol) that represents the class. 
 A class description also creates a class tag that can be used with cref."
-  `(class-description% ',sym))
+  `(class-description% ',sym ',tag))
 
 (defmethod process-element ((element class-description))
-  (with-slots ((name object)) element
+  (with-slots ((name object) tag) element
+    ;; Index and user tag
+    (setf (get-tags-value :class tag) element)
+    ;; cref tag
     (when (not (nth-value 1 (get-tags-value :class name)))
       (setf (get-tags-value :class name) element))))
 
-(defun class-description-anchor (name stream)
-  (format stream "<a id=~s></a>" (tag-to-string :class name)))
+(defun class-description-anchor (name tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string :class name))
+  (terpri)
+  (format stream "<a id=~s></a>" (tag-to-string :class tag)))
 
 (defun class-description-title (class stream)
   (format stream "#### Class: ~a" (class-name class)))
@@ -198,9 +214,9 @@ A class description also creates a class tag that can be used with cref."
   (print-element stream (class-direct-slots-itemize class)))
 
 (defmethod print-element (stream (element class-description))
-  (with-slots ((name object)) element
+  (with-slots ((name object) tag) element
     (let ((class (find-class name)))
-      (class-description-anchor name stream)
+      (class-description-anchor name tag stream)
       (terpri stream)
       (class-description-title class stream)
       (terpri stream)

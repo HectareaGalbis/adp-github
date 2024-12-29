@@ -84,3 +84,48 @@
   (let* ((titles (file-titles (get-current-file)))
          (filtered-titles (remove-if-not (lambda (title) (suitable-title element title)) titles)))
     (print-element stream (make-toc-list filtered-titles))))
+
+
+;; ------ table of symbols ------
+(defun get-file-description-items (file description-type tag-type)
+  (loop for file-element in (adp:file-elements file)
+        if (typep file-element description-type)
+          collect (with-slots (tag) file-element
+                    (make-instance 'item
+                                   :items (list (make-instance 'reference :type tag-type :symbol tag))))))
+
+(defclass table-of-symbols ()
+  ((reference-itemize :initform nil :allocation :class)
+   (description-class :initarg :description-class)
+   (tag-type :initarg :tag-type)))
+
+(defmethod process-element ((element table-of-symbols))
+  (with-slots (reference-itemize description-class tag-type) element
+    (when (not reference-itemize)
+      (let ((items (get-file-function-items (get-current-file) description-class tag-type)))
+        (setf reference-itemize (make-instance 'itemize :items items))))))
+
+(defmethod print-element (stream (element table-of-symbols))
+  (format stream "~/print-element/" (slot-value element 'reference-itemize)))
+
+
+(defclass table-of-functions ()
+  ((reference-itemize :initform nil :allocation :class)))
+
+(adp:defun table-of-functions ()
+  "Inserts references to function descriptions from the current file."
+  (make-instance 'table-of-symbols :description-class 'function-description :tag-type :function))
+
+(defclass table-of-variables ()
+  ((reference-itemize :initform nil :allocation :class)))
+
+(adp:defun table-of-variables ()
+  "Inserts references to function descriptions from the current file."
+  (make-instance 'table-of-symbols :description-class 'variable-description :tag-type :variable))
+
+(defclass table-of-classes ()
+  ((reference-itemize :initform nil :allocation :class)))
+
+(adp:defun table-of-classes ()
+  "Inserts references to function descriptions from the current file."
+  (make-instance 'table-of-symbols :description-class 'class-description :tag-type :class))
