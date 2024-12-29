@@ -238,24 +238,29 @@ A class description also creates a class tag that can be used with cref."
 ;; --------------------------------------------------------------------------------
 (defclass package-description (description) ())
 
-(defun package-description% (pkg)
+(defun package-description% (pkg tag)
   (let* ((package (find-package pkg)))
-    (make-instance 'package-description :object package)))
+    (make-instance 'package-description :object package :tag tag)))
 
-(adp:defmacro package-description (pkg)
+(adp:defmacro package-description (pkg :tag (tag (make-unique-tag)))
   "Inserts a package description. It must receive a package descriptor that represents the package. 
 A package description also creates a package tag that can be used with pref."
-  `(package-description% ,(string pkg)))
+  `(package-description% ,(string pkg) ',tag))
 
 (defmethod process-element ((element package-description))
-  (with-slots ((package object)) element
+  (with-slots ((package object) tag) element
+    ;; Index and user tag
+    (setf (get-tags-value :package tag) element)
+    ;; pref tag
     (let* ((package-name (package-name package))
            (package-key (intern package-name "KEYWORD")))
       (when (not (nth-value 1 (get-tags-value :package package-key)))
         (setf (get-tags-value :package package-key) element)))))
 
-(defun package-description-anchor (name stream)
-  (format stream "<a id=~s></a>" (tag-to-string :package name)))
+(defun package-description-anchor (name tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string :package name))
+  (terpri)
+  (format stream "<a id=~s></a>" (tag-to-string :package tag)))
 
 (defun package-description-title (pkg stream)
   (format stream "#### Package: ~a" (package-name pkg)))
@@ -280,8 +285,9 @@ A package description also creates a package tag that can be used with pref."
 
 (defmethod print-element (stream (element package-description))
   (let* ((pkg (slot-value element 'object))
+         (tag (slot-value element 'tag))
          (name (make-keyword (package-name pkg))))
-    (package-description-anchor name stream)
+    (package-description-anchor name tag stream)
     (terpri stream)
     (package-description-title pkg stream)
     (terpri stream)
@@ -296,24 +302,29 @@ A package description also creates a package tag that can be used with pref."
 ;; --------------------------------------------------------------------------------
 (defclass system-description (description) ())
 
-(defun system-description% (system-des)
+(defun system-description% (system-des tag)
   (let* ((system (asdf:find-system system-des)))
-    (make-instance 'system-description :object system)))
+    (make-instance 'system-description :object system :tag tag)))
 
-(adp:defmacro system-description (system-des)
+(adp:defmacro system-description (system-des :tag (tag (make-unique-tag)))
   "Inserts a system description. It must receive a system description that represents the system. 
 A system description also creates a system tag that can be used with sref."
-  `(system-description% ,(string system-des)))
+  `(system-description% ,(string system-des) ',tag))
 
 (defmethod process-element ((element system-description))
-  (with-slots ((system object)) element
+  (with-slots ((system object) tag) element
+    ;; Index and user tag
+    (setf (get-tags-value :system tag) element)
+    ;; sref tag
     (let* ((system-name (asdf:component-name system))
            (system-key (intern (string-upcase system-name) "KEYWORD")))
       (when (not (nth-value 1 (get-tags-value :system system-key)))
         (setf (get-tags-value :system system-key) element)))))
 
-(defun system-description-anchor (name stream)
-  (format stream "<a id=~s></a>" (tag-to-string :system name)))
+(defun system-description-anchor (name tag stream)
+  (format stream "<a id=~s></a>" (tag-to-string :system name))
+  (terpri)
+  (format stream "<a id=~s></a>" (tag-to-string :system tag)))
 
 (defun system-description-title (system stream)
   (format stream "#### System: ~a" (asdf:component-name system)))
@@ -350,8 +361,9 @@ A system description also creates a system tag that can be used with sref."
 
 (defmethod print-element (stream (element system-description))
   (let* ((system (slot-value element 'object))
+         (tag (slot-value element 'tag))
          (name (make-keyword (string-upcase (asdf:component-name system)))))
-    (system-description-anchor name stream)
+    (system-description-anchor name tag stream)
     (terpri stream)
     (system-description-title system stream)
     (terpri stream)
