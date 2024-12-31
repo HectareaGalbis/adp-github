@@ -551,7 +551,7 @@ Another useful function is [adpgh\:clref](/docs/scribble/reference.md#FUNCTION:A
 @clref[prin1]
 `````
 
-[PRIN1](http://www.lispworks.com/reference/HyperSpec/Body/f_wr_pr.htm)
+[prin1](http://www.lispworks.com/reference/HyperSpec/Body/f_wr_pr.htm)
 
 <a id="TITLE:ADPGH-DOCS:TAG60"></a>
 ## Glossaries

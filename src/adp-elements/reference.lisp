@@ -80,7 +80,7 @@ NAME must be a package descriptor (not evaluated)."
   (let ((address (hyperspec:lookup sym)))
     (when (not address)
       (error "Error: The value received is not a symbol from the Common Lisp package: ~s" sym))
-    (make-instance 'link :address address :elements (list (symbol-name sym)))))
+    (make-instance 'link :address address :elements (list sym))))
 
 (adp:defmacro clref (sym)
   "Inserts a hyperlink to the Common Lisp Hyperspec for a given symbol (not evaluated)."
