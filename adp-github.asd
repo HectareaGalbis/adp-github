@@ -10,6 +10,7 @@
                              (:file "pprint-dispatch")
                              (:file "tags")
                              (:file "adp-github")
+                             (:file "system")
                              (:file "files")
                              (:file "elements")
                              (:module "adp-elements"

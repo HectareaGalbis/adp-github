@@ -81,17 +81,19 @@
   ((condition :initarg :condition)
    (pathname :initarg :pathname))
   (:report (lambda (self stream)
-             (with-slots (condition pathname) self
-               (format stream "While processing file: '~a'" pathname)
-               (format stream "~%~a" condition)))))
+             (let ((*print-circle* nil))
+               (with-slots (condition pathname) self
+                 (format stream "While processing file: '~a'" pathname)
+                 (format stream "~%~a" condition))))))
 
 (define-condition print-file-error (error)
   ((condition :initarg :condition)
    (pathname :initarg :pathname))
   (:report (lambda (self stream)
-             (with-slots (condition pathname) self
-               (format stream "While printing file: '~a'" pathname)
-               (format stream "~%~a" condition)))))
+             (let ((*print-circle* nil))
+               (with-slots (condition pathname) self
+                 (format stream "While printing file: '~a'" pathname)
+                 (format stream "~%~a" condition))))))
 
 (defun process-files (files)
   "Processes the files."

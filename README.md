@@ -1,20 +1,20 @@
 
 
-<a id="TITLE:ADPGH-DOCS:TAG15"></a>
+<a id="TITLE:ADPGH-DOCS:TAG63"></a>
 # Add Documentation\, Please\.\.\. with Github Flavoured Markdown
 
 Welcome to ADP\-GITHUB\!
 
 ```ADP-GITHUB``` is an exporter for ```ADP```\. It defines some functions and macros to print markdown\-styled objects like titles\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ```adp-github``` package\, although you can use the nickname ```adpgh```\.
 
-* [Installation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG16)
-* [Documentation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG17)
-* [How to use](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG18)
-* [Where the files are generated](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG19)
+* [Installation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG64)
+* [Documentation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG65)
+* [How to use](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG66)
+* [Where the files are generated](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG67)
 
 
 
-<a id="TITLE:ADPGH-DOCS:TAG16"></a>
+<a id="TITLE:ADPGH-DOCS:TAG64"></a>
 ## Installation
 
 * Manual\:
@@ -23,15 +23,14 @@ Welcome to ADP\-GITHUB\!
 cd ~/common-lisp
 git clone https://github.com/Hectarea1996/adp-github.git
 `````
-* Quicklisp \(Ultralisp\)\:
+* Quicklisp\:
 
 `````common-lisp
-(ql-dist:install-dist "http://dist.ultralisp.org/" :prompt nil)
 (ql:quickload "adp-github")
 `````
 
 
-<a id="TITLE:ADPGH-DOCS:TAG17"></a>
+<a id="TITLE:ADPGH-DOCS:TAG65"></a>
 ## Documentation
 
 * [Reference](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:REFERENCE)
@@ -39,19 +38,19 @@ git clone https://github.com/Hectarea1996/adp-github.git
 
 
 
-<a id="TITLE:ADPGH-DOCS:TAG18"></a>
+<a id="TITLE:ADPGH-DOCS:TAG66"></a>
 ## How to use
 
-In your ```asd``` file\, you need to ```:defsystem-depends-on``` the system ```adp-github```\. Also\, is really recommended to make a separate system only for documentation generation\. And\, lastly\, you should specify ```:build-operation``` to be ```"adp-github-op"```\.
+Make a subsystem of your project\. For example\, name it ```my-project/docs```\. You need to ```:defsystem-depends-on``` the system ```adp-github```\. And\, lastly\, you should specify the system ```:class``` to be ```:adp-github```\.
 
 `````common-lisp
-(defsystem "my-system"
+(defsystem "my-project"
   ;; ...
   )
 
-(defsystem "my-system/docs"
+(defsystem "my-project/docs"
   :defsystem-depends-on ("adp-github")
-  :build-operation "adp-github-op"
+  :class :adp-github
   :depends-on ("my-system")
   :components ((:scribble "README")))
 `````
@@ -59,10 +58,10 @@ In your ```asd``` file\, you need to ```:defsystem-depends-on``` the system ```a
 Now\, from the REPL\, just evaluate the following expression\:
 
 `````common-lisp
-(asdf:make "my-system/docs")
+(asdf:load-system "my-system/docs")
 `````
 
-<a id="TITLE:ADPGH-DOCS:TAG19"></a>
+<a id="TITLE:ADPGH-DOCS:TAG67"></a>
 ## Where the files are generated
 
 There is a simple rule and one expception\. The rule says that every file is generated in a mirrored place under the ```docs``` directory\. For example\, the contents of file ```scribble/myfile.scrbl``` are printed into the file ```docs/scribble/myfile.md```\.

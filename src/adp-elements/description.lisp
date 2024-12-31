@@ -3,8 +3,12 @@
 
 
 (defclass description (located-element)
-  ((object :initarg :object)
-   (tag :initarg :tag)))
+  ((object :initarg :object
+           :documentation "The object the description refers to.")
+   (tag :initarg :tag
+        :documentation "The tag that refers to this description."))
+  (:documentation
+   "Base class for all descriptions."))
 
 
 ;; --------------------------------------------------------------------------------
@@ -14,8 +18,11 @@
   (make-instance 'function-description :object name :tag tag))
 
 (adp:defmacro function-description (name :tag (tag (make-unique-tag)))
-  "Inserts a function description. It must receive the function name (a symbol) that represents the function. 
-A function description also creates a function tag that can be used with fref."
+  "Inserts a function description.
+
+It must receive the function name (a symbol, not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with fref.
+The tag must be a symbol (not evaluated)."
   `(function-description% ',name ',tag))
 
 (defmethod process-element ((element function-description))
@@ -28,7 +35,7 @@ A function description also creates a function tag that can be used with fref."
 
 (defun function-description-anchor (name tag stream)
   (format stream "<a id=~s></a>" (tag-to-string :function name))
-  (terpri)
+  (terpri stream)
   (format stream "<a id=~s></a>" (tag-to-string :function tag)))
 
 (defun function-description-arguments (name stream)
@@ -36,21 +43,22 @@ A function description also creates a function tag that can be used with fref."
     (when (not (eq arguments :unknown))
       (if (null arguments)
           (princ " ()" stream)
-          (let ((*print-right-margin* 999)
-                (*print-pprint-dispatch* *argument-pprint-dispatch*))
-            (format stream " ~s" arguments))))))
+          (format stream " ~s" arguments)))))
 
 (defun macro-description-title (name stream)
   (format stream "#### Macro: ~a" name)
-  (function-description-arguments name stream))
+  (with-api-pprint-dispatch
+    (function-description-arguments name stream)))
 
 (defun function-description-title (name stream)
   (format stream "#### Function: ~a" name)
-  (function-description-arguments name stream))
+  (with-api-pprint-dispatch
+    (function-description-arguments name stream)))
 
 (defun generic-description-title (name stream)
-  (format stream "#### Generic function: ~a ~s"
-          name (c2mop:generic-function-lambda-list (symbol-function name))))
+  (format stream "#### Generic function: ~a " name)
+  (with-api-pprint-dispatch
+    (prin1 (c2mop:generic-function-lambda-list (symbol-function name)) stream)))
 
 (defun function-description-docstring (name stream)
   (let* ((docstring (documentation name 'function))
@@ -79,14 +87,15 @@ A function description also creates a function tag that can be used with fref."
 (defclass variable-description (description) ())
 
 (defun variable-description% (name tag)
-  "Inserts a variable description. It must receive the variable name (a symbol) that represents the variable. 
-A variable description also creates a variable tag that can be used with vref."
   (make-instance 'variable-description :object name :tag tag))
 
 (adp:defmacro variable-description (name :tag (tag (make-unique-tag)))
-  "Inserts a variable description. It must receive the variable name (a symbol) that represents the variable. 
-A variable description also creates a variable tag that can be used with vref."
-  `(variable-description ',name ',tag))
+  "Inserts a variable description.
+
+It must receive the variable name (a symbol, not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with vref.
+The tag must be a symbol (not evaluated)."
+  `(variable-description% ',name ',tag))
 
 (defmethod process-element ((element variable-description))
   (with-slots ((name object) tag) element
@@ -98,7 +107,7 @@ A variable description also creates a variable tag that can be used with vref."
 
 (defun variable-description-anchor (name tag stream)
   (format stream "<a id=~s></a>" (tag-to-string :variable name))
-  (terpri)
+  (terpri stream)
   (format stream "<a id=~s></a>" (tag-to-string :variable tag)))
 
 (defun variable-description-title (name stream)
@@ -109,7 +118,7 @@ A variable description also creates a variable tag that can be used with vref."
   (let* ((docstring (documentation name 'variable))
          (docstring-block (if docstring
                               (make-instance 'code-block :lang "text" :elements (list docstring))
-                              (make-instance 'italic :elements '("Undocumented")))))
+                              (make-instance 'text :style :italic :elements '("Undocumented")))))
     (format stream "~/adpgh:format-element-md/" docstring-block)))
 
 (defmethod print-element (stream (element variable-description))
@@ -128,8 +137,11 @@ A variable description also creates a variable tag that can be used with vref."
   (make-instance 'class-description :object sym :tag tag))
 
 (adp:defmacro class-description (sym :tag (tag (make-unique-tag)))
-  "Inserts a class description. It must receive the class name (a symbol) that represents the class. 
-A class description also creates a class tag that can be used with cref."
+  "Inserts a class description.
+
+It must receive the class name (a symbol, not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with cref.
+The tag must be a symbol (not evaluated)."
   `(class-description% ',sym ',tag))
 
 (defmethod process-element ((element class-description))
@@ -142,7 +154,7 @@ A class description also creates a class tag that can be used with cref."
 
 (defun class-description-anchor (name tag stream)
   (format stream "<a id=~s></a>" (tag-to-string :class name))
-  (terpri)
+  (terpri stream)
   (format stream "<a id=~s></a>" (tag-to-string :class tag)))
 
 (defun class-description-title (class stream)
@@ -152,76 +164,109 @@ A class description also creates a class tag that can be used with cref."
   (let* ((docstring (documentation class 'type))
          (docstring-block (if docstring
                               (make-instance 'code-block :lang "text" :elements (list docstring))
-                              (make-instance 'italic :elements '("Undocumented")))))
+                              (make-instance 'text :style :italic :elements '("Undocumented")))))
     (format stream "~/adpgh:format-element-md/" docstring-block)))
 
+(defun code-symbol (symbol)
+  (make-instance 'text :style :code :elements (list symbol)))
+
+(defun code-class (class)
+  (code-symbol (class-name class)))
+
 (defun class-description-metaclass (class stream)
-  (format stream "* Metaclass: ~a" (class-name (type-of class))))
+  (format stream "* Metaclass: ~/adpgh:format-element/" (code-class (class-of class))))
 
 (defun class-description-precedence-list (class stream)
-  (format stream "* Precedence list: ~{~s~^, ~}" (c2mop:class-precedence-list class)))
+  
+  (format stream "* Precedence list: ~{~/adpgh:format-element/~^, ~}" (mapcar #'code-class (c2mop:class-precedence-list class))))
 
 (defun class-description-direct-superclasses (class stream)
-  (format stream "* Direct superclasses: ~{~s~^, ~}" (c2mop:class-direct-superclasses class)))
+  (let ((superclasses (c2mop:class-direct-superclasses class)))
+    (and superclasses
+         (format stream "* Direct superclasses: ~{~/adpgh:format-element/~^, ~}"
+                 (mapcar #'code-class superclasses)))))
 
 (defun class-description-direct-subclasses (class stream)
-  (format stream "* Direct subclasses: ~{~s~^, ~}" (c2mop:class-direct-subclasses class)))
+  (let ((subclasses (c2mop:class-direct-subclasses class)))
+    (and subclasses
+         (format stream "* Direct subclasses: ~{~/adpgh:format-element/~^, ~}"
+                 (mapcar #'code-class subclasses)))))
 
 (defun slot-name-item (slot-definition)
   (make-instance 'item :elements (list (format nil "~a :" (c2mop:slot-definition-name slot-definition)))))
 
 (defun slot-allocation-item (slot-definition)
-  (make-instance 'item :elements (list (format nil "Allocation: ~a"
-                                               (c2mop:slot-definition-allocation slot-definition)))))
+  (let ((allocation (c2mop:slot-definition-allocation slot-definition)))
+    (make-instance 'item :elements (list "Allocation: " (make-instance 'text
+                                                                       :style :code
+                                                                       :elements (list allocation))))))
 
-(defun symbol-to-maybe-reference (symbol)
-  (let ((status (nth-value 1 (find-symbol (symbol-name symbol) (symbol-package symbol)))))
-    (if (and (eq status :external) (get-tags-value :function symbol))
-        (make-instance 'reference :type :function :symbol symbol)
-        symbol)))
+(defun slot-documentation-item (slot-definition)
+  (let ((docstring (documentation slot-definition t)))
+    (and docstring
+         (make-instance 'item :elements (list (make-instance 'text :style :code
+                                                                   :elements (list docstring)))))))
+(defun join-by-element (list element)
+  (loop for list-element in (cdr list)
+        collect element into result
+        collect list-element into result
+        finally (return (cons (car list) result))))
 
 (defun slot-readers-item (slot-definition)
   (let ((readers (c2mop:slot-definition-readers slot-definition)))
     (and readers
-         (make-instance 'item :elements (list (format nil "Readers: ~{~a~^, ~}"
-                                                     (mapcar #'symbol-to-maybe-reference readers)))))))
+         (make-instance 'item :elements (list* "Readers: "
+                                               (join-by-element (mapcar #'code-symbol readers) ", "))))))
 
 (defun slot-writers-item (slot-definition)
   (let ((writers (c2mop:slot-definition-writers slot-definition)))
     (and writers
-         (make-instance 'item :elements (list (format nil "Writers: ~{~a~^, ~}"
-                                                     (mapcar #'symbol-to-maybe-reference writers)))))))
+         (make-instance 'item :elements (list* "Writers: "
+                                               (join-by-element (mapcar #'code-symbol writers) ", "))))))
 
 (defun slot-properties-itemize (slot-definition)
-  (make-instance 'itemize :items `(,(slot-allocation-item slot-definition)
+  (make-instance 'itemize :items `(,@(let ((docstring-item (slot-documentation-item slot-definition)))
+                                       (and docstring-item `(,docstring-item)))
+                                   ,(slot-allocation-item slot-definition)
                                    ,@(let ((readers-item (slot-readers-item slot-definition)))
-                                       (and readers-item `(readers-item)))
+                                       (and readers-item `(,readers-item)))
                                    ,@(let ((writers-item (slot-writers-item slot-definition)))
-                                       (and writers-item `(writers-item))))))
+                                       (and writers-item `(,writers-item))))))
 
 (defun direct-slots-itemize (class)
-  (let ((direct-slots (c2mop:class-direct-slots class)))
-    (make-instance 'itemize :items (mapcan (lambda (slot)
-                                             (list (slot-name-item slot)
-                                                   (slot-properties-itemize slot)))
-                                           direct-slots))))
+  (let* ((direct-slots (c2mop:class-direct-slots class))
+         (direct-external-slots (remove-if-not (lambda (direct-slot)
+                                                 (let* ((name (c2mop:slot-definition-name direct-slot))
+                                                        (symbol-type (nth-value 1 (find-symbol (symbol-name name) (symbol-package name)))))
+                                                   (eq symbol-type :external)))
+                                               direct-slots)))
+    (and direct-external-slots
+         (make-instance 'itemize :items (mapcan (lambda (slot)
+                                                  (list (slot-name-item slot)
+                                                        (slot-properties-itemize slot)))
+                                                direct-external-slots)))))
 
 (defun class-direct-slots-itemize (class)
-  (make-instance 'itemize :items (list (make-instance 'item :elements (list "Direct slots:"))
-                                       (direct-slots-itemize class))))
+  (let ((direct-slots (direct-slots-itemize class)))
+    (and direct-slots
+         (make-instance 'itemize :items (list (make-instance 'item :elements (list "Direct slots:"))
+                                              direct-slots)))))
 
 (defun class-description-direct-slots (class stream)
-  (print-element stream (class-direct-slots-itemize class)))
+  (let ((slots-itemize (class-direct-slots-itemize class)))
+    (and slots-itemize
+         (print-element stream slots-itemize))))
 
 (defmethod print-element (stream (element class-description))
   (with-slots ((name object) tag) element
-    (let ((class (find-class name)))
+    (let ((class (c2mop:ensure-finalized (find-class name))))
       (class-description-anchor name tag stream)
       (terpri stream)
       (class-description-title class stream)
       (terpri stream)
-      (terpri stream)
       (class-description-docstring class stream)
+      (terpri stream)
+      (class-description-direct-slots class stream)
       (terpri stream)
       (terpri stream)
       (class-description-metaclass class stream)
@@ -230,9 +275,7 @@ A class description also creates a class tag that can be used with cref."
       (terpri stream)
       (class-description-direct-superclasses class stream)
       (terpri stream)
-      (class-description-direct-subclasses class stream)
-      (terpri)
-      (class-description-direct-slots class stream))))
+      (class-description-direct-subclasses class stream))))
 
 
 ;; --------------------------------------------------------------------------------
@@ -243,8 +286,11 @@ A class description also creates a class tag that can be used with cref."
     (make-instance 'package-description :object package :tag tag)))
 
 (adp:defmacro package-description (pkg :tag (tag (make-unique-tag)))
-  "Inserts a package description. It must receive a package descriptor that represents the package. 
-A package description also creates a package tag that can be used with pref."
+  "Inserts a function description.
+
+It must receive a package descriptor (not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with pref.
+The tag must be a symbol (not evaluated)."
   `(package-description% ,(string pkg) ',tag))
 
 (defmethod process-element ((element package-description))
@@ -259,7 +305,7 @@ A package description also creates a package tag that can be used with pref."
 
 (defun package-description-anchor (name tag stream)
   (format stream "<a id=~s></a>" (tag-to-string :package name))
-  (terpri)
+  (terpri stream)
   (format stream "<a id=~s></a>" (tag-to-string :package tag)))
 
 (defun package-description-title (pkg stream)
@@ -269,7 +315,7 @@ A package description also creates a package tag that can be used with pref."
   (let* ((docstring (documentation pkg t))
          (docstring-block (if docstring
                               (make-instance 'code-block :lang "text" :elements (list docstring))
-                              (make-instance 'italic :elements '("Undocumented")))))
+                              (make-instance 'text :style :italic :elements '("Undocumented")))))
     (format stream "~/adpgh:format-element-md/" docstring-block)))
 
 (defun package-description-nicknames (pkg stream)
@@ -280,7 +326,7 @@ A package description also creates a package tag that can be used with pref."
   (let ((external-symbols '())
         (*print-case* :downcase))
     (do-external-symbols (sym pkg)
-      (push (princ-to-string sym) external-symbols))
+      (push (string-downcase (symbol-name sym)) external-symbols))
     (format stream "~{~a~^, ~}" (sort external-symbols #'string<=))))
 
 (defmethod print-element (stream (element package-description))
@@ -307,9 +353,12 @@ A package description also creates a package tag that can be used with pref."
     (make-instance 'system-description :object system :tag tag)))
 
 (adp:defmacro system-description (system-des :tag (tag (make-unique-tag)))
-  "Inserts a system description. It must receive a system description that represents the system. 
-A system description also creates a system tag that can be used with sref."
-  `(system-description% ,(string system-des) ',tag))
+  "Inserts a system description.
+
+It must receive a system descriptor (not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with sref.
+The tag must be a symbol (not evaluated)."
+  `(system-description% ,(string-downcase (string system-des)) ',tag))
 
 (defmethod process-element ((element system-description))
   (with-slots ((system object) tag) element
@@ -323,7 +372,7 @@ A system description also creates a system tag that can be used with sref."
 
 (defun system-description-anchor (name tag stream)
   (format stream "<a id=~s></a>" (tag-to-string :system name))
-  (terpri)
+  (terpri stream)
   (format stream "<a id=~s></a>" (tag-to-string :system tag)))
 
 (defun system-description-title (system stream)
@@ -331,9 +380,9 @@ A system description also creates a system tag that can be used with sref."
 
 (defun system-description-docstring (system stream)
   (let* ((docstring (asdf:system-description system))
-         (docstring-block (and docstring
-                               (make-instance 'code-block :lang "text" :elements (list docstring))
-                               (make-instance 'text :style :italic :elements '("Undocumented")))))
+         (docstring-block (if docstring
+                              (make-instance 'code-block :lang "text" :elements (list docstring))
+                              (make-instance 'text :style :italic :elements '("Undocumented")))))
     (format stream "~/adpgh:format-element-md/" docstring-block)))
 
 (defmacro define-system-description-function (func-name sys-func-name string-name)

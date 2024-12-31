@@ -10,8 +10,10 @@
 
 
 (adp:defun code-block (:lang (lang nil) &rest elements)
-  "Inserts a code of block. It can receive the keyword :lang, a string that specifies the language to be used.
-The rest of elements will be inserted inside a block of code."
+  "Inserts a block of code.
+
+It can receive the keyword :lang, a string that specifies the language to be used.
+The rest of elements will be inserted in the block."
   (make-instance 'code-block :lang lang :elements elements))
 
 

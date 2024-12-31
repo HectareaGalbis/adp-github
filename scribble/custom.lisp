@@ -5,7 +5,7 @@
 (defclass adp-function-description (function-description) ())
 
 (defun adp-function-description% (name)
-  (make-instance 'adp-function-description :object name))
+  (make-instance 'adp-function-description :object name :tag (adpgh::make-unique-tag)))
 
 (defmacro adp-function-description (name)
   "Inserts a function description. It must receive the function name (a symbol) that represents the function. 
@@ -16,9 +16,7 @@ A function description also creates a function tag that can be used with fref."
   (multiple-value-bind (lambda-list success) (adp:function-lambda-list name)
     (when (not success)
       (error "The function or macro ~s is not defined with adp." name))
-    (let ((*print-right-margin* 999)
-          (*print-pprint-dispatch* adpgh::*argument-pprint-dispatch*))
-      (format stream " ~s" lambda-list))))
+    (format stream " ~s" lambda-list)))
 
 (defun adp-macro-description-title (name stream)
   (format stream "#### Macro: ~a" name)
@@ -29,8 +27,8 @@ A function description also creates a function tag that can be used with fref."
   (adp-function-description-arguments name stream))
 
 (defmethod adpgh::print-element (stream (element adp-function-description))
-  (with-slots ((name adpgh::object)) element
-    (adpgh::function-description-anchor name stream)
+  (with-slots ((name adpgh::object) (tag adpgh::tag)) element
+    (adpgh::function-description-anchor name tag stream)
     (terpri stream)
     (cond
       ((macro-function name)
@@ -47,7 +45,8 @@ A function description also creates a function tag that can be used with fref."
     (do-external-symbols (symbol (find-package pkg))
       (when (or (fboundp symbol)
                 (macro-function symbol))
-        (let* ((instance (make-instance 'adp-function-description :object symbol)))
+        (let* ((instance (make-instance 'adp-function-description :object symbol
+                                                                  :tag (adpgh::make-unique-tag))))
           (push instance descriptions))))
     (let ((sorted-descriptions (sort descriptions #'string<=
                                      :key (lambda (description)

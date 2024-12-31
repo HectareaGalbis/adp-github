@@ -11,9 +11,7 @@
   (:documentation
    "Represents a table of contents."))
 
-(adp:defun table-of-contents (:min-level (min-level 0) :max-level (max-level 2)
-                              :include (include nil) :exclude (exclude nil))
-  "Inserts a table of contents with the titles of the current file."
+(defun table-of-contents% (&key (min-level 0) (max-level 2) (include nil) (exclude nil))
   (check-type min-level number)
   (check-type max-level number)
   (let ((problematic-tags (intersection include exclude)))
@@ -22,6 +20,17 @@
              problematic-tags)))
   (make-instance 'table-of-contents :min-level min-level :max-level max-level
                                     :include include :exclude exclude))
+
+(adp:defmacro table-of-contents (:min-level (min-level 0) :max-level (max-level 2)
+                                 :include (include nil) :exclude (exclude nil))
+  "Inserts a table of contents with the titles of the current file.
+
+MIN-LEVEL and MAX-LEVEL can be used to control what kind of titles should appear.
+INCLUDE is a list with title tags forcing them to appear in the table of contents (not evaluated).
+EXCLUDE is a list with title tags forcing them to not appear in the table of contents (not evaluated).
+INCLUDE and EXCLUDE cannot share any tags."
+  `(table-of-contents% :min-level ,min-level :max-level ,max-level
+                       :include ',include :exclude ',exclude))
 
 
 (defun file-titles (file)
@@ -62,8 +71,8 @@
                                               collect (item (make-instance 'reference
                                                                            :type :title
                                                                            :symbol (slot-value title 'tag)))
-                                            do (it-next levels-it)
-                                               (it-next titles-it)
+                                              and do (it-next levels-it)
+                                                     (it-next titles-it)
                                             while (not (it-endp titles-it)))))))
           (make-toc-list-aux))))))
 
@@ -71,14 +80,15 @@
   "Test if a TITLE can be placed in TOC."
   (with-slots (min-level max-level include exclude) toc
     (with-slots (level toc tag) title
-      (and
-       (not (member tag exclude))
-       (or (member tag include)
-           toc)
-       (or (not min-level)
-           (<= min-level level))
-       (or (not max-level)
-           (>= max-level level))))))
+      (or
+       (member tag include)
+       (and
+        toc
+        (not (member tag exclude))
+        (or (not min-level)
+            (<= min-level level))
+        (or (not max-level)
+            (>= max-level level)))))))
 
 (defmethod print-element (stream (element table-of-contents))
   (let* ((titles (file-titles (get-current-file)))
@@ -87,45 +97,52 @@
 
 
 ;; ------ table of symbols ------
-(defun get-file-description-items (file description-type tag-type)
+(defun get-file-description-items (file description-type glossary-type tag-type)
   (loop for file-element in (adp:file-elements file)
-        if (typep file-element description-type)
-          collect (with-slots (tag) file-element
+        for file-value = (adp:element-value file-element)
+        if (typep file-value description-type)
+          collect (with-slots (tag) file-value
                     (make-instance 'item
-                                   :items (list (make-instance 'reference :type tag-type :symbol tag))))))
+                                   :elements (list (make-instance 'reference
+                                                                  :type tag-type
+                                                                  :symbol tag))))
+        if (typep file-value glossary-type)
+          append (with-slots (descriptions) file-value
+                   (loop for description in descriptions
+                         collect (with-slots (tag) description
+                                   (make-instance 'item
+                                                  :elements (list (make-instance 'reference
+                                                                                 :type tag-type
+                                                                                 :symbol tag))))))))
 
 (defclass table-of-symbols ()
-  ((reference-itemize :initform nil :allocation :class)
-   (description-class :initarg :description-class)
+  ((description-class :initarg :description-class)
+   (glossary-class :initarg :glossary-class)
    (tag-type :initarg :tag-type)))
 
-(defmethod process-element ((element table-of-symbols))
-  (with-slots (reference-itemize description-class tag-type) element
-    (when (not reference-itemize)
-      (let ((items (get-file-function-items (get-current-file) description-class tag-type)))
-        (setf reference-itemize (make-instance 'itemize :items items))))))
+(defun make-reference-itemize (element)
+  (with-slots (description-class glossary-class tag-type) element
+    (let ((items (get-file-description-items (get-current-file)
+                                             description-class glossary-class tag-type)))
+      (make-instance 'itemize :items items))))
 
 (defmethod print-element (stream (element table-of-symbols))
-  (format stream "~/print-element/" (slot-value element 'reference-itemize)))
-
-
-(defclass table-of-functions ()
-  ((reference-itemize :initform nil :allocation :class)))
+  (format stream "~/adpgh:format-element/" (make-reference-itemize element)))
 
 (adp:defun table-of-functions ()
   "Inserts references to function descriptions from the current file."
-  (make-instance 'table-of-symbols :description-class 'function-description :tag-type :function))
-
-(defclass table-of-variables ()
-  ((reference-itemize :initform nil :allocation :class)))
+  (make-instance 'table-of-symbols :description-class 'function-description
+                                   :glossary-class 'function-glossary
+                                   :tag-type :function))
 
 (adp:defun table-of-variables ()
   "Inserts references to function descriptions from the current file."
-  (make-instance 'table-of-symbols :description-class 'variable-description :tag-type :variable))
-
-(defclass table-of-classes ()
-  ((reference-itemize :initform nil :allocation :class)))
+  (make-instance 'table-of-symbols :description-class 'variable-description
+                                   :glossary-class 'variable-glossary
+                                   :tag-type :variable))
 
 (adp:defun table-of-classes ()
   "Inserts references to function descriptions from the current file."
-  (make-instance 'table-of-symbols :description-class 'class-description :tag-type :class))
+  (make-instance 'table-of-symbols :description-class 'class-description
+                                   :glossary-class 'class-glossary
+                                   :tag-type :class))

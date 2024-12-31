@@ -14,16 +14,17 @@
          (func-aux-name (symbolicate func-name '%))
          (type-string (string-downcase (symbol-name name)))
          (type-keyword (intern (symbol-name name) "KEYWORD"))
-         (func-doc (format nil "Makes a reference object to a ~a." type-string)))
-    (with-gensyms (symbol text)
+         (func-doc (format nil "Inserts a reference to a ~a.~%~%NAME must be a symbol (not evaluated)."
+                           type-string)))
+    (with-gensyms (name text)
       `(progn
 
-         (defun ,func-aux-name (,symbol &rest ,text)
-           (make-instance 'reference :type ,type-keyword :symbol ,symbol :text ,text))
+         (defun ,func-aux-name (,name &rest ,text)
+           (make-instance 'reference :type ,type-keyword :symbol ,name :text ,text))
 
-         (adp:defmacro ,func-name (,symbol &rest ,text)
+         (adp:defmacro ,func-name (,name &rest ,text)
            ,func-doc
-           `(,',func-aux-name ',,symbol ,@,text))))))
+           `(,',func-aux-name ',,name ,@,text))))))
 
 (define-tag-reference t title)
 (define-tag-reference f function)
@@ -34,7 +35,9 @@
   (make-instance 'reference :type :package :symbol symbol :text text))
 
 (adp:defmacro pref (name &rest text)
-  "Makes a reference object to a package."
+  "Inserts a reference to a package.
+
+NAME must be a package descriptor (not evaluated)."
   `(pref% ,(make-keyword (string name)) ,@text))
 
 (defun sref% (symbol &rest text)         
@@ -47,15 +50,16 @@
 (defun reference-text (element ref-element)
   "Return the text to be shown in the link."
   (with-slots (type symbol text) element
-    (ecase type
-      ((:function :variable :class)
-       (or text (prin1-to-string symbol)))
-      ((:title)
-       (or text (format nil "~{~a~}" (slot-value ref-element 'elements))))
-      ((:package)
-       (or text (symbol-name symbol)))
-      ((:system)
-       (or text (string-downcase (symbol-name symbol)))))))
+    (with-slots (object) ref-element
+      (ecase type
+        ((:function :variable :class)
+         (or text (list (prin1-to-string object))))
+        ((:title)
+         (or text (slot-value ref-element 'elements)))
+        ((:package)
+         (or text (list (package-name object))))
+        ((:system)
+         (or text (list (asdf:component-name object))))))))
 
 (defmethod print-element (stream (element reference))
   (with-slots (type symbol) element
@@ -63,7 +67,7 @@
       (unless found
         (error "Error: The tag ~s referencing a ~a does not exist."
                symbol (string-downcase (symbol-name type))))
-      (format stream "[~/adpgh:format-element-md/](/~a#~a)"
+      (format stream "[~{~/adpgh:format-element-md/~}](/~a#~a)"
               (reference-text element ref-element)
               (get-current-file-target-pathname)
               (tag-to-string type symbol)))))
@@ -77,5 +81,5 @@
     (make-instance 'link :address address :elements (list (symbol-name sym)))))
 
 (adp:defmacro clref (sym)
-  "Inserts a hyperlink to the Common Lisp Hyperspec for a given symbol."
-  `(clref% ,(string sym)))
+  "Inserts a hyperlink to the Common Lisp Hyperspec for a given symbol (not evaluated)."
+  `(clref% ',sym))

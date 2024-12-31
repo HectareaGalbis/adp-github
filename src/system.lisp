@@ -27,7 +27,8 @@ An error is thrown if PATHNAME is not under the SYSTEM's root directory."
 
 (defun process-system (system files)
   "Processes the system and its files."
-  (format t "Adding documentation for the system '~a'." system-name)
-  (with-current-system
+  (let ((system-name (asdf:component-name system)))
+    (format t "~%Adding documentation for the system '~a'." system-name)
+    (with-current-system system
       (process-files files))
-  (format t "Documentation added for the system '~a'." system-name))
+    (format t "~%Documentation added for the system '~a'." system-name)))

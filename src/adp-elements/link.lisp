@@ -10,8 +10,10 @@
 
 
 (adp:defun link (:address address &rest elements)
-  "Inserts a link. It must receive the keyword :address. The rest of the elements will form the name of the
-link."
+  "Inserts a link.
+
+It must receive the keyword :address.
+The rest of the elements will form the name of the link."
   (check-type address string)
   (make-instance 'link :elements elements :address address))
 

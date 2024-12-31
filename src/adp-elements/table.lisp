@@ -9,7 +9,9 @@
    "Represents a cell in a table."))
 
 (adp:defun cell (&rest elements)
-  "The cells are the components of a row. All the elements will be inserted inside a cell table."
+  "Inserts a cell.
+
+Cells can only be used inside a table row."
   (make-instance 'cell :elements elements))
 
 (defmethod print-element (stream (element cell))
@@ -23,7 +25,9 @@
    "Represents a row of cells in a table."))
 
 (adp:defun row (&rest cells)
-  "The rows are the components of a table. The CELLS must be objects of type cell."
+  "Inserts a row.
+
+Rows can only be used inside a table."
   (loop for cell in cells
         when (not (typep cell 'cell))
           do (error "Each cell of a row must be a cell."))
@@ -40,7 +44,9 @@
    "Represents a table."))
 
 (adp:defun table (&rest elements)
-  "Inserts a table. The elements must be rows."
+  "Inserts a table.
+
+The elements must be rows and rows can only contain cells.."
   (assert (> (length elements) 0))
   (let ((num-cells (length (slot-value (car elements) 'cells))))
     (loop for element in elements

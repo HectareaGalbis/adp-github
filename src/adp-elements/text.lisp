@@ -5,8 +5,15 @@
   ((style :initarg :style)
    (elements :initarg :elements)))
 
-(adp:defun text (:style style &rest elements)
-  "Returns a text object."
+(adp:defun text (:style (style nil) &rest elements)
+  "Inserts text.
+
+Text admits different styles:
+  - nil       : Regular text.
+  - :bold     : Bold text.
+  - :italic   : Italic text.
+  - :emphasis : Bold and italic text.
+  - :code     : Inline code text."
   (make-instance 'text :style style :elements elements))
 
 (defmacro define-text-decorator (name)

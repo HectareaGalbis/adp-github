@@ -15,17 +15,16 @@ Welcome to ADP-GITHUB!
 @subtitle{Installation}
 
 @itemize[
-@item{Manual:}
+        @item{Manual:}
 ]
 @code-block[:lang "sh"]{
 cd ~/common-lisp
 git clone https://github.com/Hectarea1996/adp-github.git
 }
 @itemize[
-@item{Quicklisp (Ultralisp):}
+        @item{Quicklisp:}
 ]
 @code-block[:lang "common-lisp"]{
-(ql-dist:install-dist "http://dist.ultralisp.org/" :prompt nil)
 (ql:quickload "adp-github")
 }
 
@@ -40,16 +39,16 @@ git clone https://github.com/Hectarea1996/adp-github.git
 
 @subtitle{How to use}
 
-In your @code{asd} file, you need to @code{:defsystem-depends-on} the system @code{adp-github}. Also, is really recommended to make a separate system only for documentation generation. And, lastly, you should specify @code{:build-operation} to be @code{"adp-github-op"}.
+Make a subsystem of your project. For example, name it @code{my-project/docs}. You need to @code{:defsystem-depends-on} the system @code{adp-github}. And, lastly, you should specify the system @code{:class} to be @code{:adp-github}.
 
 @code-block[:lang "common-lisp"]{
-(defsystem "my-system"
+(defsystem "my-project"
   ;; ...
   ) 
 
-(defsystem "my-system/docs"
+(defsystem "my-project/docs"
   :defsystem-depends-on ("adp-github")
-  :build-operation "adp-github-op"
+  :class :adp-github
   :depends-on ("my-system")
   :components ((:scribble "README")))
 }
@@ -57,7 +56,7 @@ In your @code{asd} file, you need to @code{:defsystem-depends-on} the system @co
 Now, from the REPL, just evaluate the following expression:
 
 @code-block[:lang "common-lisp"]{
-(asdf:make "my-system/docs")
+(asdf:load-system "my-system/docs")
 }
 
 @subtitle{Where the files are generated}

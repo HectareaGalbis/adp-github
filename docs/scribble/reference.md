@@ -2,6 +2,7 @@
 # Reference
 
 <a id="FUNCTION:ADP-GITHUB:BOLD"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG8"></a>
 #### Function: adpgh:bold (&rest elements)
 
 `````text
@@ -9,37 +10,49 @@ Inserts text with bold style.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:CELL"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG1"></a>
 #### Function: adpgh:cell (&rest elements)
 
 `````text
-The cells are the components of a row. All the elements will be inserted inside a cell table.
+Inserts a cell.
+
+Cells can only be used inside a table row.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:CLASS-DESCRIPTION"></a>
-#### Macro: adpgh:class-description (sym)
+<a id="FUNCTION:ADPGH-DOCS:TAG7"></a>
+#### Macro: adpgh:class-description (sym :tag (tag (make-unique-tag)))
 
 `````text
-Inserts a class description. It must receive the class name (a symbol) that represents the class. 
-A class description also creates a class tag that can be used with cref.
+Inserts a class description.
+
+It must receive the class name (a symbol, not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with cref.
+The tag must be a symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:CLASS-GLOSSARY"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG5"></a>
 #### Macro: adpgh:class-glossary (pkg)
 
 `````text
-Inserts a function glossary. It will insert all the available function descriptions.
-They are gathered from the external symbols of a given package.
-The argument pkg must be a package descriptor.
+Inserts a class glossary.
+
+It will insert all the available class descriptions from the external symbols of
+the given package PKG.
+The argument PKG must be a package descriptor (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:CLREF"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG21"></a>
 #### Macro: adpgh:clref (sym)
 
 `````text
-Inserts a hyperlink to the Common Lisp Hyperspec for a given symbol.
+Inserts a hyperlink to the Common Lisp Hyperspec for a given symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:CODE"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG28"></a>
 #### Function: adpgh:code (&rest elements)
 
 `````text
@@ -47,21 +60,28 @@ Inserts text with code style.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:CODE-BLOCK"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG16"></a>
 #### Function: adpgh:code-block (:lang (lang nil) &rest elements)
 
 `````text
-Inserts a code of block. It can receive the keyword :lang, a string that specifies the language to be used.
-The rest of elements will be inserted inside a block of code.
+Inserts a block of code.
+
+It can receive the keyword :lang, a string that specifies the language to be used.
+The rest of elements will be inserted in the block.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:CREF"></a>
-#### Macro: adpgh:cref (symbol0 &rest text1)
+<a id="FUNCTION:ADPGH-DOCS:TAG3"></a>
+#### Macro: adpgh:cref (name &rest text)
 
 `````text
-Makes a reference object to a class.
+Inserts a reference to a class.
+
+NAME must be a symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:EMPHASIS"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG36"></a>
 #### Function: adpgh:emphasis (&rest elements)
 
 `````text
@@ -69,53 +89,74 @@ Inserts text with emphasis style.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:ENUMERATE"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG35"></a>
 #### Function: adpgh:enumerate (&rest elements)
 
 `````text
-Inserts a enumerated lists. It can contain items or sublist. The elements must be items, itemizes or enumerates.
+Inserts an enumerated list.
+
+It can contains items or sublists, i.e., items, itemizes or enumerates.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:EXAMPLE"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG11"></a>
 #### Function: adpgh:example (&rest expressions)
 
 `````text
-Inserts an example. It is like code-block, but evaluates the code (common lisp only) and prints
+Inserts an example.
+
+It is like code-block, but evaluates the code (common lisp only) and prints
 its output and returned values.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:FREF"></a>
-#### Macro: adpgh:fref (symbol0 &rest text1)
+<a id="FUNCTION:ADPGH-DOCS:TAG25"></a>
+#### Macro: adpgh:fref (name &rest text)
 
 `````text
-Makes a reference object to a function.
+Inserts a reference to a function.
+
+NAME must be a symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:FUNCTION-DESCRIPTION"></a>
-#### Macro: adpgh:function-description (name)
+<a id="FUNCTION:ADPGH-DOCS:TAG27"></a>
+#### Macro: adpgh:function-description (name :tag (tag (make-unique-tag)))
 
 `````text
-Inserts a function description. It must receive the function name (a symbol) that represents the function. 
-A function description also creates a function tag that can be used with fref.
+Inserts a function description.
+
+It must receive the function name (a symbol, not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with fref.
+The tag must be a symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:FUNCTION-GLOSSARY"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG19"></a>
 #### Macro: adpgh:function-glossary (pkg)
 
 `````text
-Inserts a function glossary. It will insert all the available function descriptions.
-They are gathered from the external symbols of a given package.
-The argument pkg must be a package descriptor.
+Inserts a function glossary.
+
+It will insert all the available function descriptions from the external symbols of
+the given package PKG.
+The argument PKG must be a package descriptor (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:IMAGE"></a>
-#### Function: adpgh:image (path :alt-text (alt-text "Image") :scale (scale 1.0))
+<a id="FUNCTION:ADPGH-DOCS:TAG20"></a>
+#### Function: adpgh:image (path :alt-text (alt-text "Image") :scale
+                            (scale 1.0))
 
 `````text
-Inserts an image. It must receive the path to the image (relative to the project's root directory).
+Inserts an image.
+
+It must receive the path to the image (relative to the project's root directory).
 Optionally, it can receive an alternative text description and the scale size of the image.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:ITALIC"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG29"></a>
 #### Function: adpgh:italic (&rest elements)
 
 `````text
@@ -123,51 +164,69 @@ Inserts text with italic style.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:ITEM"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG32"></a>
 #### Function: adpgh:item (&rest elements)
 
 `````text
-Inserts an element if it is used inside an itemize or enumerate.
+Inserts an item if it is used inside an itemize or enumerate.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:ITEMIZE"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG22"></a>
 #### Function: adpgh:itemize (&rest elements)
 
 `````text
-Inserts a list. It can contains items or sublists. The elements must be items, itemizes or enumerates.
+Inserts a bulleted list.
+
+It can contains items or sublists, i.e., items, itemizes or enumerates.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:LINK"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG34"></a>
 #### Function: adpgh:link (:address address &rest elements)
 
 `````text
-Inserts a link. It must receive the keyword :address. The rest of the elements will form the name of the
-link.
+Inserts a link.
+
+It must receive the keyword :address.
+The rest of the elements will form the name of the link.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:OUTPUT-FILE"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG40"></a>
 #### Function: adpgh:output-file (pathname)
 
 `````text
 Specifies the output file of the current scribble file.
+
 The pathname is considered always relative to the project's root directory.
+It doesn't print anything.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:PACKAGE-DESCRIPTION"></a>
-#### Macro: adpgh:package-description (pkg)
+<a id="FUNCTION:ADPGH-DOCS:TAG12"></a>
+#### Macro: adpgh:package-description (pkg :tag (tag (make-unique-tag)))
 
 `````text
-Inserts a package description. It must receive a package descriptor that represents the package. 
-A package description also creates a package tag that can be used with pref.
+Inserts a function description.
+
+It must receive a package descriptor (not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with pref.
+The tag must be a symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:PREF"></a>
-#### Macro: adpgh:pref (name &rest text)
+<a id="FUNCTION:ADPGH-DOCS:TAG6"></a>
+#### Macro: adpgh:pref (name &rest adpgh:text)
 
 `````text
-Makes a reference object to a package.
+Inserts a reference to a package.
+
+NAME must be a package descriptor (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:QUOTED"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG17"></a>
 #### Function: adpgh:quoted (&rest elements)
 
 `````text
@@ -175,116 +234,188 @@ Inserts quoted text.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:ROW"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG39"></a>
 #### Function: adpgh:row (&rest cells)
 
 `````text
-The rows are the components of a table. The CELLS must be objects of type cell.
+Inserts a row.
+
+Rows can only be used inside a table.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:SREF"></a>
-#### Macro: adpgh:sref (name &rest text)
+<a id="FUNCTION:ADPGH-DOCS:TAG26"></a>
+#### Macro: adpgh:sref (name &rest adpgh:text)
 
 `````text
 Makes a reference object to a system.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:SUBSUBTITLE"></a>
-#### Macro: adpgh:subsubtitle (:tag (tag (make-unique-tag)) :toc (toc t) &rest title-elements)
+<a id="FUNCTION:ADPGH-DOCS:TAG4"></a>
+#### Macro: adpgh:subsubtitle (:tag (tag (make-unique-tag)) :toc (toc t) &rest
+                               title-elements)
 
 `````text
-Returns a subsubtitle object.
+Returns a title of level 2.
 
-It can be referenced if a TAG is specified.
+It can be referenced if a TAG is specified (not evaluated).
 If TOC is NIL it won't appear at any table of contents.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:SUBTITLE"></a>
-#### Macro: adpgh:subtitle (:tag (tag (make-unique-tag)) :toc (toc t) &rest title-elements)
+<a id="FUNCTION:ADPGH-DOCS:TAG31"></a>
+#### Macro: adpgh:subtitle (:tag (tag (make-unique-tag)) :toc (toc t) &rest
+                            title-elements)
 
 `````text
-Returns a subtitle object.
+Returns a subtitle of level 1.
 
-It can be referenced if a TAG is specified.
+It can be referenced if a TAG is specified (not evaluated).
 If TOC is NIL it won't appear at any table of contents.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:SYSTEM-DESCRIPTION"></a>
-#### Macro: adpgh:system-description (system-des)
+<a id="FUNCTION:ADPGH-DOCS:TAG23"></a>
+#### Macro: adpgh:system-description (system-des :tag (tag (make-unique-tag)))
 
 `````text
-Inserts a system description. It must receive a system description that represents the system. 
-A system description also creates a system tag that can be used with sref.
+Inserts a system description.
+
+It must receive a system descriptor (not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with sref.
+The tag must be a symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:TABLE"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG37"></a>
 #### Function: adpgh:table (&rest elements)
 
 `````text
-Inserts a table. The elements must be rows.
+Inserts a table.
+
+The elements must be rows and rows can only contain cells..
+`````
+
+<a id="FUNCTION:ADP-GITHUB:TABLE-OF-CLASSES"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG13"></a>
+#### Function: adpgh:table-of-classes nil
+
+`````text
+Inserts references to function descriptions from the current file.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:TABLE-OF-CONTENTS"></a>
-#### Function: adpgh:table-of-contents (:min-level (min-level 0) :max-level (max-level 2) :include (include nil) :exclude (exclude nil))
+<a id="FUNCTION:ADPGH-DOCS:TAG9"></a>
+#### Macro: adpgh:table-of-contents (:min-level (min-level 0) :max-level
+                                     (max-level 2) :include (include nil)
+                                     :exclude (exclude nil))
 
 `````text
 Inserts a table of contents with the titles of the current file.
+
+MIN-LEVEL and MAX-LEVEL can be used to control what kind of titles should appear.
+INCLUDE is a list with title tags forcing them to appear in the table of contents (not evaluated).
+EXCLUDE is a list with title tags forcing them to not appear in the table of contents (not evaluated).
+INCLUDE and EXCLUDE cannot share any tags.
+`````
+
+<a id="FUNCTION:ADP-GITHUB:TABLE-OF-FUNCTIONS"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG15"></a>
+#### Function: adpgh:table-of-functions nil
+
+`````text
+Inserts references to function descriptions from the current file.
+`````
+
+<a id="FUNCTION:ADP-GITHUB:TABLE-OF-VARIABLES"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG30"></a>
+#### Function: adpgh:table-of-variables nil
+
+`````text
+Inserts references to function descriptions from the current file.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:TEXT"></a>
-#### Function: adpgh:text (:style style &rest elements)
+<a id="FUNCTION:ADPGH-DOCS:TAG38"></a>
+#### Function: adpgh:text (:style (style nil) &rest elements)
 
 `````text
-Returns a text object.
+Inserts text.
+
+Text admits different styles:
+  - nil       : Regular text.
+  - :bold     : Bold text.
+  - :italic   : Italic text.
+  - :emphasis : Bold and italic text.
+  - :code     : Inline code text.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:TITLE"></a>
-#### Macro: adpgh:title (:tag (tag (make-unique-tag)) :toc (toc t) &rest title-elements)
+<a id="FUNCTION:ADPGH-DOCS:TAG18"></a>
+#### Macro: adpgh:title (:tag (tag (make-unique-tag)) :toc (toc t) &rest
+                         title-elements)
 
 `````text
-Returns a title object.
+Inserts a title of level 0.
 
-It can be referenced if a TAG is specified.
+It can be referenced if a TAG is specified (not evaluated).
 If TOC is NIL it won't appear at any table of contents.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:TITLE*"></a>
-#### Macro: adpgh:title* (:tag (tag (make-unique-tag)) :toc (toc t) :level (level 0) &rest title-elements)
+<a id="FUNCTION:ADPGH-DOCS:TAG2"></a>
+#### Macro: adpgh:title* (:tag (tag (make-unique-tag)) :toc (toc t) :level
+                          (level 0) &rest title-elements)
 
 `````text
-Returns a title object of a given LEVEL.
+Inserts a title of a given LEVEL.
 
-It can be referenced if a TAG is specified.
+It can be referenced with tref if a TAG is specified.
 If TOC is NIL it won't appear at any table of contents.
-The LEVEL specified the title level. 0 is a title, 1 is a subtitle, etc.
+The LEVEL specifies the title level. 0 is a title, 1 is a subtitle, etc.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:TREF"></a>
-#### Macro: adpgh:tref (symbol0 &rest text1)
+<a id="FUNCTION:ADPGH-DOCS:TAG14"></a>
+#### Macro: adpgh:tref (name &rest text)
 
 `````text
-Makes a reference object to a title.
+Inserts a reference to a title.
+
+NAME must be a symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:VARIABLE-DESCRIPTION"></a>
-#### Macro: adpgh:variable-description (name)
+<a id="FUNCTION:ADPGH-DOCS:TAG33"></a>
+#### Macro: adpgh:variable-description (name :tag (tag (make-unique-tag)))
 
 `````text
-Inserts a variable description. It must receive the variable name (a symbol) that represents the variable. 
-A variable description also creates a variable tag that can be used with vref.
+Inserts a variable description.
+
+It must receive the variable name (a symbol, not evaluated).
+The keyword :tag can be used to create an explicit tag that can be referenced with vref.
+The tag must be a symbol (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:VARIABLE-GLOSSARY"></a>
+<a id="FUNCTION:ADPGH-DOCS:TAG24"></a>
 #### Macro: adpgh:variable-glossary (pkg)
 
 `````text
-Inserts a function glossary. It will insert all the available function descriptions.
-They are gathered from the external symbols of a given package.
-The argument pkg must be a package descriptor.
+Inserts a variable glossary.
+
+It will insert all the available variable descriptions from the external symbols of
+the given package PKG.
+The argument PKG must be a package descriptor (not evaluated).
 `````
 
 <a id="FUNCTION:ADP-GITHUB:VREF"></a>
-#### Macro: adpgh:vref (symbol0 &rest text1)
+<a id="FUNCTION:ADPGH-DOCS:TAG10"></a>
+#### Macro: adpgh:vref (name &rest text)
 
 `````text
-Makes a reference object to a variable.
+Inserts a reference to a variable.
+
+NAME must be a symbol (not evaluated).
 `````

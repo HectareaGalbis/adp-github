@@ -9,7 +9,7 @@
    "Represents an item in a list of items."))
 
 (adp:defun item (&rest elements)
-  "Inserts an element if it is used inside an itemize or enumerate."
+  "Inserts an item if it is used inside an itemize or enumerate."
   (make-instance 'item :elements elements))
 
 (defmethod print-element (stream (element item))
@@ -44,7 +44,9 @@
 
 ;; ------ itemize ------
 (adp:defun itemize (&rest elements)
-  "Inserts a list. It can contains items or sublists. The elements must be items, itemizes or enumerates."
+  "Inserts a bulleted list.
+
+It can contains items or sublists, i.e., items, itemizes or enumerates."
   (loop for element in elements
         when (not (typep element '(or item itemize enumerate)))
           do (error "Each element of a list must be another list or an item but found: ~s" element))
@@ -56,7 +58,9 @@
 
 ;; ------ enumerate ------
 (adp:defun enumerate (&rest elements)
-  "Inserts a enumerated lists. It can contain items or sublist. The elements must be items, itemizes or enumerates."
+  "Inserts an enumerated list.
+
+It can contains items or sublists, i.e., items, itemizes or enumerates."
   (loop for element in elements
         when (not (typep element '(or item itemize enumerate)))
           do (error "Each element of a list must be another list or an item but found: ~s" element))

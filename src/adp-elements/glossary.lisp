@@ -20,7 +20,7 @@
     (do-external-symbols (symbol (find-package pkg))
       (when (or (fboundp symbol)
                 (macro-function symbol))
-        (let* ((instance (make-instance 'function-description :object symbol)))
+        (let* ((instance (make-instance 'function-description :object symbol :tag (make-unique-tag))))
           (push instance descriptions))))
     (let ((sorted-descriptions (sort descriptions #'string<=
                                      :key (lambda (description)
@@ -28,9 +28,11 @@
       (make-instance 'function-glossary :descriptions sorted-descriptions))))
 
 (adp:defmacro function-glossary (pkg)
-  "Inserts a function glossary. It will insert all the available function descriptions.
-They are gathered from the external symbols of a given package.
-The argument pkg must be a package descriptor."
+  "Inserts a function glossary.
+
+It will insert all the available function descriptions from the external symbols of
+the given package PKG.
+The argument PKG must be a package descriptor (not evaluated)."
   `(function-glossary% ,(string pkg)))
 
 
@@ -41,7 +43,7 @@ The argument pkg must be a package descriptor."
   (let ((descriptions '()))
     (do-external-symbols (symbol (find-package pkg))
       (when (boundp symbol)
-        (let* ((instance (make-instance 'variable-description :object symbol)))
+        (let* ((instance (make-instance 'variable-description :object symbol :tag (make-unique-tag))))
           (push instance descriptions))))
     (let ((sorted-descriptions (sort descriptions #'string<=
                                      :key (lambda (description)
@@ -49,9 +51,11 @@ The argument pkg must be a package descriptor."
       (make-instance 'variable-glossary :descriptions sorted-descriptions))))
 
 (adp:defmacro variable-glossary (pkg)
-  "Inserts a function glossary. It will insert all the available function descriptions.
-They are gathered from the external symbols of a given package.
-The argument pkg must be a package descriptor."
+  "Inserts a variable glossary.
+
+It will insert all the available variable descriptions from the external symbols of
+the given package PKG.
+The argument PKG must be a package descriptor (not evaluated)."
   `(variable-glossary% ,(string pkg)))
 
 
@@ -62,7 +66,7 @@ The argument pkg must be a package descriptor."
   (let ((descriptions '()))
     (do-external-symbols (symbol (find-package pkg))
       (when (find-class symbol)
-        (let* ((instance (make-instance 'class-description :object symbol)))
+        (let* ((instance (make-instance 'class-description :object symbol :tag (make-unique-tag))))
           (push instance descriptions))))
     (let ((sorted-descriptions (sort descriptions #'string<=
                                      :key (lambda (description)
@@ -70,7 +74,9 @@ The argument pkg must be a package descriptor."
       (make-instance 'variable-glossary :descriptions sorted-descriptions))))
 
 (adp:defmacro class-glossary (pkg)
-  "Inserts a function glossary. It will insert all the available function descriptions.
-They are gathered from the external symbols of a given package.
-The argument pkg must be a package descriptor."
+  "Inserts a class glossary.
+
+It will insert all the available class descriptions from the external symbols of
+the given package PKG.
+The argument PKG must be a package descriptor (not evaluated)."
   `(class-glossary% ,(string pkg)))
