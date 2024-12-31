@@ -18,7 +18,6 @@ Welcome to the ADP\-GITHUB User Guide\! I will try to do my best explaining how 
   * [References](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:TAG59)
 * [Glossaries](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:TAG60)
 * [Table of symbols](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:TAG61)
-* [End of the guide](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:TAG62)
 
 
 <a id="TITLE:ADPGH-DOCS:TAG41"></a>
@@ -68,7 +67,6 @@ We can create a table of contents with the function [adpgh\:table\-of\-contents]
   * [References](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:TAG59)
 * [Glossaries](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:TAG60)
 * [Table of symbols](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:TAG61)
-* [End of the guide](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:TAG62)
 
 
 Additionally\, we can specify the levels of titles that should appear\. For example\, we can specify only subsubtitles \(titles of level 2\)\:
@@ -553,6 +551,7 @@ Another useful function is [adpgh\:clref](/docs/scribble/reference.md#FUNCTION:A
 
 [prin1](http://www.lispworks.com/reference/HyperSpec/Body/f_wr_pr.htm)
 
+
 <a id="TITLE:ADPGH-DOCS:TAG60"></a>
 ## Glossaries
 
@@ -560,15 +559,8 @@ A system may export a ton of symbols\, maybe hundreds\. For that reason we need 
 
 Each type of glossary will iterate over all the exported symbols looking for possible descriptions to insert\. For example\. the [adpgh\:variable\-glossary](/docs/scribble/reference.md#FUNCTION:ADP-GITHUB:VARIABLE-GLOSSARY) will look for exported symbols that has a value associated with it\.
 
-The best example I can show here is the [reference page](/docs/scribble/reference.md#TITLE:ADPGH-DOCS:REFERENCE) of this project\. The complete source code of the reference page is the following\:
+The best example I can show here is the [reference page](/docs/scribble/reference.md#TITLE:ADPGH-DOCS:REFERENCE) of this project\.
 
-`````scribble
-(in-package #:adpgh)
-
-@title[:tag reference]{Reference}
-
-@function-glossary[#:adpgh]
-`````
 
 <a id="TITLE:ADPGH-DOCS:TAG61"></a>
 ## Table of symbols
@@ -584,11 +576,3 @@ For example\, these are the function descriptions printed in this file\:
 `````
 
 * [adpgh\:image](/docs/scribble/user-guide.md#FUNCTION:ADPGH-DOCS:TAG54)
-
-
-<a id="TITLE:ADPGH-DOCS:TAG62"></a>
-## End of the guide
-
-I hope I explained everything well\. That\'s all ADP\-GITHUB can offer to you\.
-
-\:D

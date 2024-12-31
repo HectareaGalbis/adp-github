@@ -435,21 +435,15 @@ Another useful function is @fref[clref]. With it, we can make reference to a Com
 
 @clref[prin1]
 
+
 @subtitle{Glossaries}
 
 A system may export a ton of symbols, maybe hundreds. For that reason we need some way to insert descriptions automatically. That is the job of glossaries. We have glossaries of three types: @code{functions}, @code{variables} and @code{classes}. They can be inserted with the functions @fref[function-glossary], @fref[variable-glossary] and @fref[class-glossary].
 
 Each type of glossary will iterate over all the exported symbols looking for possible descriptions to insert. For example. the @fref[variable-glossary] will look for exported symbols that has a value associated with it. 
 
-The best example I can show here is the @tref[reference]{reference page} of this project. The complete source code of the reference page is the following:
+The best example I can show here is the @tref[reference]{reference page} of this project.
 
-@code-block[:lang "scribble"]|{
-(in-package #:adpgh)
-
-@title[:tag reference]{Reference}
-
-@function-glossary[#:adpgh]
-}|
 
 @subtitle{Table of symbols}
 
@@ -464,9 +458,3 @@ For example, these are the function descriptions printed in this file:
 }|
 
 @table-of-functions[]
-
-@subtitle{End of the guide}
-
-I hope I explained everything well. That's all ADP-GITHUB can offer to you.
-
-:D

@@ -1,20 +1,20 @@
 
 
-<a id="TITLE:ADPGH-DOCS:TAG63"></a>
+<a id="TITLE:ADPGH-DOCS:TAG62"></a>
 # Add Documentation\, Please\.\.\. with Github Flavoured Markdown
 
 Welcome to ADP\-GITHUB\!
 
 ```ADP-GITHUB``` is an exporter for ```ADP```\. It defines some functions and macros to print markdown\-styled objects like titles\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ```adp-github``` package\, although you can use the nickname ```adpgh```\.
 
-* [Installation](/README.md#TITLE:ADPGH-DOCS:TAG64)
-* [Documentation](/README.md#TITLE:ADPGH-DOCS:TAG65)
-* [How to use](/README.md#TITLE:ADPGH-DOCS:TAG66)
-* [Where the files are generated](/README.md#TITLE:ADPGH-DOCS:TAG67)
+* [Installation](/README.md#TITLE:ADPGH-DOCS:TAG63)
+* [Documentation](/README.md#TITLE:ADPGH-DOCS:TAG64)
+* [How to use](/README.md#TITLE:ADPGH-DOCS:TAG65)
+* [Where the files are generated](/README.md#TITLE:ADPGH-DOCS:TAG66)
 
 
 
-<a id="TITLE:ADPGH-DOCS:TAG64"></a>
+<a id="TITLE:ADPGH-DOCS:TAG63"></a>
 ## Installation
 
 * Manual\:
@@ -30,7 +30,7 @@ git clone https://github.com/Hectarea1996/adp-github.git
 `````
 
 
-<a id="TITLE:ADPGH-DOCS:TAG65"></a>
+<a id="TITLE:ADPGH-DOCS:TAG64"></a>
 ## Documentation
 
 * [Reference](/docs/scribble/reference.md#TITLE:ADPGH-DOCS:REFERENCE)
@@ -38,7 +38,7 @@ git clone https://github.com/Hectarea1996/adp-github.git
 
 
 
-<a id="TITLE:ADPGH-DOCS:TAG66"></a>
+<a id="TITLE:ADPGH-DOCS:TAG65"></a>
 ## How to use
 
 Make a subsystem of your project\. For example\, name it ```my-project/docs```\. You need to ```:defsystem-depends-on``` the system ```adp-github```\. And\, lastly\, you should specify the system ```:class``` to be ```:adp-github```\.
@@ -61,7 +61,7 @@ After writing some fancy scribble code into the file ```README.scrbl```\, just e
 (asdf:load-system "my-system/docs")
 `````
 
-<a id="TITLE:ADPGH-DOCS:TAG67"></a>
+<a id="TITLE:ADPGH-DOCS:TAG66"></a>
 ## Where the files are generated
 
 There is a simple rule and one expception\. The rule says that every file is generated in a mirrored place under the ```docs``` directory\. For example\, the contents of file ```scribble/myfile.scrbl``` are printed into the file ```docs/scribble/myfile.md```\.
