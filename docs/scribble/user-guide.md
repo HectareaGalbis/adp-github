@@ -256,7 +256,7 @@ You can add images with the macro [adpgh\:image](/docs/scribble/reference.md#FUN
 
 You will see\:
 
-<img src="//home/hectarea/common-lisp/adp-github/images/Lisp_logo.svg" alt="Lisp logo" width="10%">
+<img src="/images/Lisp_logo.svg" alt="Lisp logo" width="10%">
 
 The path is always treated as a relative pathname to the system\'s root directory\.
 
