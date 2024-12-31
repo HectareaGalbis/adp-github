@@ -3,7 +3,7 @@
 
 
 (defclass located-element ()
-  ((source :initform *load-pathname*))
+  (source)
   (:documentation
    "An element that stores its location."))
 
@@ -13,7 +13,9 @@
    "Process an element.")
   (:method (element)
     (declare (ignore element))
-    (values)))
+    (values))
+  (:method :before ((element located-element))
+    (setf (slot-value element 'source) (get-current-file))))
 
 (define-condition process-error (error)
   ((condition :initarg :condition)

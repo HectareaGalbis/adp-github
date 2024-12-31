@@ -7,10 +7,10 @@ Welcome to ADP\-GITHUB\!
 
 ```ADP-GITHUB``` is an exporter for ```ADP```\. It defines some functions and macros to print markdown\-styled objects like titles\, lists\, code blocks and more\. It also supports cross references and table of contents\. Every symbol is exported from the ```adp-github``` package\, although you can use the nickname ```adpgh```\.
 
-* [Installation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG64)
-* [Documentation](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG65)
-* [How to use](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG66)
-* [Where the files are generated](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:TAG67)
+* [Installation](/README.md#TITLE:ADPGH-DOCS:TAG64)
+* [Documentation](/README.md#TITLE:ADPGH-DOCS:TAG65)
+* [How to use](/README.md#TITLE:ADPGH-DOCS:TAG66)
+* [Where the files are generated](/README.md#TITLE:ADPGH-DOCS:TAG67)
 
 
 
@@ -33,8 +33,8 @@ git clone https://github.com/Hectarea1996/adp-github.git
 <a id="TITLE:ADPGH-DOCS:TAG65"></a>
 ## Documentation
 
-* [Reference](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:REFERENCE)
-* [User Guide](//home/hectarea/common-lisp/adp-github/README.md#TITLE:ADPGH-DOCS:USER-GUIDE)
+* [Reference](/docs/scribble/reference.md#TITLE:ADPGH-DOCS:REFERENCE)
+* [User Guide](/docs/scribble/user-guide.md#TITLE:ADPGH-DOCS:USER-GUIDE)
 
 
 
@@ -55,7 +55,7 @@ Make a subsystem of your project\. For example\, name it ```my-project/docs```\.
   :components ((:scribble "README")))
 `````
 
-Now\, from the REPL\, just evaluate the following expression\:
+After writing some fancy scribble code into the file ```README.scrbl```\, just evaluate the following expression\:
 
 `````common-lisp
 (asdf:load-system "my-system/docs")
@@ -66,4 +66,4 @@ Now\, from the REPL\, just evaluate the following expression\:
 
 There is a simple rule and one expception\. The rule says that every file is generated in a mirrored place under the ```docs``` directory\. For example\, the contents of file ```scribble/myfile.scrbl``` are printed into the file ```docs/scribble/myfile.md```\.
 
-The exception is the use of [adpgh\:output\-file](//home/hectarea/common-lisp/adp-github/README.md#FUNCTION:ADP-GITHUB:OUTPUT-FILE)\. As the name suggest\, you can select the output file\. It accpets a pathname\. That pathname is always treated as a relative path to the system\'s root directory\.
+The exception is the use of [adpgh\:output\-file](/docs/scribble/reference.md#FUNCTION:ADP-GITHUB:OUTPUT-FILE)\. As the name suggest\, you can select the output file\. It accpets a pathname\. That pathname is always treated as a relative path to the system\'s root directory\.

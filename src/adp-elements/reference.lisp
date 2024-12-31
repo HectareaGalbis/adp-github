@@ -67,10 +67,12 @@ NAME must be a package descriptor (not evaluated)."
       (unless found
         (error "Error: The tag ~s referencing a ~a does not exist."
                symbol (string-downcase (symbol-name type))))
-      (format stream "[~{~/adpgh:format-element-md/~}](/~a#~a)"
-              (reference-text element ref-element)
-              (get-current-file-target-pathname)
-              (tag-to-string type symbol)))))
+      (let* ((source-file (slot-value ref-element 'source))
+             (target-path (get-file-target-pathname source-file)))
+        (format stream "[~{~/adpgh:format-element-md/~}](/~a#~a)"
+                (reference-text element ref-element)
+                (enough-system-pathname target-path)
+                (tag-to-string type symbol))))))
 
 
 ;; --------------------------------------------------------------------------------

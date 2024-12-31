@@ -22,9 +22,13 @@
   "Returns the current file."
   *current-file*)
 
+(defun get-file-target-pathname (file)
+  "Returns the target pathname of a given file."
+  (gethash file *file-target-pathnames*))
+
 (defun get-current-file-target-pathname ()
   "Returns the current target pathname."
-  (gethash *current-file* *file-target-pathnames*))
+  (get-file-target-pathname *current-file*))
 
 (defun (setf get-current-file-target-pathname) (value)
   "Sets the current target pathname."

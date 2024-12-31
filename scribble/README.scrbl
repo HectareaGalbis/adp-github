@@ -53,7 +53,7 @@ Make a subsystem of your project. For example, name it @code{my-project/docs}. Y
   :components ((:scribble "README")))
 }
 
-Now, from the REPL, just evaluate the following expression:
+After writing some fancy scribble code into the file @code{README.scrbl}, just evaluate the following expression:
 
 @code-block[:lang "common-lisp"]{
 (asdf:load-system "my-system/docs")
