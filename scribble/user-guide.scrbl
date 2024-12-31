@@ -427,6 +427,13 @@ The same goes to the rest of types. However, there is one more thing we should k
 
 you will see that the link goes to the reference page and not to the description we wrote above. That's because glossaries (that we will explain in the following section) have precedence over single descriptions. 
 
+Another useful function is @fref[clref]. With it, we can make reference to a Common Lisp Hyperspec symbol.
+
+@code-block[:lang "text"]|{
+@clref[prin1]
+}|
+
+@clref[prin1]
 
 @subtitle{Glossaries}
 

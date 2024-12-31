@@ -545,6 +545,13 @@ The same goes to the rest of types\. However\, there is one more thing we should
 
 you will see that the link goes to the reference page and not to the description we wrote above\. That\'s because glossaries \(that we will explain in the following section\) have precedence over single descriptions\.
 
+Another useful function is [adpgh\:clref](/docs/scribble/reference.md#FUNCTION:ADP-GITHUB:CLREF)\. With it\, we can make reference to a Common Lisp Hyperspec symbol\.
+
+`````text
+@clref[prin1]
+`````
+
+[PRIN1](http://www.lispworks.com/reference/HyperSpec/Body/f_wr_pr.htm)
 
 <a id="TITLE:ADPGH-DOCS:TAG60"></a>
 ## Glossaries
