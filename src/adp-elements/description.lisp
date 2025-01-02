@@ -194,8 +194,7 @@ The tag must be a symbol (not evaluated)."
 
 (defun slot-name-item (slot-definition)
   (make-instance 'item
-                 :elements (list (format nil "~/adpgh:format-adp-md/ :"
-                                         (code-symbol (c2mop:slot-definition-name slot-definition))))))
+                 :elements (list (code-symbol (c2mop:slot-definition-name slot-definition)))))
 
 (defun slot-allocation-item (slot-definition)
   (let ((allocation (c2mop:slot-definition-allocation slot-definition)))
@@ -236,17 +235,12 @@ The tag must be a symbol (not evaluated)."
                                        (and writers-item `(,writers-item))))))
 
 (defun direct-slots-itemize (class)
-  (let* ((direct-slots (c2mop:class-direct-slots class))
-         (direct-external-slots (remove-if-not (lambda (direct-slot)
-                                                 (let* ((name (c2mop:slot-definition-name direct-slot))
-                                                        (symbol-type (nth-value 1 (find-symbol (symbol-name name) (symbol-package name)))))
-                                                   (eq symbol-type :external)))
-                                               direct-slots)))
-    (and direct-external-slots
+  (let* ((direct-slots (c2mop:class-direct-slots class)))
+    (and direct-slots
          (make-instance 'itemize :items (mapcan (lambda (slot)
                                                   (list (slot-name-item slot)
                                                         (slot-properties-itemize slot)))
-                                                direct-external-slots)))))
+                                                direct-slots)))))
 
 (defun class-direct-slots-itemize (class)
   (let ((direct-slots (direct-slots-itemize class)))

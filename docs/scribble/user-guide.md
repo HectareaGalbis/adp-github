@@ -457,9 +457,8 @@ Classes too\. Let\'s define the following classes\:
 (defclass base-class () ())
 
 (defclass complete-class (base-class)
-  ((internal-slot :documentation "This slot won't appear.")
-   (title :documentation "This slot will appear."
-          :reader complete-class-title
+  ((internal-slot :documentation "Some slot for internal use.")
+   (title :reader complete-class-title
           :accessor complete-title
           :allocation :class))
   (:documentation
@@ -470,7 +469,7 @@ Classes too\. Let\'s define the following classes\:
 #<STANDARD-CLASS ADPGH-DOCS::COMPLETE-CLASS>
 `````
 
-Note that we specified two slots\, but only the latter will appear at the description since only ```title``` is an external symbol\.
+Let\'s see its description\:
 
 `````text
 @class-description[complete-class]
@@ -483,8 +482,10 @@ Note that we specified two slots\, but only the latter will appear at the descri
 An example of a class with a lot of things.
 `````
 * Direct slots\:
-  * \`\`\`adpgh\:title\`\`\` \:
-    * ```This slot will appear.```
+  * ```adpgh-docs::internal-slot```
+    * ```Some slot for internal use.```
+    * Allocation\: ```:instance```
+  * ```adpgh:title```
     * Allocation\: ```:class```
     * Readers\: ```adpgh-docs::complete-title```\, ```adpgh-docs::complete-class-title```
     * Writers\: ```(setf adpgh-docs::complete-title)```

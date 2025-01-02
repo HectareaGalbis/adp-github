@@ -363,16 +363,15 @@ Classes too. Let's define the following classes:
 (defclass base-class () ())
 
 (defclass complete-class (base-class)
-  ((internal-slot :documentation "This slot won't appear.")
-   (title :documentation "This slot will appear."
-          :reader complete-class-title
+  ((internal-slot :documentation "Some slot for internal use.")
+   (title :reader complete-class-title
           :accessor complete-title
           :allocation :class))
   (:documentation
    "An example of a class with a lot of things."))
 }
 
-Note that we specified two slots, but only the latter will appear at the description since only @code{title} is an external symbol.
+Let's see its description:
 
 @code-block[:lang "text"]|{
 @class-description[complete-class]
