@@ -20,4 +20,4 @@ The rest of the elements will form the name of the link."
 
 (defmethod print-element (stream (element link))
   (with-slots (elements address) element
-    (format stream "[~{~/adpgh:format-element-md/~}](~a)" elements address)))
+    (format stream "[~{~/adpgh:format-adp-md/~}](~a)" elements address)))

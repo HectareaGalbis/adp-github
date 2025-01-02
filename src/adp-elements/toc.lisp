@@ -127,7 +127,7 @@ INCLUDE and EXCLUDE cannot share any tags."
       (make-instance 'itemize :items items))))
 
 (defmethod print-element (stream (element table-of-symbols))
-  (format stream "~/adpgh:format-element/" (make-reference-itemize element)))
+  (format stream "~/adpgh:format-adp-md/" (make-reference-itemize element)))
 
 (adp:defun table-of-functions ()
   "Inserts references to function descriptions from the current file."

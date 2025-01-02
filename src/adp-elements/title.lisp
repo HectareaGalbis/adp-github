@@ -46,4 +46,4 @@ If TOC is NIL it won't appear at any table of contents."
 (defmethod print-element (stream (element title))
   (with-slots (elements level tag) element
     (format stream "<a id=~s></a>~%" (tag-to-string :title tag))
-    (format stream "~v@{#~} ~{~/adpgh:format-element-md/~}" (1+ level) elements)))
+    (format stream "~v@{#~} ~{~/adpgh:format-adp-md/~}" (1+ level) elements)))

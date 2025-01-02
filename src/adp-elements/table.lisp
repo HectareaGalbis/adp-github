@@ -15,7 +15,7 @@ Cells can only be used inside a table row."
   (make-instance 'cell :elements elements))
 
 (defmethod print-element (stream (element cell))
-  (format stream "<td>~{~/adpgh:format-element-html/~}</td>" (slot-value element 'elements)))
+  (format stream "<td>~{~/adpgh:format-adp-html/~}</td>" (slot-value element 'elements)))
 
 
 ;; ------ row ------
@@ -34,7 +34,7 @@ Rows can only be used inside a table."
   (make-instance 'row :cells cells))
 
 (defmethod print-element (stream (element row))
-  (format stream "<tr>~%~{~/adpgh:format-element/~}</tr>" (slot-value element 'cells)))
+  (format stream "<tr>~%~{~/adpgh:format-adp-html/~}</tr>" (slot-value element 'cells)))
 
 
 ;; ------ table ------
@@ -58,4 +58,4 @@ The elements must be rows and rows can only contain cells.."
   (make-instance 'table :rows elements))
 
 (defmethod print-element (stream (element table))
-  (format stream "<table>~%~{~/adpgh:format-element/~}</table>" (slot-value element 'rows)))
+  (format stream "<table>~%~{~/adpgh:format-adp-html/~}</table>" (slot-value element 'rows)))

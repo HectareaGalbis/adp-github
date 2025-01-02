@@ -79,7 +79,8 @@
     (ensure-target-pathname-directories)
     (with-open-file (stream (get-current-file-target-pathname)
                             :direction :output :if-exists :supersede :if-does-not-exist :create)
-      (format stream "~{~/adpgh:print-scribble-element/~}" (adp:file-elements file)))))
+      (format stream "~{~/adpgh:format-adp-md/~}"
+              (mapcar #'adp:element-value (adp:file-elements file))))))
 
 (define-condition process-file-error (error)
   ((condition :initarg :condition)
@@ -105,11 +106,15 @@
     (with-file-target-pathnames
       (dolist (file files)
         (with-current-file file
-          (handler-case (process-file file)
-            (error (c)
-              (error 'process-file-error :condition c :pathname (get-current-file-pathname))))))
+          (process-file file)
+          ;; (handler-case (process-file file)
+          ;;   (error (c)
+          ;;     (error 'process-file-error :condition c :pathname (get-current-file-pathname))))
+          ))
       (dolist (file files)
         (with-current-file file
-          (handler-case (print-file file)
-            (error (c)
-              (error 'print-file-error :condition c :pathname (get-current-file-pathname)))))))))
+          (print-file file)
+          ;; (handler-case (print-file file)
+          ;;   (error (c)
+          ;;     (error 'print-file-error :condition c :pathname (get-current-file-pathname))))
+          )))))

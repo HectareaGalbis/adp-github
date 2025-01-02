@@ -21,5 +21,5 @@ Optionally, it can receive an alternative text description and the scale size of
 
 (defmethod print-element (stream (element image))
   (with-slots (path alt-text scale) element
-    (format stream "<img src=\"/~a\" alt=\"~/adpgh:format-element-html/\" width=\"~a%\">"
+    (format stream "<img src=\"/~a\" alt=\"~/adpgh:format-adp-html/\" width=\"~a%\">"
             path alt-text (floor (* scale 100.0)))))

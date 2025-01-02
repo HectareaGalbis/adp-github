@@ -13,7 +13,7 @@
   (make-instance 'item :elements elements))
 
 (defmethod print-element (stream (element item))
-  (format stream "~{~/adpgh:format-element/~}" (slot-value element 'elements)))
+  (format stream "~{~/adpgh:format-adp-md/~}" (slot-value element 'elements)))
 
 
 ;; ------ list ------
@@ -34,8 +34,8 @@
           do (typecase item
                (item
                 (if numbersp
-                    (format stream "~v@{ ~}~s. ~/adpgh:format-element/~%" indent-space (1+ index) item)
-                    (format stream "~v@{ ~}* ~/adpgh:format-element/~%" indent-space item)))
+                    (format stream "~v@{ ~}~s. ~/adpgh:format-adp-md/~%" indent-space (1+ index) item)
+                    (format stream "~v@{ ~}* ~/adpgh:format-adp-md/~%" indent-space item)))
                (itemize
                 (print-list (slot-value item 'items) nil next-indent-space stream))
                (enumerate

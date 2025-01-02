@@ -111,7 +111,7 @@ You can add tables using the macros [adpgh\:table](/docs/scribble/reference.md#F
 `````
 `````common-lisp
 ;; Returns
-ADPGH-DOCS::GET-SALARY
+GET-SALARY
 `````
 
 Now we can create a table like this\:
@@ -393,7 +393,7 @@ And we see this\:
 
 <a id="FUNCTION:ADP-GITHUB:IMAGE"></a>
 <a id="FUNCTION:ADPGH-DOCS:TAG54"></a>
-#### Function: adpgh:image (&rest args-sym)
+#### Function: adpgh\:image \(\&rest args\-sym\)
 
 `````text
 Inserts an image.
@@ -410,7 +410,7 @@ The same goes for the rest of functions\. For example\, we can see the descripti
 
 <a id="SYSTEM:KEYWORD:ADP-GITHUB"></a>
 <a id="SYSTEM:ADPGH-DOCS:TAG55"></a>
-#### System: adp-github
+#### System: adp\-github
 
 `````text
 ADP extension to generate github markdown files.
@@ -418,7 +418,7 @@ ADP extension to generate github markdown files.
 
 * Author: Héctor Galbis Sanchis
 * License: MIT
-* Depends on: alexandria, closer-mop, adp, trivial-arguments, hyperspec
+* Depends on: alexandria, closer\-mop, adp, trivial\-arguments, hyperspec, cl\-ppcre
 
 Or its package\:
 
@@ -428,14 +428,14 @@ Or its package\:
 
 <a id="PACKAGE:KEYWORD:ADP-GITHUB"></a>
 <a id="PACKAGE:ADPGH-DOCS:TAG56"></a>
-#### Package: ADP-GITHUB
+#### Package: ADP\-GITHUB
 
 `````text
 The main package of adp-github.
 `````
 
 * Nicknames: ADPGH
-* Exported symbols: bold, cell, class-description, class-glossary, clref, code, code-block, cref, emphasis, enumerate, example, fref, function-description, function-glossary, image, italic, item, itemize, link, output-file, package-description, pref, quoted, row, sref, subsubtitle, subtitle, system-description, table, table-of-classes, table-of-contents, table-of-functions, table-of-variables, text, title, title*, tref, variable-description, variable-glossary, vref
+* Exported symbols: ```bold```, ```cell```, ```class-description```, ```class-glossary```, ```clref```, ```code```, ```code-block```, ```cref```, ```emphasis```, ```enumerate```, ```example```, ```fref```, ```function-description```, ```function-glossary```, ```image```, ```italic```, ```item```, ```itemize```, ```link```, ```output-file```, ```package-description```, ```pref```, ```quoted```, ```row```, ```sref```, ```subsubtitle```, ```subtitle```, ```system-description```, ```table```, ```table-of-classes```, ```table-of-contents```, ```table-of-functions```, ```table-of-variables```, ```text```, ```title```, ```title*```, ```tref```, ```variable-description```, ```variable-glossary```, ```vref```
 
 For variables\, let\'s get the internal symbol ```adpgh::*tags*```\.
 
@@ -445,7 +445,7 @@ For variables\, let\'s get the internal symbol ```adpgh::*tags*```\.
 
 <a id="VARIABLE:ADP-GITHUB:*TAGS*"></a>
 <a id="VARIABLE:ADPGH-DOCS:TAG57"></a>
-#### Variable: \*tags\*
+#### Variable: adpgh\:\:\*tags\*
 
 `````text
 The tags container.
@@ -478,21 +478,21 @@ Note that we specified two slots\, but only the latter will appear at the descri
 
 <a id="CLASS:ADPGH-DOCS:COMPLETE-CLASS"></a>
 <a id="CLASS:ADPGH-DOCS:TAG58"></a>
-#### Class: complete-class
+#### Class: adpgh\-docs\:\:complete\-class
 `````text
 An example of a class with a lot of things.
 `````
 * Direct slots\:
-  * adpgh\:title \:
+  * \`\`\`adpgh\:title\`\`\` \:
     * ```This slot will appear.```
     * Allocation\: ```:class```
-    * Readers\: ```complete-title```\, ```complete-class-title```
-    * Writers\: ```(setf complete-title)```
+    * Readers\: ```adpgh-docs::complete-title```\, ```adpgh-docs::complete-class-title```
+    * Writers\: ```(setf adpgh-docs::complete-title)```
 
 
 * Metaclass: ```standard-class```
-* Precedence list: ```complete-class```, ```base-class```, ```standard-object```, ```slot-object```, ```t```
-* Direct superclasses: ```base-class```
+* Precedence list: ```adpgh-docs::complete-class```, ```adpgh-docs::base-class```, ```standard-object```, ```sb-pcl::slot-object```, ```t```
+* Direct superclasses: ```adpgh-docs::base-class```
 
 
 <a id="TITLE:ADPGH-DOCS:TAG59"></a>

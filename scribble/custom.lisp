@@ -16,14 +16,17 @@ A function description also creates a function tag that can be used with fref."
   (multiple-value-bind (lambda-list success) (adp:function-lambda-list name)
     (when (not success)
       (error "The function or macro ~s is not defined with adp." name))
-    (format stream " ~s" lambda-list)))
+    (if (null lambda-list)
+        (format stream " ()")
+        (let ((*print-right-margin* 999))
+          (format stream " ~/adpgh:format-api-md/" lambda-list)))))
 
 (defun adp-macro-description-title (name stream)
-  (format stream "#### Macro: ~a" name)
+  (format stream "#### Macro: ~/adpgh:format-adp-md/" name)
   (adp-function-description-arguments name stream))
 
 (defun adp-function-description-title (name stream)
-  (format stream "#### Function: ~a" name)
+  (format stream "#### Function: ~/adpgh:format-adp-md/" name)
   (adp-function-description-arguments name stream))
 
 (defmethod adpgh::print-element (stream (element adp-function-description))

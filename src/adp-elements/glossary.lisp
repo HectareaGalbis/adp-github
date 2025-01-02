@@ -10,7 +10,7 @@
 
 (defmethod print-element (stream (element glossary))
   (with-slots (descriptions) element
-    (format stream "~{~/adpgh:format-element/~^~%~%~}" descriptions)))
+    (format stream "~{~/adpgh:format-adp-md/~^~%~%~}" descriptions)))
 
 ;; --------------------------------------------------------------------------------
 (defclass function-glossary (glossary) ())

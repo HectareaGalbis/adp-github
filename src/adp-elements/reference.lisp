@@ -69,7 +69,7 @@ NAME must be a package descriptor (not evaluated)."
                symbol (string-downcase (symbol-name type))))
       (let* ((source-file (slot-value ref-element 'source))
              (target-path (get-file-target-pathname source-file)))
-        (format stream "[~{~/adpgh:format-element-md/~}](/~a#~a)"
+        (format stream "[~{~/adpgh:format-adp-md/~}](/~a#~a)"
                 (reference-text element ref-element)
                 (enough-system-pathname target-path)
                 (tag-to-string type symbol))))))

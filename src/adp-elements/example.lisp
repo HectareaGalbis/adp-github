@@ -15,23 +15,27 @@
 
 It is like code-block, but evaluates the code (common lisp only) and prints
 its output and returned values."
-  (let* ((text-code (format nil "~{~a~}" expressions))
+  (let* ((text-code (format nil "~{~/adpgh:format-lisp-nil/~}" expressions))
          (code (with-input-from-string (text-stream text-code)
                  (loop for expr = (read text-stream nil nil)
                        while expr
                        collect expr))))
     (let* ((output (make-array 10 :adjustable t :fill-pointer 0 :element-type 'character))
            (results (multiple-value-list (with-output-to-string (*standard-output* output)
-                                           (with-regular-pprint-dispatch
-                                             (eval (cons 'progn code)))))))
-      (make-instance 'example :code text-code :output output :results results))))
+                                           (let ((*print-case* :upcase)
+                                                 (*print-escape* t)
+                                                 (*print-shortest-package* nil)
+                                                 (*print-gensym-numbers* t)
+                                                 (*print-context* nil))
+                                             (eval (cons 'progn code))))))
+           (text-results (format nil "~{~s~^~%~}" results)))
+      (make-instance 'example :code text-code :output output :results text-results))))
 
 
 (defmethod print-element (stream (element example))
   (with-slots (code output results) element
-    (format stream "`````common-lisp~%~/adpgh:format-element-nil/~%`````~%" code)
+    (format stream "`````common-lisp~%~a~%`````~%" code)
     (when (> (length output) 0)
       (format stream "`````text~%;; Output~%~a~%`````~%" output))
     (when results
-      (with-regular-pprint-dispatch
-        (format stream "`````common-lisp~%;; Returns~{~%~s~}~%`````" results)))))
+      (format stream "`````common-lisp~%;; Returns~%~a~%`````" results))))

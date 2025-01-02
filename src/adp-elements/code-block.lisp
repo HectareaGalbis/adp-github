@@ -19,4 +19,4 @@ The rest of elements will be inserted in the block."
 
 (defmethod print-element (stream (element code-block))
   (with-slots (lang elements) element
-    (format stream "`````~@[~a~]~%~{~/adpgh:format-element-nil/~}~%`````" lang elements)))
+    (format stream "`````~@[~a~]~%~{~/adpgh:format-adp-nil/~}~%`````" lang elements)))

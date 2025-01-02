@@ -38,5 +38,5 @@ Text admits different styles:
                        (:emphasis "***")
                        (:code "```"))))
       (if (eq style :code)
-          (format stream "~a~{~/adpgh:format-element-nil/~}~a" style-str elements style-str)
-          (format stream "~a~{~/adpgh:format-element-md/~}~a" style-str elements style-str)))))
+          (format stream "~a~{~/adpgh:format-adp-nil/~}~a" style-str elements style-str)
+          (format stream "~a~{~/adpgh:format-adp-md/~}~a" style-str elements style-str)))))

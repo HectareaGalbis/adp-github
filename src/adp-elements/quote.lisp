@@ -23,4 +23,4 @@
                     (char= #\Newline (aref elem 0)))
               do (setf quote-sym t)
                  (princ "<br>" stream)
-            do (print-element stream elem)))))
+            do (format-adp-md stream elem)))))

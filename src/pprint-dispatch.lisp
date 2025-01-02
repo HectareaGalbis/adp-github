@@ -1,21 +1,13 @@
 
 (in-package #:adpgh)
 
+(defvar *default-pprint-dispatch* *print-pprint-dispatch*
+  "The default pprint dispatch.")
 
-(defun make-regular-pprint-dispatch ()
-  (copy-pprint-dispatch nil))
+(defvar *print-shortest-package* nil
+  "Indicates if the symbol package to print must the shortest name or nickname.")
 
-(defvar *regular-pprint-dispatch* (make-regular-pprint-dispatch)
-  "A copy of the initial pprint dispatch.")
-
-(defmacro with-regular-pprint-dispatch (&body body)
-  `(let ((*print-pprint-dispatch* *regular-pprint-dispatch*)
-         (*print-case* :upcase))
-     ,@body))
-
-;; --------------------------------------------------------------------------------
 (defun shortest-string (strings)
-  "Return the shortest string from a list."
   (declare (type list strings))
   (loop for str in strings
 	for shortest = str then (if (< (length str) (length shortest))
@@ -23,70 +15,58 @@
 				    shortest)
 	finally (return shortest)))
 
-(defun convert-string-case (str)
-  (case *print-case*
-    (:upcase (string-upcase str))
-    (:downcase (string-downcase str))
-    (:capitalize (string-capitalize str))
-    (t str)))
+(defun get-shortest-package-name (sym)
+  (let ((package (symbol-package sym)))
+    (shortest-string
+     (cons (package-name package)
+           (package-nicknames package)))))
 
-(defun custom-symbol-pprint-function (stream sym)
-  "Return a custom pprint function to print symbols."
-  (let* ((sym-package (symbol-package sym))
-	 (nickname (and sym-package
-			(shortest-string (package-nicknames sym-package))))
-	 (print-package-mode (and sym-package
-				  (not (equal sym-package (find-package "CL")))
-				  (nth-value 1 (find-symbol (symbol-name sym) sym-package))))
-	 (package-to-print (and print-package-mode
-				(or (and (keywordp sym) "")
-                                    nickname
-				    (package-name sym-package))))
-         (name-to-print (if sym-package (symbol-name sym) (remove-numbers-tail (symbol-name sym))))
-	 (*print-escape* nil))
-    (case print-package-mode
-      (:external (format stream "~a:~a"
-			 (convert-string-case package-to-print)
-			 (convert-string-case name-to-print)))
-      (t (format stream "~a" (convert-string-case name-to-print))))))
+(defvar *print-gensym-numbers* t
+  "Indicates if the last numbers of an uninterned symbol must be printed.")
 
-(defun make-custom-pprint-dispatch ()
-  (let ((custom-pprint-dispatch (copy-pprint-dispatch nil)))    
-    (set-pprint-dispatch 'symbol #'custom-symbol-pprint-function 0 custom-pprint-dispatch)
-    (values custom-pprint-dispatch)))
-
-
-(defvar *adp-pprint-dispatch* (make-custom-pprint-dispatch)
-  "Default pprint dispatch of ADP.")
-
-(defmacro with-adp-pprint-dispatch (&body body)
-  "Establishes the values for printing in the ADP style."
-  `(let ((*print-pprint-dispatch* *adp-pprint-dispatch*)
-         (*print-case* :downcase))
-     ,@body))
-
-;; --------------------------------------------------------------------------------
 (defun remove-numbers-tail (str)
   (let ((length-str (length str)))
     (loop for i downfrom (1- length-str) to 0 by 1
           while (digit-char-p (aref str i))
           finally (return (subseq str 0 (1+ i))))))
 
-(defun api-symbol-pprint-function (stream sym)
-  (when (keywordp sym)
-    (princ ":" stream))
-  (let ((name-to-print (if (symbol-package sym) (symbol-name sym) (remove-numbers-tail (symbol-name sym)))))
-    (princ (convert-string-case name-to-print) stream)))
+(defmacro with-symbol-parts ((package separator name) sym &body body)
+  `(ppcre:register-groups-bind (,package ,separator ,name)
+       ("^(?:([^#:]*)?(::|:|#:))?([^#:]+)$" (write-to-string ,sym))
+     (let ((,package (or ,package ""))
+           (,separator (or ,separator ""))
+           (,name (or ,name "")))
+       ,@body)))
 
-(defun make-api-pprint-dispatch ()
-  (let ((api-pprint-dispatch (copy-pprint-dispatch)))    
-    (set-pprint-dispatch 'symbol #'api-symbol-pprint-function 0 api-pprint-dispatch)
-    (values api-pprint-dispatch)))
+(defun custom-symbol-pprint-function (stream sym)
+  (let ((*print-pprint-dispatch* *default-pprint-dispatch*))
+    (with-symbol-parts (package separator name) sym
+      (when (and (not (emptyp package)) *print-shortest-package*)
+        (setf package (princ-to-string (make-symbol (get-shortest-package-name sym)))))
+      (when (keywordp sym)
+        (setf separator ":"))
+      (when (and (not (symbol-package sym)) (not *print-gensym-numbers*))
+        (setf name (princ-to-string (make-symbol (remove-numbers-tail (symbol-name sym))))))
+      (format stream "~a~a~a" package separator name))))
 
-(defvar *api-pprint-dispatch* (make-api-pprint-dispatch))
+(defun make-custom-symbol-pprint-dispatch ()
+  (let ((custom-symbol-pprint-dispatch (copy-pprint-dispatch nil)))    
+    (set-pprint-dispatch '(and symbol (not null)) #'custom-symbol-pprint-function 0 custom-symbol-pprint-dispatch)
+    (values custom-symbol-pprint-dispatch)))
 
-(defmacro with-api-pprint-dispatch (&body body)
-  `(let ((*print-pprint-dispatch* *api-pprint-dispatch*)
-         (*print-right-margin* 999)
-         (*print-case* :downcase))
+(defvar *custom-symbol-pprint-dispatch* (make-custom-symbol-pprint-dispatch)
+  "Custom symbol pprint dispatch of ADP.")
+
+(defmacro with-custom-symbol-pprint-dispatch (&body body)
+  "Establishes custom symbol pprint dispatch."
+  `(let ((*print-pprint-dispatch* *custom-symbol-pprint-dispatch*))
+     ,@body))
+
+;; --------------------------------------------------------------------------------
+(defvar *adp-pprint-dispatch* *custom-symbol-pprint-dispatch*
+  "Default pprint dispatch of ADP.")
+
+(defmacro with-adp-pprint-dispatch (&body body)
+  "Establishes the pprint dispatch for printing in the ADP style."
+  `(let ((*print-pprint-dispatch* *adp-pprint-dispatch*))
      ,@body))

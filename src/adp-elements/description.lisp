@@ -43,29 +43,28 @@ The tag must be a symbol (not evaluated)."
     (when (not (eq arguments :unknown))
       (if (null arguments)
           (princ " ()" stream)
-          (format stream " ~s" arguments)))))
+          (let ((*print-right-margin* 999))
+            (format stream " ~/adpgh:format-api-md/" arguments))))))
 
 (defun macro-description-title (name stream)
-  (format stream "#### Macro: ~a" name)
-  (with-api-pprint-dispatch
-    (function-description-arguments name stream)))
+  (format stream "#### Macro: ~/adpgh:format-adp-md/" name)
+  (function-description-arguments name stream))
 
 (defun function-description-title (name stream)
-  (format stream "#### Function: ~a" name)
-  (with-api-pprint-dispatch
-    (function-description-arguments name stream)))
+  (format stream "#### Function: ~/adpgh:format-adp-md/" name)
+  (function-description-arguments name stream))
 
 (defun generic-description-title (name stream)
-  (format stream "#### Generic function: ~a " name)
-  (with-api-pprint-dispatch
-    (prin1 (c2mop:generic-function-lambda-list (symbol-function name)) stream)))
+  (format stream "#### Generic function: ~/adpgh:format-adp-md/" name)
+  (let ((*print-right-margin* 999))
+    (format-api-md stream (c2mop:generic-function-lambda-list (symbol-function name)))))
 
 (defun function-description-docstring (name stream)
   (let* ((docstring (documentation name 'function))
          (docstring-block (if docstring
                               (make-instance 'code-block :lang "text" :elements (list docstring))
                               (make-instance 'text :style :italic :elements '("Undocumented")))))
-    (format stream "~/adpgh:format-element-md/" docstring-block)))
+    (format stream "~/adpgh:format-adp-md/" docstring-block)))
 
 (defmethod print-element (stream (element function-description))
   (with-slots ((name object) tag) element
@@ -112,14 +111,14 @@ The tag must be a symbol (not evaluated)."
 
 (defun variable-description-title (name stream)
   (let ((title (if (constantp name) "Constant" "Variable")))
-    (format stream "#### ~a: ~/adpgh:format-element-md/" title (prin1-to-string name))))
+    (format stream "#### ~a: ~/adpgh:format-adp-md/" title name)))
 
 (defun variable-description-docstring (name stream)
   (let* ((docstring (documentation name 'variable))
          (docstring-block (if docstring
                               (make-instance 'code-block :lang "text" :elements (list docstring))
                               (make-instance 'text :style :italic :elements '("Undocumented")))))
-    (format stream "~/adpgh:format-element-md/" docstring-block)))
+    (format stream "~/adpgh:format-adp-md/" docstring-block)))
 
 (defmethod print-element (stream (element variable-description))
   (with-slots ((name object) tag) element
@@ -158,14 +157,14 @@ The tag must be a symbol (not evaluated)."
   (format stream "<a id=~s></a>" (tag-to-string :class tag)))
 
 (defun class-description-title (class stream)
-  (format stream "#### Class: ~a" (class-name class)))
+  (format stream "#### Class: ~/adpgh:format-adp-md/" (class-name class)))
 
 (defun class-description-docstring (class stream)
   (let* ((docstring (documentation class 'type))
          (docstring-block (if docstring
                               (make-instance 'code-block :lang "text" :elements (list docstring))
                               (make-instance 'text :style :italic :elements '("Undocumented")))))
-    (format stream "~/adpgh:format-element-md/" docstring-block)))
+    (format stream "~/adpgh:format-adp-md/" docstring-block)))
 
 (defun code-symbol (symbol)
   (make-instance 'text :style :code :elements (list symbol)))
@@ -174,26 +173,29 @@ The tag must be a symbol (not evaluated)."
   (code-symbol (class-name class)))
 
 (defun class-description-metaclass (class stream)
-  (format stream "* Metaclass: ~/adpgh:format-element/" (code-class (class-of class))))
+  (format stream "* Metaclass: ~/adpgh:format-adp-md/" (code-class (class-of class))))
 
 (defun class-description-precedence-list (class stream)
   
-  (format stream "* Precedence list: ~{~/adpgh:format-element/~^, ~}" (mapcar #'code-class (c2mop:class-precedence-list class))))
+  (format stream "* Precedence list: ~{~/adpgh:format-adp-md/~^, ~}"
+          (mapcar #'code-class (c2mop:class-precedence-list class))))
 
 (defun class-description-direct-superclasses (class stream)
   (let ((superclasses (c2mop:class-direct-superclasses class)))
     (and superclasses
-         (format stream "* Direct superclasses: ~{~/adpgh:format-element/~^, ~}"
+         (format stream "* Direct superclasses: ~{~/adpgh:format-adp-md/~^, ~}"
                  (mapcar #'code-class superclasses)))))
 
 (defun class-description-direct-subclasses (class stream)
   (let ((subclasses (c2mop:class-direct-subclasses class)))
     (and subclasses
-         (format stream "* Direct subclasses: ~{~/adpgh:format-element/~^, ~}"
+         (format stream "* Direct subclasses: ~{~/adpgh:format-adp-md/~^, ~}"
                  (mapcar #'code-class subclasses)))))
 
 (defun slot-name-item (slot-definition)
-  (make-instance 'item :elements (list (format nil "~a :" (c2mop:slot-definition-name slot-definition)))))
+  (make-instance 'item
+                 :elements (list (format nil "~/adpgh:format-adp-md/ :"
+                                         (code-symbol (c2mop:slot-definition-name slot-definition))))))
 
 (defun slot-allocation-item (slot-definition)
   (let ((allocation (c2mop:slot-definition-allocation slot-definition)))
@@ -255,7 +257,7 @@ The tag must be a symbol (not evaluated)."
 (defun class-description-direct-slots (class stream)
   (let ((slots-itemize (class-direct-slots-itemize class)))
     (and slots-itemize
-         (print-element stream slots-itemize))))
+         (format-adp-md stream slots-itemize))))
 
 (defmethod print-element (stream (element class-description))
   (with-slots ((name object) tag) element
@@ -309,25 +311,24 @@ The tag must be a symbol (not evaluated)."
   (format stream "<a id=~s></a>" (tag-to-string :package tag)))
 
 (defun package-description-title (pkg stream)
-  (format stream "#### Package: ~a" (package-name pkg)))
+  (format stream "#### Package: ~/adpgh:format-adp-md/" (package-name pkg)))
 
 (defun package-description-docstring (pkg stream)
   (let* ((docstring (documentation pkg t))
          (docstring-block (if docstring
                               (make-instance 'code-block :lang "text" :elements (list docstring))
                               (make-instance 'text :style :italic :elements '("Undocumented")))))
-    (format stream "~/adpgh:format-element-md/" docstring-block)))
+    (format stream "~/adpgh:format-adp-md/" docstring-block)))
 
 (defun package-description-nicknames (pkg stream)
-  (format stream "* Nicknames: ~{~a~^, ~}" (package-nicknames pkg)))
+  (format stream "* Nicknames: ~{~/adpgh:format-adp-md/~^, ~}" (package-nicknames pkg)))
 
 (defun package-description-exported-symbols (pkg stream)
   (format stream "* Exported symbols: ")
-  (let ((external-symbols '())
-        (*print-case* :downcase))
+  (let ((external-symbols '()))
     (do-external-symbols (sym pkg)
       (push (string-downcase (symbol-name sym)) external-symbols))
-    (format stream "~{~a~^, ~}" (sort external-symbols #'string<=))))
+    (format stream "~{~/adpgh:format-adp-md/~^, ~}" (mapcar #'code-symbol (sort external-symbols #'string<=)))))
 
 (defmethod print-element (stream (element package-description))
   (let* ((pkg (slot-value element 'object))
@@ -376,21 +377,21 @@ The tag must be a symbol (not evaluated)."
   (format stream "<a id=~s></a>" (tag-to-string :system tag)))
 
 (defun system-description-title (system stream)
-  (format stream "#### System: ~a" (asdf:component-name system)))
+  (format stream "#### System: ~/adpgh:format-adp-md/" (asdf:component-name system)))
 
 (defun system-description-docstring (system stream)
   (let* ((docstring (asdf:system-description system))
          (docstring-block (if docstring
                               (make-instance 'code-block :lang "text" :elements (list docstring))
                               (make-instance 'text :style :italic :elements '("Undocumented")))))
-    (format stream "~/adpgh:format-element-md/" docstring-block)))
+    (format stream "~/adpgh:format-adp-md/" docstring-block)))
 
 (defmacro define-system-description-function (func-name sys-func-name string-name)
   (with-gensyms (obj)
     `(defun ,func-name (system stream)
        (let ((,obj (,sys-func-name system)))
          (when ,obj
-           (format stream "* ~a: ~a" ,string-name ,obj)
+           (format stream "* ~/adpgh:format-adp-md/: ~/adpgh:format-adp-md/" ,string-name ,obj)
            (values t))))))
 
 (define-system-description-function system-description-author asdf:system-author "Author")
@@ -401,12 +402,13 @@ The tag must be a symbol (not evaluated)."
 (defun system-description-defsystem-depends-on (system stream)
   (let ((dependencies (asdf:system-defsystem-depends-on system)))
     (when dependencies
-      (format stream "* Defsystem depends on: ~:[~{~a~^, ~}~;None~]" (null dependencies) dependencies)
+      (format stream "* Defsystem depends on: ~:[~{~/adpgh:format-adp-md/~^, ~}~;None~]"
+              (null dependencies) dependencies)
       (values t))))
 
 (defun system-description-depends-on (system stream)
   (let ((dependencies (asdf:system-depends-on system)))
-    (format stream "* Depends on: ~:[~{~a~^, ~}~;None~]" (null dependencies) dependencies)))
+    (format stream "* Depends on: ~:[~{~/adpgh:format-adp-md/~^, ~}~;None~]" (null dependencies) dependencies)))
 
 (defmethod print-element (stream (element system-description))
   (let* ((system (slot-value element 'object))

@@ -28,11 +28,15 @@
 
 (defun escape-text (text)
   "Escapes the text for the current context."
-  (case *context*
+  (case *print-context*
     (:md (escape-md-text text))
     (:html (escape-html-text text))
     (t text)))
 
-(defmethod print-element (stream element)
-  "By default, every element is princ-ed."
+(defmethod print-element (stream (element string))
+  "By default, strings are princ-ed."
   (princ (escape-text (princ-to-string element)) stream))
+
+(defmethod print-element (stream element)
+  "The rest of elements respect the print variables."
+  (princ (escape-text (write-to-string element)) stream))
