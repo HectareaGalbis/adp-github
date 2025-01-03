@@ -15,3 +15,14 @@
            #:system-description
 
            #:function-glossary #:variable-glossary #:class-glossary))
+
+
+(in-package #:adp-github)
+
+(defpackage #:adp-github-writing
+  (:documentation "The package used while writing.")
+  (:use #:cl))
+
+(defmacro with-writing-package (&body body)
+  `(let ((*package* (find-package '#:adp-github-writing)))
+     ,@body))
