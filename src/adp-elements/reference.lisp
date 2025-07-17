@@ -77,9 +77,11 @@ NAME must be a package descriptor (not evaluated)."
 
 ;; --------------------------------------------------------------------------------
 (defun clref% (sym)
+  (unless (eq (symbol-package sym) (find-package "COMMON-LISP"))
+    (error "Error: The symbol ~s does not belong to the Common Lisp package." sym))
   (let ((address (hyperspec:lookup sym)))
     (when (not address)
-      (error "Error: The value received is not a symbol from the Common Lisp package: ~s" sym))
+      (error "Error: Cannot find the symbol ~s in the hyperspec." sym))
     (make-instance 'link :address address :elements (list sym))))
 
 (adp:defmacro clref (sym)

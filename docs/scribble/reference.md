@@ -142,13 +142,20 @@ It can contains items or sublists, i.e., items, itemizes or enumerates.
 
 <a id="FUNCTION:ADP-GITHUB:EXAMPLE"></a>
 <a id="FUNCTION:ADPGH-DOCS:TAG11"></a>
-#### Function: adpgh\:example \(\&rest expressions\)
+#### Function: adpgh\:example \(\:results \(mode \:both\) \&rest expressions\)
 
 `````text
 Inserts an example.
 
 It is like code-block, but evaluates the code (common lisp only) and prints
 its output and returned values.
+The tag :RESULTS can be used to select what results should be printed.
+It can be one of :BOTH, :OUTPUT, :VALUE or NIL.
+By default the :BOTH option is selected and both output and returned values will be printed
+if there are any.
+If :OUTPUT is selected only output will be printed, if any.
+If :VALUE is selected only returned values are printed, if any.
+If NIL is selected, neither output nor returned values will be printed.
 `````
 
 <a id="FUNCTION:ADP-GITHUB:FREF"></a>
